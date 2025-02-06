@@ -1,9 +1,9 @@
-const NAMESTONE_API_KEY = process.env.NAMESTONE_API_KEY
-const ADDRESS = process.env.ADDRESS
-const DOMAIN = process.env.DOMAIN
+const NAMESTONE_API_KEY = process.env.NAMESTONE_API_KEY;
+const ADDRESS = process.env.ADDRESS;
+const DOMAIN = process.env.DOMAIN;
 
 async function registerSubdomain(subdomain, contenthash) {
-  const url = "https://namestone.xyz/api/public_v1/set-name"
+  const url = "https://namestone.xyz/api/public_v1/set-name";
 
   const response = await fetch(url, {
     body: JSON.stringify({
@@ -17,12 +17,9 @@ async function registerSubdomain(subdomain, contenthash) {
       "Content-Type": "application/json",
       Authorization: NAMESTONE_API_KEY,
     },
-  })
+  });
 
-  if (response.status === 200) {
-    return true
-  }
-  return false
+  return response.status === 200;
 }
 
-module.exports.registerSubdomain = registerSubdomain
+module.exports.registerSubdomain = registerSubdomain;

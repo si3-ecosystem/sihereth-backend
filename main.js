@@ -6,13 +6,11 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth.routes");
 const imageRoutes = require("./routes/image.routes");
 const webpageRoutes = require("./routes/webpage.routes");
-const subdomainRoutes = require("./routes/subdomain.routes")
+const subdomainRoutes = require("./routes/subdomain.routes");
 const videoRoutes = require("./routes/video.routes");
 
 const app = express();
-
 app.use(express.json());
-
 const corsOptions = {
   origin: "*",
   credentials: true,
@@ -37,4 +35,4 @@ app.get("/", (_, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-module.exports = app
+module.exports = app;

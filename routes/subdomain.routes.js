@@ -1,6 +1,5 @@
 const express = require("express");
 const auth = require("../middlewares/auth.middleware");
-const { validateRegisterSubdomainSchema } = require("../validations/subdomain.validations");
 const Webpage = require("../models/Webpage.model");
 const { registerSubdomain } = require("../utils/namestone.util");
 

@@ -3,12 +3,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-const authRoutes = require("./routes/auth.routes");
-const imageRoutes = require("./routes/image.routes");
-const webpageRoutes = require("./routes/webpage.routes");
-const subdomainRoutes = require("./routes/subdomain.routes");
-const videoRoutes = require("./routes/video.routes");
-
 const app = express();
 app.use(express.json());
 const corsOptions = {
@@ -17,22 +11,17 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
-
-mongoose
-  .connect(process.env.DB_URL || "mongodb://127.0.0.1:27017/siher")
-  .then(() => console.log("MongoDB connected"));
-
-app.use("/api/auth", authRoutes);
-app.use("/api/image", imageRoutes);
-app.use("/api/webpage", webpageRoutes);
-app.use("/api/subdomain", subdomainRoutes);
-app.use("/api/video", videoRoutes);
+app.use("/auth", require("./routes/auth.routes"));
+app.use("/image", require("./routes/image.routes"));
+app.use("/webpage", require("./routes/webpage.routes"));
+app.use("/subdomain", require("./routes/subdomain.routes"));
+app.use("/video", require("./routes/video.routes"));
 
 app.get("/", (_, res) => {
   return res.send("App");
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+mongoose.connect(process.env.DB_URL).then(() => console.log("MongoDB connected"));
+app.listen(5000, () => console.log(`Listening on port ${5000}`));
 
 module.exports = app;

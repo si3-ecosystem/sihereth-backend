@@ -1,16 +1,13 @@
 const express = require("express");
-const fs = require("fs")
-const ejs = require("ejs")
+const fs = require("fs");
+const ejs = require("ejs");
 const { v4: uuidv4 } = require("uuid");
 
 const auth = require("../middlewares/auth.middleware");
 
 const { validateCreateWebpage } = require("../validations/webpage.validations");
 const Webpage = require("../models/Webpage.model");
-const {
-  uploadToFileStorage,
-  deleteFromFileStorage,
-} = require("../utils/fileStorage.utils");
+const { uploadToFileStorage, deleteFromFileStorage } = require("../utils/fileStorage.utils");
 const { registerSubdomain } = require("../utils/namestone.util");
 const { PINATA_GATEWAY } = require("../consts");
 
@@ -24,10 +21,10 @@ router.post("/", auth, async (req, res) => {
   const dbWebpage = await Webpage.findOne({ user: user._id });
   if (dbWebpage) return res.status(400).send("Webpage already exists");
 
-  const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`)
+  const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
 
-  const template = ejs.compile(templateFile.toString())
-  const renderedTemplate = template(body) 
+  const template = ejs.compile(templateFile.toString());
+  const renderedTemplate = template(body);
 
   const fileBlob = new Blob([renderedTemplate], { type: "text/html" });
   const file = new File([fileBlob], `${uuidv4()}.html`, {
@@ -43,25 +40,24 @@ router.post("/", auth, async (req, res) => {
   });
   await webpage.save();
 
-  return res.send({ ...webpage.toJSON() , url: `${PINATA_GATEWAY}/${webpage.cid}`});
+  return res.send({ ...webpage.toJSON(), url: `${PINATA_GATEWAY}/${webpage.cid}` });
 });
 
 router.get("/", auth, async (req, res) => {
   try {
-    const { user } = req
+    const { user } = req;
 
-    const webpage = await Webpage.findOne({ user: user._id })
-    
-    if(!webpage){
-      return res.status(404).json({message:"Webpage not found"})
+    const webpage = await Webpage.findOne({ user: user._id });
+
+    if (!webpage) {
+      return res.status(404).json({ message: "Webpage not found" });
     }
-    return res.send({ url: `${PINATA_GATEWAY}/${webpage?.cid}`, ...webpage?.toJSON() })
+    return res.send({ url: `${PINATA_GATEWAY}/${webpage?.cid}`, ...webpage?.toJSON() });
   } catch (error) {
     console.log(error);
-    return res.send({ url: "Server error.Please refresh the page" })
+    return res.send({ url: "Server error.Please refresh the page" });
   }
-
-})
+});
 
 router.put("/", auth, async (req, res) => {
   const { user, body } = req;
@@ -75,10 +71,10 @@ router.put("/", auth, async (req, res) => {
   const { cid } = dbWebpage;
   await deleteFromFileStorage(cid);
 
-  const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`)
+  const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
 
-  const template = ejs.compile(templateFile.toString())
-  const renderedTemplate = template(body) 
+  const template = ejs.compile(templateFile.toString());
+  const renderedTemplate = template(body);
 
   const fileBlob = new Blob([renderedTemplate], { type: "text/html" });
   const file = new File([fileBlob], `${uuidv4()}.html`, {
@@ -94,11 +90,11 @@ router.put("/", auth, async (req, res) => {
       data: body,
     },
     { new: true }
-  )
-  await webpage.save()
+  );
+  await webpage.save();
 
-  if(webpage.subdomain){
-    await registerSubdomain(webpage.subdomain, newCid)
+  if (webpage.subdomain) {
+    await registerSubdomain(webpage.subdomain, newCid);
   }
 
   return res.send({ url: `${PINATA_GATEWAY}/${webpage?.cid}`, ...webpage?.toJSON() });

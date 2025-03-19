@@ -2,10 +2,9 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
-const { senderEmailService } = require("../utils/email.utils");
-const {sendMail} = require("../utils/mailer");
+const { sendMail } = require("../utils/mailer");
 
-const errorResponse = (res, status, message) => res.status(status).json({ error: message });
+const errorResponse = (res, status, message) => res.status(status).json({ message: message });
 
 exports.approveUser = async (req, res, next) => {
   try {

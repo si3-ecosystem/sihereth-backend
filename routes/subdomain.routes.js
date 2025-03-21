@@ -1,5 +1,4 @@
 const express = require("express");
-const auth = require("../middlewares/auth.middleware");
 const Webpage = require("../models/Webpage.model");
 const { registerSubdomain } = require("../utils/namestone.util");
 
@@ -7,7 +6,7 @@ const blackListedDomains = process.env.DOMAIN_BLACK_LIST?.split(",");
 
 const router = express.Router();
 
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     console.log("Received request to register subdomain:", req.body);
 

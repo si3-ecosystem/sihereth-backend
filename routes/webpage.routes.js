@@ -3,8 +3,6 @@ const fs = require("fs");
 const ejs = require("ejs");
 const { v4: uuidv4 } = require("uuid");
 
-const auth = require("../middlewares/auth.middleware");
-
 const { validateCreateWebpage } = require("../validations/webpage.validations");
 const Webpage = require("../models/Webpage.model");
 const { uploadToFileStorage, deleteFromFileStorage } = require("../utils/fileStorage.utils");
@@ -13,7 +11,7 @@ const { PINATA_GATEWAY } = require("../consts");
 
 const router = express.Router();
 
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
   const { body, user } = req;
   const error = validateCreateWebpage(body);
   if (error) return res.status(400).send(error);
@@ -43,7 +41,7 @@ router.post("/", auth, async (req, res) => {
   return res.send({ ...webpage.toJSON(), url: `${PINATA_GATEWAY}/${webpage.cid}` });
 });
 
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const { user } = req;
 
@@ -59,7 +57,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-router.put("/", auth, async (req, res) => {
+router.put("/", async (req, res) => {
   const { user, body } = req;
 
   const error = validateCreateWebpage(body);
@@ -100,7 +98,7 @@ router.put("/", auth, async (req, res) => {
   return res.send({ url: `${PINATA_GATEWAY}/${webpage?.cid}`, ...webpage?.toJSON() });
 });
 
-router.delete("/", auth, async (req, res) => {
+router.delete("/", async (req, res) => {
   const { user } = req;
 
   const webpage = await Webpage.findOne({ user: user._id });

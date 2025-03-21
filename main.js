@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
+const auth = require("./middlewares/auth");
 require("dotenv").config();
 
 const app = express();
@@ -9,18 +10,31 @@ const app = express();
 app.use(helmet());
 app.use(express.json());
 const corsOptions = {
-  origin: ["*", "http://localhost:3000", "https://siher.si3.space"],
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "https://siher.si3.space",
+      "https://backend.si3.space",
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
 // Routes
 app.use("/auth", require("./routes/auth.routes"));
-app.use("/image", require("./routes/image.routes"));
-app.use("/webpage", require("./routes/webpage.routes"));
-app.use("/subdomain", require("./routes/subdomain.routes"));
-app.use("/video", require("./routes/video.routes"));
+app.use("/users", auth, require("./routes/users.routes"));
+app.use("/image", auth, require("./routes/image.routes"));
+app.use("/webpage", auth, require("./routes/webpage.routes"));
+app.use("/subdomain", auth, require("./routes/subdomain.routes"));
+app.use("/video", auth, require("./routes/video.routes"));
 app.get("/", (_, res) => {
   return res.send("Server is running");
 });

@@ -10,6 +10,8 @@ exports.approveUser = async (req, res, next) => {
   try {
     const { email } = req.query;
     if (!email) return errorResponse(res, 400, "Email is required");
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) return errorResponse(res, 400, "Invalid email format");
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) return errorResponse(res, 409, "User already exists");
     const newUser = new User({ email: email.toLowerCase() });
@@ -35,7 +37,7 @@ exports.loginUser = async (req, res, next) => {
     const token = jwt.sign(
       { id: user._id, email: user.email, name: user.name },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "2d" }
     );
     const userData = {
       id: user._id,
@@ -57,22 +59,17 @@ exports.forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
     if (!email) return errorResponse(res, 400, "Email is required");
-
     const user = await User.findOne({ email });
     if (!user) return errorResponse(res, 404, "User not found");
-
     const token = crypto.randomBytes(20).toString("hex");
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-
     user.otp = hashedToken;
     await user.save();
-
     await sendMail({
       to: email,
       subject: "Password Reset Link",
       text: `Your OTP for passwor reset ${token}`,
     });
-
     return res.status(200).json({ message: "Password reset link sent successfully" });
   } catch (error) {
     next(error);

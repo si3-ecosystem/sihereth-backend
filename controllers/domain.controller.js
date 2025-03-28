@@ -1,6 +1,6 @@
 const axios = require("axios");
 const User = require("../models/User.model");
-const Webpage = require("../models/Webpage.model");
+const Webpage = require("../models/WebContent.model");
 
 const NAMESTONE_API_KEY = process.env.NAMESTONE_API_KEY;
 const NAMESTONE_API_URL = process.env.NAMESTONE_API_URL;

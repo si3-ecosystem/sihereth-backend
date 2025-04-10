@@ -10,7 +10,7 @@ const {
   validateContentStructure,
 } = require("../validations/webcontent.validations");
 
-const createWebContent = async (req, res) => {
+const publishWebContent = async (req, res) => {
   try {
     const { body, user } = req;
 
@@ -75,58 +75,6 @@ const getWebContent = async (req, res) => {
   }
 };
 
-const updateWebContent = async (req, res) => {
-  try {
-    const { user, body } = req;
-
-    if (!validateContentStructure(body)) {
-      return res.status(400).send("Invalid web content structure");
-    }
-    const error = validateWebContent(body);
-    if (error) return res.status(400).send(error);
-
-    const existingContent = await WebContent.findOne({ user: user._id });
-    if (!existingContent) {
-      return res.status(404).send("Web content not found");
-    }
-
-    const { cid } = existingContent;
-    await deleteFromFileStorage(cid);
-
-    const templateFile = fs.readFileSync(`${__dirname}/../../template/index.ejs`);
-    const template = ejs.compile(templateFile.toString());
-    const renderedTemplate = template(body);
-
-    const fileBlob = new Blob([renderedTemplate], { type: "text/html" });
-    const file = new File([fileBlob], `${uuidv4()}.html`, {
-      type: "text/html",
-    });
-    const newCid = await uploadToFileStorage(file);
-
-    const updatedContent = await WebContent.findByIdAndUpdate(
-      existingContent._id,
-      {
-        cid: newCid,
-        ...body,
-        isNewWebpage: false,
-      },
-      { new: true }
-    );
-
-    if (updatedContent.subdomain) {
-      await registerSubdomain(updatedContent.subdomain, newCid);
-    }
-
-    return res.send({
-      url: `${PINATA_GATEWAY}/${updatedContent.cid}`,
-      ...updatedContent.toJSON(),
-    });
-  } catch (error) {
-    console.error("Error updating web content:", error);
-    return res.status(500).send("Internal server error");
-  }
-};
-
 const deleteWebContent = async (req, res) => {
   try {
     const { user } = req;
@@ -149,8 +97,7 @@ const deleteWebContent = async (req, res) => {
 };
 
 module.exports = {
-  createWebContent,
+  publishWebContent,
   getWebContent,
-  updateWebContent,
   deleteWebContent,
 };

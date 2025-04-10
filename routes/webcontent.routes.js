@@ -1,15 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const {
-  createWebContent,
+  publishWebContent,
   getWebContent,
-  updateWebContent,
   deleteWebContent,
 } = require("../controllers/webcontent.controller");
 
-router.post("/", createWebContent);
-router.get("/", getWebContent);
-router.put("/", updateWebContent);
-router.delete("/", deleteWebContent);
+router.post("/publish", publishWebContent);
+router.get("/get", getWebContent);
+router.delete("/delete", deleteWebContent);
 
 module.exports = router;

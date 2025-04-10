@@ -31,10 +31,8 @@ app.use(cors(corsOptions));
 // Routes
 app.use("/auth", require("./routes/auth.routes"));
 app.use("/users", auth, require("./routes/users.routes"));
-app.use("/image", auth, require("./routes/image.routes"));
-app.use("/webpage", auth, require("./routes/webcontent.routes"));
+app.use("/webcontent", auth, require("./routes/webcontent.routes"));
 app.use("/domain", auth, require("./routes/domain.routes"));
-app.use("/video", auth, require("./routes/video.routes"));
 app.get("/", (_, res) => {
   return res.send("Server is running");
 });

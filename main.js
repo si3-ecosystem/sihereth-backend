@@ -10,7 +10,7 @@ const app = express();
 app.use(helmet());
 app.use(express.json());
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     const allowedOrigins = [
       "http://localhost:3000",
       "https://siher.si3.space",
@@ -28,7 +28,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Routes
 app.use("/auth", require("./routes/auth.routes"));
 app.use("/users", auth, require("./routes/users.routes"));
 app.use("/webcontent", auth, require("./routes/webcontent.routes"));
@@ -38,4 +37,4 @@ app.get("/", (_, res) => {
 });
 
 mongoose.connect(process.env.DB_URL).then(() => console.log("MongoDB connected"));
-app.listen(5000, () => console.log(`Listening on port 5000`));
+app.listen(5000, () => console.log("Listening on port 5000"));

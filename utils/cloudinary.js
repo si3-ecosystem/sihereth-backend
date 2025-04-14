@@ -9,11 +9,15 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: async (req, file) => ({
-    folder: "web_content",
-    resource_type: file.mimetype.startsWith("video") ? "video" : "image",
-    public_id: `${Date.now()}-${file.originalname.split(".")[0]}`,
-  }),
+  params: async (req, file) => {
+    const resourceType = file.mimetype.startsWith("video") ? "video" : "image";
+    const publicId = `${Date.now()}-${file.originalname.split(".")[0]}`;
+    return {
+      folder: "web_content",
+      resource_type: resourceType,
+      public_id: publicId,
+    };
+  },
 });
 
 module.exports = {

@@ -8,8 +8,15 @@ const {
   updateWebContent,
 } = require("../controllers/webcontent.controller");
 
-router.post("/publish", upload.any(), publishWebContent);
-router.put("/update", upload.any(), updateWebContent);
+const fileFields = [
+  { name: "landing_image", maxCount: 1 },
+  { name: "live_image", maxCount: 1 },
+  { name: "live_video", maxCount: 1 },
+  ...Array.from({ length: 10 }, (_, i) => ({ name: `org_image_${i}`, maxCount: 1 })),
+];
+
+router.post("/publish", upload.fields(fileFields), publishWebContent);
+router.put("/update", upload.fields(fileFields), updateWebContent);
 router.get("/get", getWebContent);
 router.delete("/delete", deleteWebContent);
 

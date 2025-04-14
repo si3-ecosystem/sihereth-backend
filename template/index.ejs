@@ -93,16 +93,16 @@
         <!-- Animation -->
         <div class="font-clash-display text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] font-semibold tracking-wider">
           <span class="letter">I'm </span>
-          <span class="text-blue-primary letter"><%= name ?? "" %></span>
+          <span class="text-blue-primary letter"><%= leading.name ?? "" %></span>
           <span class="letter">,</span>
           <span class="letter"> </span>
-          <span class="letter"><%= headline ?? "" %></span>
+          <span class="letter"><%= leading.headline ?? "" %></span>
         </div>
         <!-- Hashtags -->
         <section class="flex flex-wrap gap-3 font-medium">
-          <% hashTags.forEach(hashtag => { %>
+          <% leading.hashTags.forEach(hashtag => { %>
           <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md">
-            #<%= hashtag.toUpperCase() %>
+            #<%= leading.hashtag.toUpperCase() %>
           </div>
           <% }) %>
         </section>
@@ -260,24 +260,34 @@
       </div>
       <!-- Live Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <% liveData.details.forEach((item) => { %>
+        <% live.details.forEach((item) => { %>
         <div class="mx-auto">
-          <% include liveCard, { item: item } %>
+          <div class="bg-white space-y-2 p-4 w-[23rem] rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg">
+            <!-- Title -->
+            <div class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600">
+              <%= item.title %>
+            </div>
+            <!-- Heading -->
+            <span class="font-clash-display text-xl font-medium"><%= item.heading %></span>
+            <!-- Body -->
+            <p class="font-dm-sans opacity-0 text-xs group-hover:opacity-100"><%= item.body %></p>
+          </div>
         </div>
         <% }) %>
       </div>
     </div>
   </div>
   <!-- ========== ORGS Section ========== -->
-  <div id="orgs-section" style="display: none;" data-organizations='<%- JSON.stringify(organizations || []) %>'>
+  <div class="px-4 py-12 bg-gray-100">
     <div class="max-w-[90rem] mx-auto flex flex-col gap-8 justify-center items-center">
-      <% include heading, { label: "ORGANIZATIONS I SUPPORT" } %>
+      <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+        ORGANIZATIONS I SUPPORT
+      </div>
       <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
         <% organizations.forEach((org, index) => { %>
-        <% let orgSrc = typeof org === "string" ? org.trim() : org.src; %>
-        <% if (orgSrc) { %>
-        <img src="<%= orgSrc %>" alt="" width="100" height="100" />
-        <% } %>
+          <% if (org) { %>
+            <img src="<%= typeof org === 'string' ? org : org.src %>" alt="" width="100" height="100" />
+          <% } %>
         <% }) %>
       </section>
     </div>
@@ -296,7 +306,9 @@
   <div class="p-4">
     <section class="max-w-[90rem] mx-auto">
       <div class="flex justify-between items-center">
-        <% include heading, { label: "TIMELINE" } %>
+        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+          TIMELINE
+        </div>
         <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/runes_oieejv.png" alt="Runes" width="70" height="70" />
       </div>
       <% timeline.forEach((item, index) => { %>
@@ -350,7 +362,9 @@
     <div class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
       <!-- Text Section (Available For) -->
       <section class="flex flex-col justify-center items-center order-1 lg:order-2 space-y-6 lg:space-y-10 xxl:space-y-12 w-full">
-        <%- include("components/ui/Heading", { label: "AVAILABLE FOR" }) %>
+        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+          AVAILABLE FOR
+        </div>
         <div class="flex flex-col gap-4 justify-center items-center">
           <% if (availableFor && availableFor.length > 0) { %>
           <% availableFor.forEach((item, index) => { %>

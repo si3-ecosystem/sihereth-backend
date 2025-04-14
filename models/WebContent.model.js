@@ -7,6 +7,7 @@ const webContentSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    contentHash: { type: String },
     landing: {
       name: { type: String },
       title: { type: String },

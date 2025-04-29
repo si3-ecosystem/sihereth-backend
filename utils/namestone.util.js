@@ -4,7 +4,6 @@ const DOMAIN = process.env.DOMAIN;
 
 async function registerSubdomain(subdomain, contenthash) {
   const url = "https://namestone.xyz/api/public_v1/set-name";
-
   const response = await fetch(url, {
     body: JSON.stringify({
       domain: DOMAIN,
@@ -18,8 +17,6 @@ async function registerSubdomain(subdomain, contenthash) {
       Authorization: NAMESTONE_API_KEY,
     },
   });
-  console.log('====',response);
-
   return response.status === 200;
 }
 

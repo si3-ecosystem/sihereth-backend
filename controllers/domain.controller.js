@@ -1,6 +1,6 @@
 const axios = require("axios");
 const User = require("../models/User.model");
-const Webpage = require("../models/Webpage.model");
+const Webpage = require("../models/WebContent.model");
 
 const NAMESTONE_API_KEY = process.env.NAMESTONE_API_KEY;
 const NAMESTONE_API_URL = process.env.NAMESTONE_API_URL;
@@ -20,7 +20,10 @@ exports.publishDomain = async (req, res) => {
       return errorResponse(res, 400, "Subdomain already registered.");
     }
     const webpage = await Webpage.findOne({ user: req.user._id });
-    const cid = webpage?.cid ?? "";
+    const cid = webpage?.contentHash ?? "";
+    if (!cid) {
+      return errorResponse(res, 400, "No content hash found. Please publish your webpage first.");
+    }
     const isSubdomainRegistered = await registerSubdomain(domain, cid);
     if (!isSubdomainRegistered) {
       return errorResponse(res, 400, "Could not register subdomain.");

@@ -10,7 +10,7 @@ const app = express();
 app.use(helmet());
 app.use(express.json());
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     const allowedOrigins = [
       "http://localhost:3000",
       "https://siher.si3.space",
@@ -28,18 +28,13 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Routes
 app.use("/auth", require("./routes/auth.routes"));
 app.use("/users", auth, require("./routes/users.routes"));
-app.use("/image", auth, require("./routes/image.routes"));
-app.use("/webpage", auth, require("./routes/webpage.routes"));
+app.use("/webcontent", auth, require("./routes/webcontent.routes"));
 app.use("/domain", auth, require("./routes/domain.routes"));
-app.use("/video", auth, require("./routes/video.routes"));
 app.get("/", (_, res) => {
   return res.send("Server is running");
 });
 
-mongoose
-  .connect(process.env.DB_URL)
-  .then(() => console.log("MongoDB connected"));
-app.listen(5000, () => console.log(`Listening on port 5000`));
+mongoose.connect(process.env.DB_URL).then(() => console.log("MongoDB connected"));
+app.listen(5000, () => console.log("Listening on port 5000"));

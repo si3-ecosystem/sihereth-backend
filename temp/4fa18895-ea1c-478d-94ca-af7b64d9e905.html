@@ -47,11 +47,23 @@
       <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345811/si3_g3ow9r.svg" width="100" height="80" alt="logo" />
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center gap-7">
-        <% ["Value", "Live", "Timeline", "Connect"].forEach(item => { %>
-        <a href="#<%= item.toLowerCase() %>" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
-          <%= item %>
+        
+        <a href="#value" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
+          Value
         </a>
-        <% }) %>
+        
+        <a href="#live" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
+          Live
+        </a>
+        
+        <a href="#timeline" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
+          Timeline
+        </a>
+        
+        <a href="#connect" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
+          Connect
+        </a>
+        
       </div>
       <!-- Connect Wallet Button -->
       <button class="hidden sm:block h-12 bg-purple-500 text-white rounded-xl px-4 font-medium transition-all duration-300 hover:bg-purple-700 text-sm">
@@ -67,11 +79,23 @@
         <button onclick="toggleMobileNav()" class="absolute top-10 right-10 text-white text-2xl" aria-label="Close menu">
           ✖
         </button>
-        <% ["Value", "Live", "Timeline", "Connect"].forEach(item => { %>
-        <a href="#<%= item.toLowerCase() %>" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
-          <%= item %>
+        
+        <a href="#value" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
+          Value
         </a>
-        <% }) %>
+        
+        <a href="#live" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
+          Live
+        </a>
+        
+        <a href="#timeline" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
+          Timeline
+        </a>
+        
+        <a href="#connect" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
+          Connect
+        </a>
+        
         <!-- Mobile Connect Wallet Button -->
         <button class="h-12 bg-purple-500 text-white rounded-lg px-6 font-medium tracking-widest transition-all duration-300 hover:bg-purple-700">
           CONNECT WALLET
@@ -93,63 +117,47 @@
         <!-- Animation -->
         <div class="font-clash-display text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] font-semibold tracking-wider">
           <span class="letter">I'm </span>
-          <span class="text-blue-primary letter"><%= leading.name ?? "" %></span>
+          <span class="text-blue-primary letter"></span>
           <span class="letter">,</span>
           <span class="letter"> </span>
-          <span class="letter"><%= leading.headline ?? "" %></span>
+          <span class="letter"></span>
         </div>
         <!-- Hashtags -->
         <section class="flex flex-wrap gap-3 font-medium">
-          <% leading.hashTags.forEach(hashtag => { %>
-          <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md">
-            #<%= leading.hashtag.toUpperCase() %>
-          </div>
-          <% }) %>
+          
         </section>
         <!-- Information Section -->
         <section class="p-3 space-y-3 md:space-y-4 overflow-hidden bg-gray-100 border border-gray-200 w-full rounded-lg">
           <div class="flex gap-2 font-medium">
             <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Title:</div>
-            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"><%= title %></div>
+            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"></div>
           </div>
           <div class="flex gap-2 font-medium">
             <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Based in:</div>
-            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"><%= region %></div>
+            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"></div>
           </div>
           <div class="flex gap-2 font-medium">
             <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Organization Affiliations:</div>
             <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-              <% if (organizationAffiliations.length < 3) { %>
-              <%= organizationAffiliations.join(", ") %>
-              <% } else { %>
-              <marquee behavior="scroll" direction="left">
-                <%= organizationAffiliations.join(" • ") %>
-              </marquee>
-              <% } %>
+              
+              
+              
             </div>
           </div>
           <div class="flex gap-2 font-medium">
             <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Community Affiliations:</div>
             <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-              <% if (communityAffiliations.length < 3) { %>
-              <%= communityAffiliations.join(", ") %>
-              <% } else { %>
-              <marquee behavior="scroll" direction="left">
-                <%= communityAffiliations.join(" • ") %>
-              </marquee>
-              <% } %>
+              
+              
+              
             </div>
           </div>
           <div class="flex gap-2 font-medium">
             <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Superpowers:</div>
             <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-              <% if (superPowers.length < 3) { %>
-              <%= superPowers.join(", ") %>
-              <% } else { %>
-              <marquee behavior="scroll" direction="left">
-                <%= superPowers.join(" • ") %>
-              </marquee>
-              <% } %>
+              
+              
+              
             </div>
           </div>
         </section>
@@ -157,12 +165,10 @@
       <!-- Profile Section -->
       <div class="w-full flex md:justify-end justify-center">
         <section class="relative">
-          <% if (image) { %>
-          <img class="rounded-2xl" src="<%= image %>" alt="profile" width="300" height="300" />
-          <% } %>
+          
           <div class="rounded-2xl -bottom-4 -right-4 md:-bottom-8 md:-right-8 xl:-bottom-10 xl:-right-10 border border-light-purple p-4 flex flex-col justify-center items-center gap-2 bg-primary absolute shadow-md">
-            <span class="font-medium whitespace-nowrap"><%= fullName %></span>
-            <span class="font-dm-sans tracking-wider"><%= pronoun ? `(${pronoun.toUpperCase()})` : "" %></span>
+            <span class="font-medium whitespace-nowrap"></span>
+            <span class="font-dm-sans tracking-wider"></span>
           </div>
         </section>
       </div>
@@ -171,17 +177,7 @@
   <!-- ========== Slider Section ========== -->
   <div class="relative overflow-hidden h-12 bg-gray-800 py-3 px-4 lg:py-auto flex items-center mt-10">
     <div class="absolute flex items-center slider-scroller" style="display: flex; white-space: nowrap;">
-      <% if (sliderData && sliderData.length > 0) { %>
-      <% let repeatedData = [...sliderData, ...sliderData, ...sliderData, ...sliderData]; %>
-      <% repeatedData.forEach((slide, index) => { %>
-      <div class="flex items-center">
-        <div class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4">
-          <%= slide %>
-        </div>
-        <div class="bg-white size-2 rounded-full mx-4"></div>
-      </div>
-      <% }) %>
-      <% } %>
+      
     </div>
   </div>
   <script>
@@ -207,14 +203,14 @@
       <section class="flex flex-col items-center sm:items-start w-full p-4 space-y-2">
         <h2 class="text-2xl font-bold text-gray-900">MY JOURNEY</h2>
         <p class="font-dm-sans font-medium text-xl tracking-wide text-justify">
-          <%= valueData.experience %>
+          
         </p>
       </section>
       <!-- My Value -->
       <section class="flex flex-col items-center sm:items-start w-full p-4 space-y-2">
         <h2 class="text-2xl font-bold text-gray-900">MY VALUE</h2>
         <div class="font-medium text-2xl tracking-wide font-clash-display text-justify">
-          <%= valueData.values %>
+          
         </div>
       </section>
     </div>
@@ -236,16 +232,9 @@
         <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_cawmkx.png" alt="" width="500" height="500" class="absolute top-0 left-0 mx-auto w-full p-4" />
         <!-- Live image and video -->
         <div class="md:mt-6 p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-          <% if (liveData.image) { %>
-          <div class="relative w-full md:h-[22rem] aspect-video overflow-hidden">
-            <img src="<%= liveData.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
-          </div>
-          <% } %>
+          
           <div class="w-full md:h-[22rem] aspect-video">
-            <% if (liveData.video) { %>
-            <video src="<%= liveData.video %>" class="w-full h-full object-cover rounded-2xl" playsinline muted autoplay loop>
-            </video>
-            <% } %>
+            
           </div>
         </div>
       </div>
@@ -255,25 +244,12 @@
           CREATE YOUR ZERION WALLET
         </button>
         <button class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase">
-          TIP <%= landingData.name || "KARA" %> IN CRYPTO
+          TIP KARA IN CRYPTO
         </button>
       </div>
       <!-- Live Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <% live.details.forEach((item) => { %>
-        <div class="mx-auto">
-          <div class="bg-white space-y-2 p-4 w-[23rem] rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg">
-            <!-- Title -->
-            <div class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600">
-              <%= item.title %>
-            </div>
-            <!-- Heading -->
-            <span class="font-clash-display text-xl font-medium"><%= item.heading %></span>
-            <!-- Body -->
-            <p class="font-dm-sans opacity-0 text-xs group-hover:opacity-100"><%= item.body %></p>
-          </div>
-        </div>
-        <% }) %>
+        
       </div>
     </div>
   </div>
@@ -284,11 +260,7 @@
         ORGANIZATIONS I SUPPORT
       </div>
       <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
-        <% organizations.forEach((org, index) => { %>
-          <% if (org) { %>
-            <img src="<%= typeof org === 'string' ? org : org.src %>" alt="" width="100" height="100" />
-          <% } %>
-        <% }) %>
+        
       </section>
     </div>
   </div>
@@ -302,43 +274,10 @@
     });
   </script>
   <!-- ========== Timeline Section ========== -->
-  <% if (timeline && timeline.length) { %>
-  <div class="p-4">
-    <section class="max-w-[90rem] mx-auto">
-      <div class="flex justify-between items-center">
-        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
-          TIMELINE
-        </div>
-        <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/runes_oieejv.png" alt="Runes" width="70" height="70" />
-      </div>
-      <% timeline.forEach((item, index) => { %>
-      <div class="w-full py-4 flex font-bold justify-between items-start tracking-wide <%= index !== timeline.length - 1 ? 'border-b border-gray-300' : '' %>">
-        <p class="font-dm-sans w-44 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
-          <%= item.from %> <%= item.to ? ` - ${item.to}` : "" %>
-        </p>
-        <span class="w-72 md:w-full text-xl md:text-2xl leading-6 font-clash-display font-medium">
-          <%= item.title %>
-        </span>
-      </div>
-      <% }); %>
-    </section>
-  </div>
-  <% } %>
+  
   <!-- ========== People Section ========== -->
   <div class="relative overflow-hidden bg-gray-800 py-6 px-4 flex items-center">
-    <% if (users && users.length) { %>
-    <div class="absolute flex items-center scroller" style="white-space: nowrap;">
-      <% users.concat(users).forEach((user, index) => { %>
-      <div class="flex items-center" key="<%= user._id %>-<%= index %>">
-        <div class="text-center flex items-center px-3 text-white tracking-wider uppercase">
-          <img src="<%= user.image || 'https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png' %>" alt="" width="25" height="25" class="rounded-full" />
-          <span class="ml-2 mr-4"><%= user.name %></span>
-        </div>
-        <div class="bg-white size-3 rounded-full mx-4"></div>
-      </div>
-      <% }); %>
-    </div>
-    <% } %>
+    
   </div>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -366,13 +305,7 @@
           AVAILABLE FOR
         </div>
         <div class="flex flex-col gap-4 justify-center items-center">
-          <% if (availableFor && availableFor.length > 0) { %>
-          <% availableFor.forEach((item, index) => { %>
-          <div key="<%= item %>-<%= index %>" class="transform transition-all text-xl h-8 duration-300 hover:text-[#3E21F3] hover:text-2xl hover:font-semibold uppercase hover:tracking-widest flex justify-center items-center cursor-default">
-            <%= item %>
-          </div>
-          <% }); %>
-          <% } %>
+          
         </div>
       </section>
       <!-- Image Section -->
@@ -380,9 +313,7 @@
         <div class="relative">
           <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_available_xotm0d.png" alt="" width="260" height="100" />
           <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345808/donut_opazh4.png" alt="" style="position: absolute; width: 100%; height: 100%; object-fit: cover;" />
-          <% if (avatar) { %>
-          <img src="<%= avatar %>" alt="" style="position: absolute; width: 100%; height: 100%; object-fit: cover; padding: 1rem;" />
-          <% } %>
+          
         </div>
         <a href="https://www.si3.space/" target="_blank" rel="noopener noreferrer" class="font-segoe-ui rounded-xl text-sm border border-[#3E21F3] bg-primary font-semibold text-[#3E21F3] px-4 py-2 lg:px-6 lg:py-3">
           Join SI&lt;3&gt;
@@ -396,22 +327,7 @@
       <section class="flex flex-col md:flex-row justify-between items-center gap-2">
         <!-- Social Channels -->
         <div class="flex justify-between w-full md:justify-start gap-4">
-          <% if (socialChannels && socialChannels.length > 0) { %>
-          <% socialChannels.forEach(channel => { %>
-          <div class="bg-[#C8BAFD] rounded-xl py-3 px-4 flex items-center gap-2">
-            <% if (channel.text.toLowerCase() === 'linkedin') { %>
-            <i class="fab fa-linkedin"></i>
-            <% } else if (channel.text.toLowerCase() === 'instagram') { %>
-            <i class="fab fa-instagram"></i>
-            <% } else if (channel.text.toLowerCase() === 'twitter') { %>
-            <i class="fab fa-twitter"></i>
-            <% } else { %>
-            <i class="fab fa-github"></i>
-            <% } %>
-            <span class="font-fira-mono font-medium"><%= channel.text.toUpperCase() %></span>
-          </div>
-          <% }); %>
-          <% } %>
+          
         </div>
         <!-- Controls -->
         <section class="flex items-center justify-between md:justify-end w-full gap-4">
@@ -422,12 +338,12 @@
             </button>
             <!-- Dropdown Menu -->
             <div class="absolute left-0 border bg-gray-100 border-gray-300 w-60 bg-white rounded-lg shadow-lg z-10 p-2">
-              <% Object.keys(languagesByRegion).forEach(region => { %>
+              
               <div class="cursor-pointer px-3 py-2 hover:bg-gray-200 rounded transition-all font-medium flex justify-between">
-                <%= region %>
+                Global
                 <i class="fas fa-chevron-right text-gray-500"></i>
               </div>
-              <% }); %>
+              
             </div>
           </div>
           <!-- Newsletter Form -->

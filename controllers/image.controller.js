@@ -79,3 +79,4 @@ exports.deleteImage = async (req, res) => {
     return res.status(500).send("Error deleting image");
   }
 };
+

@@ -1,5 +1,5 @@
-const Joi = require("joi");
-const { validate } = require(".");
+const Joi = require("joi")
+const { validate } = require(".")
 
 const createWebpageSchema = Joi.object({
   navbar: Joi.object({
@@ -108,12 +108,12 @@ const createWebpageSchema = Joi.object({
       .required()
       .label("Social Channels"),
   }),
-});
+})
 
 function validateCreateWebpage(data) {
-  return validate(data, createWebpageSchema);
+  return validate(data, createWebpageSchema)
 }
 
 module.exports = {
   validateCreateWebpage,
-};
+}

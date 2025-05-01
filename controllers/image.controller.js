@@ -1,9 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const Image = require("../models/Image.model");
-const {
-  uploadToFileStorage,
-  deleteFromFileStorage,
-} = require("../utils/fileStorage.utils");
+const { uploadToFileStorage, deleteFromFileStorage } = require("../utils/fileStorage.utils");
 const { PINATA_GATEWAY } = require("../consts");
 
 exports.uploadImage = async (req, res) => {
@@ -11,10 +8,7 @@ exports.uploadImage = async (req, res) => {
     const { files, user } = req;
     if (!files?.image) return res.status(400).send("Image is required");
 
-    const file = new File(
-      [files.image.data],
-      `${uuidv4()}.${files.image.name}`
-    );
+    const file = new File([files.image.data], `${uuidv4()}.${files.image.name}`);
     const imageCid = await uploadToFileStorage(file);
 
     if (!imageCid) return res.status(400).send("Could not upload Image");

@@ -39,7 +39,5 @@ app.get("/", (_, res) => {
   return res.send("Server is running");
 });
 
-mongoose
-  .connect(process.env.DB_URL)
-  .then(() => console.log("MongoDB connected"));
+mongoose.connect(process.env.DB_URL).then(() => console.log("MongoDB connected"));
 app.listen(5000, () => console.log(`Listening on port 5000`));

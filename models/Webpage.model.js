@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 const Webpage = mongoose.model(
   "Webpage",
@@ -133,6 +133,6 @@ const Webpage = mongoose.model(
       required: true,
     },
   })
-);
+)
 
-module.exports = Webpage;
+module.exports = Webpage

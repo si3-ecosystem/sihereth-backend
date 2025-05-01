@@ -1,7 +1,8 @@
-const crypto = require("crypto");
+const crypto = require("node:crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
+const WebContent = require("../models/WebContent.model");
 const { sendMail } = require("../utils/mailer");
 
 const errorResponse = (res, status, message) => res.status(status).json({ message: message });
@@ -25,6 +26,7 @@ exports.approveUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    console.log(email, password, "==");
     if (!email || !password) return errorResponse(res, 400, "Email and password are required");
     const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) return errorResponse(res, 404, "User does not exist");
@@ -39,13 +41,16 @@ exports.loginUser = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: "2d" }
     );
+    const webContent = await WebContent.findOne({ user: user._id });
     const userData = {
       id: user._id,
       email: user.email ?? "",
       name: user.name ?? "",
       domain: user.domain ?? "",
+      webContent: webContent ?? null,
       token,
     };
+    console.log(userData, "==");
     return res.status(200).json({
       message: "Login successful",
       user: userData,

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    @font-face {
+      font-family: "clash-display";
+      src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1743137690/ClashDisplayVariable.ttf") format("truetype");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "segoe-ui";
+      src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1743137690/SegoeUIBold.ttf") format("truetype");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "FiraMono";
+      src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1743137690/FiraMono-Regular.ttf") format("truetype");
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: "DMSans";
+      src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1743137690/DMSans-Regular.ttf") format("truetype");
+      font-weight: 400;
+    }
+    body {
+      font-family: "FiraMono", monospace;
+      color: #171717;
+      background: #fff;
+    }
+    .font-clash-display {
+      font-family: "clash-display", sans-serif;
+    }
+    .font-segoe-ui {
+      font-family: "segoe-ui", sans-serif;
+    }
+  </style>
+</head>
+<body class="text-gray-900 bg-white">
+  <!-- ========== Navbar Section ========== -->
+  <section class="border-b border-gray-500 p-4 relative text-md">
+    <div class="flex justify-between items-center mx-auto max-w-[90rem]">
+      <!-- Logo -->
+      <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345811/si3_g3ow9r.svg" width="100" height="80" alt="logo" />
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-7">
+        
+        <a href="#value" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
+          Value
+        </a>
+        
+        <a href="#live" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
+          Live
+        </a>
+        
+        <a href="#timeline" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
+          Timeline
+        </a>
+        
+        <a href="#connect" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
+          Connect
+        </a>
+        
+      </div>
+      <!-- Connect Wallet Button -->
+      <button class="hidden sm:block h-12 bg-purple-500 text-white rounded-xl px-4 font-medium transition-all duration-300 hover:bg-purple-700 text-sm">
+        CONNECT WALLET
+      </button>
+      <!-- Mobile Menu Button -->
+      <button onclick="toggleMobileNav()" class="md:hidden focus:outline-none z-50 relative text-2xl" aria-label="Toggle menu">
+        ☰
+      </button>
+      <!-- Mobile Navigation -->
+      <div id="mobileNav" class="fixed inset-0 bg-black/80 backdrop-blur-md transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col items-center justify-center space-y-6 z-40">
+        <!-- Close Button -->
+        <button onclick="toggleMobileNav()" class="absolute top-10 right-10 text-white text-2xl" aria-label="Close menu">
+          ✖
+        </button>
+        
+        <a href="#value" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
+          Value
+        </a>
+        
+        <a href="#live" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
+          Live
+        </a>
+        
+        <a href="#timeline" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
+          Timeline
+        </a>
+        
+        <a href="#connect" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
+          Connect
+        </a>
+        
+        <!-- Mobile Connect Wallet Button -->
+        <button class="h-12 bg-purple-500 text-white rounded-lg px-6 font-medium tracking-widest transition-all duration-300 hover:bg-purple-700">
+          CONNECT WALLET
+        </button>
+      </div>
+    </div>
+  </section>
+  <script>
+    function toggleMobileNav() {
+      const nav = document.getElementById("mobileNav");
+      nav.classList.toggle("translate-x-full");
+    }
+  </script>
+  <!-- ========== Landing Section ========== -->
+  <div class="px-4 py-6 text-xs">
+    <div class="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Left Side -->
+      <div class="w-full space-y-4 flex flex-col col-span-1 md:col-span-2 justify-center items-start">
+        <!-- Animation -->
+        <div class="font-clash-display text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] font-semibold tracking-wider">
+          <span class="letter">I'm </span>
+          <span class="text-blue-primary letter"></span>
+          <span class="letter">,</span>
+          <span class="letter"> </span>
+          <span class="letter"></span>
+        </div>
+        <!-- Hashtags -->
+        <section class="flex flex-wrap gap-3 font-medium">
+          
+        </section>
+        <!-- Information Section -->
+        <section class="p-3 space-y-3 md:space-y-4 overflow-hidden bg-gray-100 border border-gray-200 w-full rounded-lg">
+          <div class="flex gap-2 font-medium">
+            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Title:</div>
+            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"></div>
+          </div>
+          <div class="flex gap-2 font-medium">
+            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Based in:</div>
+            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"></div>
+          </div>
+          <div class="flex gap-2 font-medium">
+            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Organization Affiliations:</div>
+            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+              
+              
+              
+            </div>
+          </div>
+          <div class="flex gap-2 font-medium">
+            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Community Affiliations:</div>
+            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+              
+              
+              
+            </div>
+          </div>
+          <div class="flex gap-2 font-medium">
+            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Superpowers:</div>
+            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+              
+              
+              
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- Profile Section -->
+      <div class="w-full flex md:justify-end justify-center">
+        <section class="relative">
+          
+          <div class="rounded-2xl -bottom-4 -right-4 md:-bottom-8 md:-right-8 xl:-bottom-10 xl:-right-10 border border-light-purple p-4 flex flex-col justify-center items-center gap-2 bg-primary absolute shadow-md">
+            <span class="font-medium whitespace-nowrap"></span>
+            <span class="font-dm-sans tracking-wider"></span>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- ========== Slider Section ========== -->
+  <div class="relative overflow-hidden h-12 bg-gray-800 py-3 px-4 lg:py-auto flex items-center mt-10">
+    <div class="absolute flex items-center slider-scroller" style="display: flex; white-space: nowrap;">
+      
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const scroller = document.querySelector(".slider-scroller");
+      if (!scroller) return;
+      let scrollAmount = 0;
+      function animate() {
+        scrollAmount -= 1;
+        if (Math.abs(scrollAmount) >= scroller.scrollWidth / 2) {
+          scrollAmount = 0;
+        }
+        scroller.style.transform = `translateX(${scrollAmount}px)`;
+        requestAnimationFrame(animate);
+      }
+      animate();
+    });
+  </script>
+  <!-- ========== Value Section ========== -->
+  <div class="p-4">
+    <div class="max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <!-- My Journey -->
+      <section class="flex flex-col items-center sm:items-start w-full p-4 space-y-2">
+        <h2 class="text-2xl font-bold text-gray-900">MY JOURNEY</h2>
+        <p class="font-dm-sans font-medium text-xl tracking-wide text-justify">
+          
+        </p>
+      </section>
+      <!-- My Value -->
+      <section class="flex flex-col items-center sm:items-start w-full p-4 space-y-2">
+        <h2 class="text-2xl font-bold text-gray-900">MY VALUE</h2>
+        <div class="font-medium text-2xl tracking-wide font-clash-display text-justify">
+          
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- ========== Live Section ========== -->
+  <div class="bg-primary p-4">
+    <div class="max-w-[90rem] mx-auto space-y-3">
+      <!-- Logo and title -->
+      <section class="relative w-full">
+        <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744354970/courage_igv2cm.png" alt="live-logo" width="60" class="absolute top-0 left-0" />
+        <div class="flex flex-col items-center justify-center gap-4">
+          <span class="font-clash-display font-semibold text-xl leading-4">Si Her TV</span>
+          <span class="font-dm-sans text-lg font-medium">Powered By</span>
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/huddle_jidzue.png" width="130" height="30" alt="" />
+        </div>
+      </section>
+      <!-- Live video -->
+      <div class="relative bg-white rounded-2xl md:p-4">
+        <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_cawmkx.png" alt="" width="500" height="500" class="absolute top-0 left-0 mx-auto w-full p-4" />
+        <!-- Live image and video -->
+        <div class="md:mt-6 p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+          
+          <div class="w-full md:h-[22rem] aspect-video">
+            
+          </div>
+        </div>
+      </div>
+      <!-- Buttons -->
+      <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 mt-8 text-sm py-6">
+        <button class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0">
+          CREATE YOUR ZERION WALLET
+        </button>
+        <button class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase">
+          TIP KARA IN CRYPTO
+        </button>
+      </div>
+      <!-- Live Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        
+      </div>
+    </div>
+  </div>
+  <!-- ========== ORGS Section ========== -->
+  <div class="px-4 py-12 bg-gray-100">
+    <div class="max-w-[90rem] mx-auto flex flex-col gap-8 justify-center items-center">
+      <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+        ORGANIZATIONS I SUPPORT
+      </div>
+      <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
+        
+      </section>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const orgsSection = document.getElementById("orgs-section");
+      const organizations = JSON.parse(orgsSection.dataset.organizations || "[]");
+      if (organizations.length) {
+        orgsSection.style.display = "block";
+      }
+    });
+  </script>
+  <!-- ========== Timeline Section ========== -->
+  
+  <!-- ========== People Section ========== -->
+  <div class="relative overflow-hidden bg-gray-800 py-6 px-4 flex items-center">
+    
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const scroller = document.querySelector(".scroller");
+      if (!scroller) return;
+      let scrollAmount = 0;
+      const scrollSpeed = 0.3;
+      function animate() {
+        scrollAmount -= scrollSpeed;
+        if (Math.abs(scrollAmount) >= scroller.scrollWidth / 2) {
+          scrollAmount = 0;
+        }
+        scroller.style.transform = `translateX(${scrollAmount}px)`;
+        requestAnimationFrame(animate);
+      }
+      animate();
+    });
+  </script>
+  <!-- ========== Available Section ========== -->
+  <div class="p-4">
+    <div class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+      <!-- Text Section (Available For) -->
+      <section class="flex flex-col justify-center items-center order-1 lg:order-2 space-y-6 lg:space-y-10 xxl:space-y-12 w-full">
+        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+          AVAILABLE FOR
+        </div>
+        <div class="flex flex-col gap-4 justify-center items-center">
+          
+        </div>
+      </section>
+      <!-- Image Section -->
+      <section class="flex flex-col gap-6 items-center w-full order-2 lg:order-1">
+        <div class="relative">
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_available_xotm0d.png" alt="" width="260" height="100" />
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345808/donut_opazh4.png" alt="" style="position: absolute; width: 100%; height: 100%; object-fit: cover;" />
+          
+        </div>
+        <a href="https://www.si3.space/" target="_blank" rel="noopener noreferrer" class="font-segoe-ui rounded-xl text-sm border border-[#3E21F3] bg-primary font-semibold text-[#3E21F3] px-4 py-2 lg:px-6 lg:py-3">
+          Join SI&lt;3&gt;
+        </a>
+      </section>
+    </div>
+  </div>
+  <!-- ========== Footer Section ========== -->
+  <div class="bg-gray-800 p-4 text-xs">
+    <div class="max-w-[90rem] mx-auto space-y-2">
+      <section class="flex flex-col md:flex-row justify-between items-center gap-2">
+        <!-- Social Channels -->
+        <div class="flex justify-between w-full md:justify-start gap-4">
+          
+        </div>
+        <!-- Controls -->
+        <section class="flex items-center justify-between md:justify-end w-full gap-4">
+          <!-- Language Dropdown -->
+          <div class="relative bg-[#C8BAFD] rounded-xl w-fit flex items-center gap-2">
+            <button class="bg-[#C8BAFD] text-[#1E1E1E] px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap focus:outline-none">
+              Select Language
+            </button>
+            <!-- Dropdown Menu -->
+            <div class="absolute left-0 border bg-gray-100 border-gray-300 w-60 bg-white rounded-lg shadow-lg z-10 p-2">
+              
+              <div class="cursor-pointer px-3 py-2 hover:bg-gray-200 rounded transition-all font-medium flex justify-between">
+                Global
+                <i class="fas fa-chevron-right text-gray-500"></i>
+              </div>
+              
+            </div>
+          </div>
+          <!-- Newsletter Form -->
+          <div class="flex rounded-xl w-full sm:w-fit items-center bg-white gap-4 h-fit pl-3">
+            <i class="fas fa-envelope size-6"></i>
+            <input type="email" placeholder="Subscribe to our newsletter..." class="flex-grow leading-4 py-1 sm:py-2 focus:outline-none font-dm-sans w-full" />
+            <button type="submit" class="bg-[#C8BAFD] rounded-xl p-2">
+              <i class="fas fa-arrow-right size-5"></i>
+            </button>
+          </div>
+        </section>
+      </section>
+      <!-- Footer Text -->
+      <section class="font-dm-sans font-normal leading-6 text-center text-white max-w-md mx-auto">
+        @2025, SI&lt;3&gt; is a collaborative Web3 Ecosystem powered by global voices.
+      </section>
+    </div>
+  </div>
+</body>
+</html>

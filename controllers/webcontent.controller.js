@@ -1,142 +1,192 @@
 const fs = require("node:fs");
 const ejs = require("ejs");
 const { v4: uuidv4 } = require("uuid");
+const path = require("path");
 const WebContent = require("../models/WebContent.model");
 const { deleteFromFileStorage } = require("../utils/fileStorage.utils");
 const { registerSubdomain } = require("../utils/namestone.util");
 const { PINATA_GATEWAY } = require("../consts");
-const uploadToFileStorage = require("../utils/fileStorage.utils");
+const { uploadToFileStorage } = require("../utils/fileStorage.utils");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const { cloudinary } = require("../utils/cloudinary");
 
+// Controller function for publishing content
 // const publishWebContent = async (req, res) => {
 //   try {
 //     const { body, user } = req;
-//     if (!validateContentStructure(body)) {
-//       return res.status(400).send("Invalid web content structure");
+//     if (!body.data) {
+//       return res.status(400).json({ message: "Missing content data" });
 //     }
-//     const error = validateWebContent(body);
-//     if (error) return res.status(400).send(error);
-//     const existingContent = await WebContent.findOne({ user: user._id });
-//     if (existingContent) {
-//       return res.status(400).send("Web content already exists for this user");
+//     const content = JSON.parse(body.data);
+//     if (req.files?.landing_image?.[0]) {
+//       content.landing.image = req.files.landing_image[0].path;
 //     }
-//     const templateFile = fs.readFileSync(`${__dirname}/../../template/index.ejs`);
+//     if (req.files?.live_image?.[0]) {
+//       content.live.image = req.files.live_image[0].path;
+//     }
+//     if (req.files?.live_video?.[0]) {
+//       content.live.video = req.files.live_video[0].path;
+//     }
+//     const orgImages = [];
+//     const orgCount = content.organizations?.length || 0;
+//     for (let i = 0; i < orgCount; i++) {
+//       const key = `org_image_${i}`;
+//       if (req.files?.[key]?.[0]) {
+//         orgImages.push(req.files[key][0].path);
+//       } else if (typeof content.organizations[i] === "string") {
+//         orgImages.push(content.organizations[i]);
+//       }
+//     }
+//     content.organizations = orgImages;
+//     console.log("conrtet", content);
+//     console.log("here now to save template");
+//     console.log("dir name", __dirname);
+//     const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
+//     console.log("template read");
 //     const template = ejs.compile(templateFile.toString());
-//     const renderedTemplate = template(body);
+//     const renderedTemplate = template(content);
+//     console.log("template rendered");
 //     const fileBlob = new Blob([renderedTemplate], { type: "text/html" });
+//     console.log("converted to file");
 //     const file = new File([fileBlob], `${uuidv4()}.html`, {
 //       type: "text/html",
 //     });
+//     console.log("here now to save template");
 //     const cid = await uploadToFileStorage(file);
-//     const webContent = new WebContent({
-//       user: user._id,
-//       cid,
-//       ...body,
-//       isNewWebpage: true,
-//     });
-//     await webContent.save();
-//     return res.send({
-//       ...webContent.toJSON(),
-//       url: `${PINATA_GATEWAY}/${webContent.cid}`,
-//     });
-//   } catch (error) {
-//     console.error("Error creating web content:", error);
-//     return res.status(500).send("Internal server error");
-//   }
-// };
-
-// const publishWebContent = async (req, res) => {
-//   try {
-//     const { files, body, user } = req;
-//     // console.log("files:", files);
-//     // console.log("body:", JSON.parse(body.data));
-//     // console.log("user:", user);
-
-//     const content = JSON.parse(body.data);
-
-//     // Handle file uploads
-//     // ✅ LANDING IMAGE
-//     if (files?.landing_image?.[0]) {
-//       body.landing.image = files.landing_image[0].path; // Cloudinary URL
-//     } else if (typeof content.landing.image === "object" && content.landing.image.url) {
-//       content.landing.image = content.landing.image.url; // Fallback to existing URL in data
-//     }
-
-//     // ✅ LIVE IMAGE
-//     if (files?.live_image?.[0]) {
-//       body.live.image = files.live_image[0].path; // Cloudinary URL
-//     } else if (typeof content.live.image === "object" && content.live.image.url) {
-//       content.live.image = content.live.image.url; // Fallback to existing URL in data
-//     }
-
-//     // ✅ LIVE VIDEO
-//     if (files?.live_video?.[0]) {
-//       body.live.video = files.live_video[0].path; // Cloudinary URL
-//     } else if (typeof content.live.video === "object" && content.live.video.url) {
-//       content.live.video = content.live.video.url; // Fallback to existing URL in data
-//     }
-
-//     // ✅ ORGANIZATION IMAGES
-//     const orgImages = [];
-//     let index = 0;
-//     while (true) {
-//       const key = `org_image_${index}`;
-//       if (files?.[key]?.[0]) {
-//         orgImages.push(files[key][0].path); // Cloudinary URL
-//       } else if (typeof content.organizations?.[index] === "string") {
-//         orgImages.push(content.organizations[index]); // Fallback to existing URL
-//       } else {
-//         break; // No more files or org URLs
-//       }
-//       index++;
-//     }
-//     body.organizations = orgImages;
-
-//     // Render the template with the body data
-//     // const templateFile = fs.readFileSync(`${__dirname}/../../template/index.ejs`);
-//     // const template = ejs.compile(templateFile.toString());
-//     // const renderedTemplate = template(body);
-
-//     // Convert to file and upload to file storage (IPFS or similar)
-//     // const fileBlob = new Blob([renderedTemplate], { type: "text/html" });
-//     // const file = new File([fileBlob], `${uuidv4()}.html`, {
-//     //   type: "text/html",
-//     // });
-//     // const cid = await uploadToFileStorage(file); // Assuming this function uploads the file
-
-//     // Create the WebContent document
 //     const webContent = new WebContent({
 //       user: user.id,
 //       ...content,
+//       contentHash: cid,
 //       isNewWebpage: false,
 //     });
-
-//     // Save to DB
-//     await webContent.save();
-
-//     // Respond with the web content and the generated URL
-//     // return res.send({
-//     //   ...webContent.toJSON(),
-//     //   url: `${PINATA_GATEWAY}/${webContent.cid}`, // Assuming you use Pinata for file hosting
-//     // });
-//     return res.status(201).json({ message: "published" });
+//     const savedContent = await webContent.save();
+//     return res.status(201).json({ message: "Published successfully", data: savedContent });
 //   } catch (error) {
-//     console.error("Error creating web content:", error);
-//     return res.status(500).send("Internal server error");
+//     console.error("💥 Error:", error);
+//     if (error.name === "ValidationError") {
+//       return res.status(400).json({ message: "Validation error", error: error.errors });
+//     }
+//     return res.status(500).json({ message: "Internal server error", error });
 //   }
 // };
 
-// Set up multer storage for Cloudinary
 
-// Controller function for publishing content
 const publishWebContent = async (req, res) => {
   try {
     const { body, user } = req;
     if (!body.data) {
       return res.status(400).json({ message: "Missing content data" });
     }
-    const content = JSON.parse(body.data);
+    
+    // Default values for all possible template variables
+    const defaultValues = {
+      title: "",
+      fullName: "",
+      basedIn: "",
+      region: "",
+      pronoun: "",
+      leading: {
+        name: "",
+        headline: "",
+        hashTags: [],
+        hashtag: ""
+      },
+      landing: {
+        title: "",
+        subtitle: "",
+        ctaText: "",
+        ctaLink: ""
+      },
+      slider: [],
+      sliderData: [],
+      value: {
+        title: "",
+        experience: "",
+        items: []
+      },
+      live: {
+        title: "",
+        details: []
+      },
+      timeline: [],
+      organizations: [],
+      organizationAffiliations: [],
+      communityAffiliations: [],
+      superPowers: [],
+      available: {
+        availableFor: []
+      },
+      socialChannels: [],
+      image: "",
+      users: [],
+      avatar: "",
+      availableFor: [],
+      languagesByRegion: { Global: ["English"] }
+    };
+    
+    // Parse user content
+    const userContent = JSON.parse(body.data);
+    
+    // Create a new content object with default values
+    let content = { ...defaultValues };
+    
+    // Merge user content into defaults
+    Object.keys(userContent).forEach(key => {
+      if (typeof userContent[key] === 'object' && userContent[key] !== null && !Array.isArray(userContent[key])) {
+        // For nested objects, merge with defaults
+        if (key === 'landing') {
+          // Special handling for landing object
+          content.landing = {
+            ...defaultValues.landing,
+            ...userContent.landing,
+            hashTags: userContent.leading?.hashTags || [],
+            organizationAffiliations: userContent.organizationAffiliations || [],
+            communityAffiliations: userContent.communityAffiliations || [],
+            superPowers: userContent.superPowers || []
+          };
+        } else if (key === 'value') {
+          // Special handling for value object
+          content.value = {
+            ...defaultValues.value,
+            ...userContent.value,
+            experience: userContent.value?.experience || "",
+            values: userContent.value?.items?.join(", ") || ""
+          };
+        } else if (key === 'live') {
+          // Special handling for live object
+          content.live = {
+            ...defaultValues.live,
+            ...userContent.live,
+            details: typeof userContent.live?.details === 'string' 
+              ? [{ title: "Project", heading: userContent.live.title || "Latest Project", body: userContent.live.details }]
+              : userContent.live?.details || []
+          };
+        } else if (key === 'available') {
+          // Special handling for available object
+          content.available = {
+            ...defaultValues.available,
+            ...userContent.available,
+            availableFor: userContent.available?.availableFor || []
+          };
+        } else {
+          content[key] = { ...(defaultValues[key] || {}), ...userContent[key] };
+        }
+      } else if (Array.isArray(userContent[key])) {
+        // For arrays, copy directly
+        content[key] = userContent[key];
+      } else {
+        // For simple properties, copy directly
+        content[key] = userContent[key];
+      }
+    });
+    
+    // Ensure all required arrays are properly set
+    content.slider = content.slider || [];
+    content.organizations = content.organizations || [];
+    content.timeline = content.timeline || [];
+    content.socialChannels = content.socialChannels || [];
+    
+    // Process file uploads
     if (req.files?.landing_image?.[0]) {
       content.landing.image = req.files.landing_image[0].path;
     }
@@ -146,6 +196,8 @@ const publishWebContent = async (req, res) => {
     if (req.files?.live_video?.[0]) {
       content.live.video = req.files.live_video[0].path;
     }
+    
+    // Process org images
     const orgImages = [];
     const orgCount = content.organizations?.length || 0;
     for (let i = 0; i < orgCount; i++) {
@@ -157,29 +209,120 @@ const publishWebContent = async (req, res) => {
       }
     }
     content.organizations = orgImages;
-    console.log("conrtet", content);
-    console.log("here now to save template");
-    console.log("dir name", __dirname);
+    
+    // Convert slider objects to strings
+    if (content.slider && Array.isArray(content.slider)) {
+      content.slider = content.slider.map(item => {
+        if (typeof item === 'object') {
+          return `${item.title}: ${item.description}`;
+        }
+        return item;
+      });
+    }
+    
+    // Set up template variables
+    content.valueData = content.value;
+    content.liveData = content.live;
+    content.landingData = content.landing;
+    
+    // If live.details is a string, convert to expected format
+    if (typeof content.live.details === 'string') {
+      content.live.details = [
+        {
+          title: "Project",
+          heading: content.live.title || "Latest Project",
+          body: content.live.details
+        }
+      ];
+    }
+    
+    // Add avatar if not present
+    if (!content.avatar && content.image) {
+      content.avatar = content.image;
+    }
+    
+    // Add availableFor from available.availableFor
+    if (content.available && content.available.availableFor) {
+      content.availableFor = content.available.availableFor;
+    }
+    
+    // Format social channels
+    if (content.socialChannels) {
+      if (!Array.isArray(content.socialChannels)) {
+        const channels = [];
+        if (content.socialChannels.twitter) {
+          channels.push({ text: 'Twitter', link: content.socialChannels.twitter });
+        }
+        if (content.socialChannels.linkedin) {
+          channels.push({ text: 'LinkedIn', link: content.socialChannels.linkedin });
+        }
+        if (content.socialChannels.github) {
+          channels.push({ text: 'GitHub', link: content.socialChannels.github });
+        }
+        content.socialChannels = channels;
+      }
+    }
+    
+    // Explicitly ensure users array exists
+    content.users = content.users || [];
+    
+    console.log("content mapped for template:", content);
+    
+    // Read and render template
     const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
     console.log("template read");
-    const template = ejs.compile(templateFile.toString());
-    const renderedTemplate = template(content);
-    console.log("template rendered");
-    const fileBlob = new Blob([renderedTemplate], { type: "text/html" });
-    console.log("converted to file");
-    const file = new File([fileBlob], `${uuidv4()}.html`, {
-      type: "text/html",
-    });
-    console.log("here now to save template");
-    const cid = await uploadToFileStorage(file);
-    const webContent = new WebContent({
-      user: user.id,
-      ...content,
-      contentHash: cid,
-      isNewWebpage: false,
-    });
-    const savedContent = await webContent.save();
-    return res.status(201).json({ message: "Published successfully", data: savedContent });
+    
+    // Use try-catch for template rendering to catch specific template errors
+    try {
+      const template = ejs.compile(templateFile.toString());
+      const renderedTemplate = template(content);
+      console.log("template rendered");
+      
+      // Create temp directory if it doesn't exist
+      const tempDir = path.join(__dirname, '../temp');
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+      }
+      
+      // Generate unique filename
+      const filename = `${uuidv4()}.html`;
+      const filePath = path.join(tempDir, filename);
+      
+      // Save rendered template to temp directory
+      fs.writeFileSync(filePath, renderedTemplate);
+      console.log(`Template saved to temp directory: ${filePath}`);
+      
+      // Create file object for upload
+      const file = new File([renderedTemplate], filename, {
+        type: "text/html",
+      });
+      
+      // Upload to Pinata
+      const cid = await uploadToFileStorage(file);
+      console.log(`File uploaded to Pinata with CID: ${cid}`);
+      
+      // Create and save web content
+      const webContent = new WebContent({
+        user: user.id,
+        ...content,
+        contentHash: cid,
+        isNewWebpage: false,
+      });
+      const savedContent = await webContent.save();
+      
+      return res.status(201).json({ 
+        message: "Published successfully", 
+        data: savedContent,
+        tempFilePath: filePath // Include temp file path in response
+      });
+    } catch (templateError) {
+      console.error("Template rendering error:", templateError);
+      return res.status(400).json({ 
+        message: "Template rendering error", 
+        error: templateError.message,
+        line: templateError.line
+      });
+    }
   } catch (error) {
     console.error("💥 Error:", error);
     if (error.name === "ValidationError") {

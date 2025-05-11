@@ -7,68 +7,7 @@ const { deleteFromFileStorage } = require("../utils/fileStorage.utils");
 const { registerSubdomain } = require("../utils/namestone.util");
 const { PINATA_GATEWAY } = require("../consts");
 const { uploadToFileStorage } = require("../utils/fileStorage.utils");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const { cloudinary } = require("../utils/cloudinary");
-
-// Controller function for publishing content
-// const publishWebContent = async (req, res) => {
-//   try {
-//     const { body, user } = req;
-//     if (!body.data) {
-//       return res.status(400).json({ message: "Missing content data" });
-//     }
-//     const content = JSON.parse(body.data);
-//     if (req.files?.landing_image?.[0]) {
-//       content.landing.image = req.files.landing_image[0].path;
-//     }
-//     if (req.files?.live_image?.[0]) {
-//       content.live.image = req.files.live_image[0].path;
-//     }
-//     if (req.files?.live_video?.[0]) {
-//       content.live.video = req.files.live_video[0].path;
-//     }
-//     const orgImages = [];
-//     const orgCount = content.organizations?.length || 0;
-//     for (let i = 0; i < orgCount; i++) {
-//       const key = `org_image_${i}`;
-//       if (req.files?.[key]?.[0]) {
-//         orgImages.push(req.files[key][0].path);
-//       } else if (typeof content.organizations[i] === "string") {
-//         orgImages.push(content.organizations[i]);
-//       }
-//     }
-//     content.organizations = orgImages;
-//     console.log("conrtet", content);
-//     console.log("here now to save template");
-//     console.log("dir name", __dirname);
-//     const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
-//     console.log("template read");
-//     const template = ejs.compile(templateFile.toString());
-//     const renderedTemplate = template(content);
-//     console.log("template rendered");
-//     const fileBlob = new Blob([renderedTemplate], { type: "text/html" });
-//     console.log("converted to file");
-//     const file = new File([fileBlob], `${uuidv4()}.html`, {
-//       type: "text/html",
-//     });
-//     console.log("here now to save template");
-//     const cid = await uploadToFileStorage(file);
-//     const webContent = new WebContent({
-//       user: user.id,
-//       ...content,
-//       contentHash: cid,
-//       isNewWebpage: false,
-//     });
-//     const savedContent = await webContent.save();
-//     return res.status(201).json({ message: "Published successfully", data: savedContent });
-//   } catch (error) {
-//     console.error("💥 Error:", error);
-//     if (error.name === "ValidationError") {
-//       return res.status(400).json({ message: "Validation error", error: error.errors });
-//     }
-//     return res.status(500).json({ message: "Internal server error", error });
-//   }
-// };
 
 const publishWebContent = async (req, res) => {
   try {
@@ -81,46 +20,33 @@ const publishWebContent = async (req, res) => {
     const defaultValues = {
       title: "",
       fullName: "",
-      basedIn: "",
-      region: "",
       pronoun: "",
-      leading: {
-        name: "",
-        headline: "",
-        hashTags: [],
-        hashtag: "",
-      },
-      landing: {
-        title: "",
-        subtitle: "",
-        ctaText: "",
-        ctaLink: "",
-      },
-      slider: [],
+      region: "",
+      image: "",
       sliderData: [],
-      value: {
-        title: "",
-        experience: "",
-        items: [],
-      },
-      live: {
-        title: "",
-        details: [],
-      },
-      timeline: [],
-      organizations: [],
       organizationAffiliations: [],
       communityAffiliations: [],
       superPowers: [],
-      available: {
-        availableFor: [],
+      valueData: {
+        experience: "",
+        values: ""
       },
-      socialChannels: [],
-      image: "",
+      liveData: {
+        image: "",
+        video: "",
+        details: []
+      },
+      timeline: [],
+      organizations: [],
       users: [],
       avatar: "",
       availableFor: [],
+      socialChannels: [],
       languagesByRegion: { Global: ["English"] },
+      leading: {
+        headline: "",
+        hashTags: []
+      }
     };
 
     // Parse user content
@@ -137,47 +63,38 @@ const publishWebContent = async (req, res) => {
         !Array.isArray(userContent[key])
       ) {
         // For nested objects, merge with defaults
-        if (key === "landing") {
-          // Special handling for landing object
-          content.landing = {
-            ...defaultValues.landing,
-            ...userContent.landing,
+        if (key === "leading") {
+          content.leading = {
+            ...defaultValues.leading,
+            ...userContent.leading,
             hashTags: userContent.leading?.hashTags || [],
-            organizationAffiliations: userContent.organizationAffiliations || [],
-            communityAffiliations: userContent.communityAffiliations || [],
-            superPowers: userContent.superPowers || [],
           };
         } else if (key === "value") {
-          // Special handling for value object
-          content.value = {
-            ...defaultValues.value,
-            ...userContent.value,
+          // Handle value object and create valueData for template
+          content.valueData = {
             experience: userContent.value?.experience || "",
-            values: userContent.value?.items?.join(", ") || "",
+            values: userContent.value?.items?.join(", ") || userContent.value?.values || ""
           };
         } else if (key === "live") {
-          // Special handling for live object
-          content.live = {
-            ...defaultValues.live,
-            ...userContent.live,
-            details:
-              typeof userContent.live?.details === "string"
+          // Handle live object and create liveData for template
+          content.liveData = {
+            image: userContent.live?.image || "",
+            video: userContent.live?.video || "",
+            details: Array.isArray(userContent.live?.details)
+              ? userContent.live.details
+              : typeof userContent.live?.details === "string"
                 ? [
-                    {
-                      title: "Project",
-                      heading: userContent.live.title || "Latest Project",
-                      body: userContent.live.details,
-                    },
-                  ]
-                : userContent.live?.details || [],
+                  {
+                    title: "Project",
+                    heading: userContent.live.title || "Latest Project",
+                    body: userContent.live.details,
+                  },
+                ]
+                : []
           };
         } else if (key === "available") {
-          // Special handling for available object
-          content.available = {
-            ...defaultValues.available,
-            ...userContent.available,
-            availableFor: userContent.available?.availableFor || [],
-          };
+          // Extract availableFor from available object
+          content.availableFor = userContent.available?.availableFor || [];
         } else {
           content[key] = { ...(defaultValues[key] || {}), ...userContent[key] };
         }
@@ -190,39 +107,37 @@ const publishWebContent = async (req, res) => {
       }
     });
 
-    // Ensure all required arrays are properly set
-    content.slider = content.slider || [];
-    content.organizations = content.organizations || [];
-    content.timeline = content.timeline || [];
-    content.socialChannels = content.socialChannels || [];
-
     // Process file uploads
-    if (req.files?.landing_image?.[0]) {
-      content.landing.image = req.files.landing_image[0].path;
+    if (req.files?.profile_image?.[0]) {
+      content.image = req.files.profile_image[0].path;
     }
     if (req.files?.live_image?.[0]) {
-      content.live.image = req.files.live_image[0].path;
+      content.liveData.image = req.files.live_image[0].path;
     }
     if (req.files?.live_video?.[0]) {
-      content.live.video = req.files.live_video[0].path;
+      content.liveData.video = req.files.live_video[0].path;
     }
-
-    // Process org images
+    if (req.files?.avatar_image?.[0]) {
+      content.avatar = req.files.avatar_image[0].path;
+    }
     const orgImages = [];
     const orgCount = content.organizations?.length || 0;
     for (let i = 0; i < orgCount; i++) {
       const key = `org_image_${i}`;
       if (req.files?.[key]?.[0]) {
-        orgImages.push(req.files[key][0].path);
+        orgImages.push({ src: req.files[key][0].path });
       } else if (typeof content.organizations[i] === "string") {
-        orgImages.push(content.organizations[i]);
+        orgImages.push({ src: content.organizations[i] }); // Wrap string in object
+      } else if (content.organizations[i]?.src) {
+        orgImages.push({ src: content.organizations[i].src }); // Normalize object
       }
     }
     content.organizations = orgImages;
 
-    // Convert slider objects to strings
+
+    // Ensure slider data is properly formatted
     if (content.slider && Array.isArray(content.slider)) {
-      content.slider = content.slider.map((item) => {
+      content.sliderData = content.slider.map((item) => {
         if (typeof item === "object") {
           return `${item.title}: ${item.description}`;
         }
@@ -230,30 +145,9 @@ const publishWebContent = async (req, res) => {
       });
     }
 
-    // Set up template variables
-    content.valueData = content.value;
-    content.liveData = content.live;
-    content.landingData = content.landing;
-
-    // If live.details is a string, convert to expected format
-    if (typeof content.live.details === "string") {
-      content.live.details = [
-        {
-          title: "Project",
-          heading: content.live.title || "Latest Project",
-          body: content.live.details,
-        },
-      ];
-    }
-
-    // Add avatar if not present
+    // If no avatar but profile image exists, use profile image as avatar
     if (!content.avatar && content.image) {
       content.avatar = content.image;
-    }
-
-    // Add availableFor from available.availableFor
-    if (content.available && content.available.availableFor) {
-      content.availableFor = content.available.availableFor;
     }
 
     // Format social channels
@@ -269,12 +163,25 @@ const publishWebContent = async (req, res) => {
         if (content.socialChannels.github) {
           channels.push({ text: "GitHub", link: content.socialChannels.github });
         }
+        if (content.socialChannels.instagram) {
+          channels.push({ text: "Instagram", link: content.socialChannels.instagram });
+        }
         content.socialChannels = channels;
       }
     }
 
-    // Explicitly ensure users array exists
-    content.users = content.users || [];
+    // Set title for template
+    if (!content.title && content.fullName) {
+      content.title = content.fullName;
+    }
+
+    // Ensure organization affiliations have default empty array
+    content.organizationAffiliations = content.organizationAffiliations || [];
+    content.communityAffiliations = content.communityAffiliations || [];
+    content.superPowers = content.superPowers || [];
+
+    // Make sure users array exists 
+    content.users = Array.isArray(content.users) ? content.users : [];
 
     console.log("content mapped for template:", content);
 
@@ -314,9 +221,41 @@ const publishWebContent = async (req, res) => {
       // Create and save web content
       const webContent = new WebContent({
         user: user.id,
-        ...content,
         contentHash: cid,
         isNewWebpage: false,
+        // Map fields to schema
+        landing: {
+          hashTags: content.leading?.hashTags || [],
+          organizationAffiliations: content.organizationAffiliations || [],
+          communityAffiliations: content.communityAffiliations || [],
+          superPowers: content.superPowers || [],
+          fullName: content.fullName,
+          title: content.title,
+          region: content.region,
+          image: content.image,
+          pronoun: content.pronoun,
+          headline: content.leading?.headline
+        },
+        slider: content.sliderData || [],
+        value: {
+          experience: content.valueData?.experience || "",
+          values: content.valueData?.values || ""
+        },
+        live: {
+          image: content.liveData?.image || "",
+          video: content.liveData?.video || "",
+          details: content.liveData?.details || []
+        },
+        available: {
+          avatar: content.avatar,
+          availableFor: content.availableFor || []
+        },
+        organizations: content.organizations,
+        timeline: content.timeline,
+        socialChannels: (content.socialChannels || []).map(channel => ({
+          text: channel.text,
+          url: channel.link // Map 'link' to 'url' field
+        }))
       });
       const savedContent = await webContent.save();
 

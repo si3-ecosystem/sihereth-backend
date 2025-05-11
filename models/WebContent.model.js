@@ -37,7 +37,7 @@ const webContentSchema = new mongoose.Schema(
         },
       ],
     },
-    organizations: [{ type: String }],
+    organizations: [{ src: String }],
     timeline: [
       {
         title: { type: String },

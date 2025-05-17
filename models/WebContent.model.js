@@ -9,7 +9,7 @@ const webContentSchema = new mongoose.Schema(
     },
     contentHash: { type: String },
     landing: {
-      name: { type: String },
+      fullName: { type: String },
       title: { type: String },
       headline: { type: String },
       hashTags: [{ type: String }],
@@ -18,7 +18,6 @@ const webContentSchema = new mongoose.Schema(
       communityAffiliations: [{ type: String }],
       superPowers: [{ type: String }],
       image: { type: String },
-      fullName: { type: String },
       pronoun: { type: String },
     },
     slider: [{ type: String }],
@@ -29,6 +28,8 @@ const webContentSchema = new mongoose.Schema(
     live: {
       image: { type: String },
       video: { type: String },
+      url: { type: String },
+      walletUrl: { type: String },
       details: [
         {
           title: { type: String },
@@ -48,13 +49,21 @@ const webContentSchema = new mongoose.Schema(
     available: {
       avatar: { type: String },
       availableFor: [{ type: String }],
+      ctaUrl: { type: String },
+      ctaText: { type: String },
     },
     socialChannels: [
       {
         text: { type: String },
         url: { type: String },
+        icon: { type: String },
       },
     ],
+    languagesByRegion: {
+      type: Map,
+      of: [String],
+      default: { Global: ["English"] }
+    },
     isNewWebpage: {
       type: Boolean,
       default: true,

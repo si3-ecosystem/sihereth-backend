@@ -2,6 +2,7 @@ const fs = require("node:fs");
 const ejs = require("ejs");
 const { v4: uuidv4 } = require("uuid");
 const path = require("node:path");
+const { File } = require("formdata-node");
 const WebContent = require("../models/WebContent.model");
 const { deleteFromFileStorage } = require("../utils/fileStorage.utils");
 const { registerSubdomain } = require("../utils/namestone.util");
@@ -34,6 +35,8 @@ const publishWebContent = async (req, res) => {
       liveData: {
         image: "",
         video: "",
+        url: "",
+        walletUrl: "",
         details: []
       },
       timeline: [],
@@ -46,7 +49,9 @@ const publishWebContent = async (req, res) => {
       leading: {
         headline: "",
         hashTags: []
-      }
+      },
+      ctaUrl: "",
+      ctaText: ""
     };
 
     // Parse user content
@@ -69,32 +74,28 @@ const publishWebContent = async (req, res) => {
             ...userContent.leading,
             hashTags: userContent.leading?.hashTags || [],
           };
-        } else if (key === "value") {
-          // Handle value object and create valueData for template
+        } else if (key === "valueData") {
+          // Handle valueData object and create valueData for template
           content.valueData = {
-            experience: userContent.value?.experience || "",
-            values: userContent.value?.items?.join(", ") || userContent.value?.values || ""
+            experience: userContent.valueData?.experience || "",
+            values: userContent.valueData?.values || ""
           };
-        } else if (key === "live") {
-          // Handle live object and create liveData for template
+        } else if (key === "liveData") {
+          // Handle liveData object and create liveData for template
           content.liveData = {
-            image: userContent.live?.image || "",
-            video: userContent.live?.video || "",
-            details: Array.isArray(userContent.live?.details)
-              ? userContent.live.details
-              : typeof userContent.live?.details === "string"
-                ? [
-                  {
-                    title: "Project",
-                    heading: userContent.live.title || "Latest Project",
-                    body: userContent.live.details,
-                  },
-                ]
-                : []
+            image: userContent.liveData?.image || "",
+            video: userContent.liveData?.video || "",
+            url: userContent.liveData?.url || "",
+            walletUrl: userContent.liveData?.walletUrl || "",
+            details: Array.isArray(userContent.liveData?.details)
+              ? userContent.liveData.details
+              : []
           };
         } else if (key === "available") {
           // Extract availableFor from available object
           content.availableFor = userContent.available?.availableFor || [];
+          content.ctaUrl = userContent.available?.ctaUrl || "";
+          content.ctaText = userContent.available?.ctaText || "";
         } else {
           content[key] = { ...(defaultValues[key] || {}), ...userContent[key] };
         }
@@ -134,16 +135,27 @@ const publishWebContent = async (req, res) => {
     }
     content.organizations = orgImages;
 
-
     // Ensure slider data is properly formatted
-    if (content.slider && Array.isArray(content.slider)) {
-      content.sliderData = content.slider.map((item) => {
+    if (userContent.slider && Array.isArray(userContent.slider)) {
+      content.slider = userContent.slider.map((item) => {
         if (typeof item === "object") {
           return `${item.title}: ${item.description}`;
         }
         return item;
       });
+    } else if (userContent.sliderData && Array.isArray(userContent.sliderData)) {
+      content.slider = userContent.sliderData.map((item) => {
+        if (typeof item === "object") {
+          return `${item.title}: ${item.description}`;
+        }
+        return item;
+      });
+    } else {
+      content.slider = [];
     }
+
+    // Log slider data for debugging
+    console.log("Slider data after processing:", content.slider);
 
     // If no avatar but profile image exists, use profile image as avatar
     if (!content.avatar && content.image) {
@@ -155,16 +167,16 @@ const publishWebContent = async (req, res) => {
       if (!Array.isArray(content.socialChannels)) {
         const channels = [];
         if (content.socialChannels.twitter) {
-          channels.push({ text: "Twitter", link: content.socialChannels.twitter });
+          channels.push({ text: "Twitter", url: content.socialChannels.twitter, icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/twitter_icon.png" });
         }
         if (content.socialChannels.linkedin) {
-          channels.push({ text: "LinkedIn", link: content.socialChannels.linkedin });
+          channels.push({ text: "LinkedIn", url: content.socialChannels.linkedin, icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/linkedin_icon.png" });
         }
         if (content.socialChannels.github) {
-          channels.push({ text: "GitHub", link: content.socialChannels.github });
+          channels.push({ text: "GitHub", url: content.socialChannels.github, icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/github_icon.png" });
         }
         if (content.socialChannels.instagram) {
-          channels.push({ text: "Instagram", link: content.socialChannels.instagram });
+          channels.push({ text: "Instagram", url: content.socialChannels.instagram, icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/instagram_icon.png" });
         }
         content.socialChannels = channels;
       }
@@ -182,6 +194,14 @@ const publishWebContent = async (req, res) => {
 
     // Make sure users array exists 
     content.users = Array.isArray(content.users) ? content.users : [];
+
+    // Ensure hashTags are properly set
+    content.hashTags = content.hashTags || [];
+    content.leading = {
+      ...content.leading,
+      hashTags: content.hashTags,
+      headline: content.headline || ""
+    };
 
     console.log("content mapped for template:", content);
 
@@ -209,8 +229,8 @@ const publishWebContent = async (req, res) => {
       fs.writeFileSync(filePath, renderedTemplate);
       console.log(`Template saved to temp directory: ${filePath}`);
 
-      // Create file object for upload
-      const file = new File([renderedTemplate], filename, {
+      // Create file object for upload using formdata-node
+      const file = new File([Buffer.from(renderedTemplate)], filename, {
         type: "text/html",
       });
 
@@ -225,7 +245,7 @@ const publishWebContent = async (req, res) => {
         isNewWebpage: false,
         // Map fields to schema
         landing: {
-          hashTags: content.leading?.hashTags || [],
+          hashTags: content.hashTags || [],
           organizationAffiliations: content.organizationAffiliations || [],
           communityAffiliations: content.communityAffiliations || [],
           superPowers: content.superPowers || [],
@@ -234,9 +254,9 @@ const publishWebContent = async (req, res) => {
           region: content.region,
           image: content.image,
           pronoun: content.pronoun,
-          headline: content.leading?.headline
+          headline: content.headline
         },
-        slider: content.sliderData || [],
+        slider: content.slider || [],
         value: {
           experience: content.valueData?.experience || "",
           values: content.valueData?.values || ""
@@ -244,18 +264,20 @@ const publishWebContent = async (req, res) => {
         live: {
           image: content.liveData?.image || "",
           video: content.liveData?.video || "",
+          url: content.liveData?.url || "",
+          walletUrl: content.liveData?.walletUrl || "",
           details: content.liveData?.details || []
         },
         available: {
           avatar: content.avatar,
-          availableFor: content.availableFor || []
+          availableFor: content.availableFor || [],
+          ctaUrl: content.ctaUrl || "",
+          ctaText: content.ctaText || ""
         },
         organizations: content.organizations,
         timeline: content.timeline,
-        socialChannels: (content.socialChannels || []).map(channel => ({
-          text: channel.text,
-          url: channel.link // Map 'link' to 'url' field
-        }))
+        socialChannels: content.socialChannels || [],
+        languagesByRegion: content.languagesByRegion || { Global: ["English"] }
       });
       const savedContent = await webContent.save();
 
@@ -373,14 +395,18 @@ const updateWebContent = async (req, res) => {
     webContent.value = content.value;
     webContent.live = {
       ...webContent.live,
-      details: content.live.details,
+      ...content.live,
+      image: webContent.live.image,
+      video: webContent.live.video,
     };
     webContent.timeline = content.timeline;
     webContent.available = {
       ...webContent.available,
-      availableFor: content.available.availableFor,
+      ...content.available,
+      avatar: webContent.available.avatar,
     };
     webContent.socialChannels = content.socialChannels;
+    webContent.languagesByRegion = content.languagesByRegion || { Global: ["English"] };
     webContent.isNewWebpage = false;
     const savedContent = await webContent.save();
     return res.status(200).json({

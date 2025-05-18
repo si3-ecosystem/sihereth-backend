@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <style>
     @font-face {
       font-family: "clash-display";
@@ -37,6 +39,39 @@
     .font-segoe-ui {
       font-family: "segoe-ui", sans-serif;
     }
+    .font-sora {
+      font-family: "clash-display", sans-serif;
+    }
+    .font-dm-sans {
+      font-family: "DMSans", sans-serif;
+    }
+    .font-fira-mono {
+      font-family: "FiraMono", monospace;
+    }
+    .text-blue-primary {
+      color: #3E21F3;
+    }
+    .bg-primary {
+      background-color: #F5F5F5;
+    }
+    .border-light-purple {
+      border-color: #C8BAFD;
+    }
+    .bg-light-purple {
+      background-color: #C8BAFD;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      animation: marquee 20s linear infinite;
+    }
+    .letters {
+      display: inline-block;
+      opacity: 0;
+      transform: scale(0.3);
+    }
   </style>
 </head>
 <body class="text-gray-900 bg-white">
@@ -46,301 +81,470 @@
       <!-- Logo -->
       <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345811/si3_g3ow9r.svg" width="100" height="80" alt="logo" />
       <!-- Desktop Navigation -->
-      <div class="hidden md:flex items-center gap-7">
-        <% ["Value", "Live", "Timeline", "Connect"].forEach(item => { %>
-        <a href="#<%= item.toLowerCase() %>" class="font-medium font-clash-display transition-all duration-300 hover:text-purple-500">
+      <div class="hidden md:flex items-center leading-4 gap-7">
+        <% ["Value", "Media", "Timeline", "Connect"].forEach(item => { %>
+        <a href="#<%= item.toLowerCase() %>" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
           <%= item %>
         </a>
         <% }) %>
       </div>
       <!-- Connect Wallet Button -->
-      <button class="hidden sm:block h-12 bg-purple-500 text-white rounded-xl px-4 font-medium transition-all duration-300 hover:bg-purple-700 text-sm">
+      <button class="hidden sm:block h-12 bg-light-purple text-blue-primary rounded-xl px-4 font-medium transition-all duration-300 hover:bg-[#7E5BFF] hover:text-white text-sm">
         CONNECT WALLET
       </button>
       <!-- Mobile Menu Button -->
-      <button onclick="toggleMobileNav()" class="md:hidden focus:outline-none z-50 relative text-2xl" aria-label="Toggle menu">
-        ☰
+      <button onclick="toggleMobileNav()" class="md:hidden focus:outline-none z-50 relative" aria-label="Toggle menu">
+        <i class="fas fa-bars text-2xl"></i>
       </button>
       <!-- Mobile Navigation -->
       <div id="mobileNav" class="fixed inset-0 bg-black/80 backdrop-blur-md transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col items-center justify-center space-y-6 z-40">
-        <!-- Close Button -->
-        <button onclick="toggleMobileNav()" class="absolute top-10 right-10 text-white text-2xl" aria-label="Close menu">
-          ✖
+        <button onclick="toggleMobileNav()" class="absolute top-10 right-10 text-white md:hidden focus:outline-none z-50" aria-label="Toggle menu">
+          <i class="fas fa-times text-2xl"></i>
         </button>
-        <% ["Value", "Live", "Timeline", "Connect"].forEach(item => { %>
-        <a href="#<%= item.toLowerCase() %>" class="font-semibold text-white transition-all hover:text-purple-400" onclick="toggleMobileNav()">
+        <% ["Value", "Media", "Timeline", "Connect"].forEach(item => { %>
+        <a href="#<%= item.toLowerCase() %>" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
           <%= item %>
         </a>
         <% }) %>
-        <!-- Mobile Connect Wallet Button -->
-        <button class="h-12 bg-purple-500 text-white rounded-lg px-6 font-medium tracking-widest transition-all duration-300 hover:bg-purple-700">
+        <button class="h-12 bg-light-purple text-blue-primary rounded-lg px-6 font-medium tracking-widest transition-all duration-300 hover:bg-[#7E5BFF] hover:text-white">
           CONNECT WALLET
         </button>
       </div>
     </div>
   </section>
-  <script>
-    function toggleMobileNav() {
-      const nav = document.getElementById("mobileNav");
-      nav.classList.toggle("translate-x-full");
-    }
-  </script>
+
   <!-- ========== Landing Section ========== -->
   <div class="px-4 py-6 text-xs">
     <div class="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
       <!-- Left Side -->
       <div class="w-full space-y-4 flex flex-col col-span-1 md:col-span-2 justify-center items-start">
-        <!-- Animation -->
-        <div class="font-clash-display text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] font-semibold tracking-wider">
+        <!-- Animation Section -->
+        <div id="landingAnimation" class="font-sora font-bold text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] tracking-wide">
           <span class="letter">I'm </span>
-          <span class="text-blue-primary letter"><%= leading.name ?? "" %></span>
+          <span class="text-blue-primary letter"><%= fullName.trim().split(" ")[0] %></span>
           <span class="letter">,</span>
           <span class="letter"> </span>
-          <span class="letter"><%= leading.headline ?? "" %></span>
+          <span class="letter"><%= headline ?? "" %></span>
         </div>
+
         <!-- Hashtags -->
-        <section class="flex flex-wrap gap-3 font-medium">
-          <% leading.hashTags.forEach(hashtag => { %>
-          <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md">
-            #<%= leading.hashtag.toUpperCase() %>
-          </div>
+        <section class="flex flex-wrap gap-3 font-medium pb-2">
+          <% (hashTags || []).forEach((hashtag, index) => { %>
+            <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md">
+              #<%= hashtag.toUpperCase() %>
+            </div>
           <% }) %>
         </section>
+
         <!-- Information Section -->
         <section class="p-3 space-y-3 md:space-y-4 overflow-hidden bg-gray-100 border border-gray-200 w-full rounded-lg">
           <div class="flex gap-2 font-medium">
             <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Title:</div>
             <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"><%= title %></div>
           </div>
+
           <div class="flex gap-2 font-medium">
-            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Based in:</div>
+            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Presently based in:</div>
             <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"><%= region %></div>
           </div>
-          <div class="flex gap-2 font-medium">
-            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Organization Affiliations:</div>
-            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-              <% if (organizationAffiliations.length < 3) { %>
-              <%= organizationAffiliations.join(", ") %>
-              <% } else { %>
-              <marquee behavior="scroll" direction="left">
-                <%= organizationAffiliations.join(" • ") %>
-              </marquee>
-              <% } %>
+
+          <% const renderInfoRow = (title, valueArray) => { %>
+            <div class="flex gap-2 font-medium">
+              <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"><%= title %></div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                <% if (valueArray.length < 3) { %>
+                  <%= valueArray.join(", ") %>
+                <% } else { %>
+                  <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                    <div class="flex animate-marquee">
+                      <% valueArray.concat(valueArray, valueArray).forEach((item, idx) => { %>
+                        <span class="mx-2 flex items-center">
+                          <%= item %>
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      <% }) %>
+                    </div>
+                  </div>
+                <% } %>
+              </div>
             </div>
-          </div>
-          <div class="flex gap-2 font-medium">
-            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Community Affiliations:</div>
-            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-              <% if (communityAffiliations.length < 3) { %>
-              <%= communityAffiliations.join(", ") %>
-              <% } else { %>
-              <marquee behavior="scroll" direction="left">
-                <%= communityAffiliations.join(" • ") %>
-              </marquee>
-              <% } %>
-            </div>
-          </div>
-          <div class="flex gap-2 font-medium">
-            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Superpowers:</div>
-            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-              <% if (superPowers.length < 3) { %>
-              <%= superPowers.join(", ") %>
-              <% } else { %>
-              <marquee behavior="scroll" direction="left">
-                <%= superPowers.join(" • ") %>
-              </marquee>
-              <% } %>
-            </div>
-          </div>
+          <% } %>
+
+          <%- renderInfoRow("Organization Affiliations:", organizationAffiliations) %>
+          <%- renderInfoRow("Community Affiliations:", communityAffiliations) %>
+          <%- renderInfoRow("Superpowers:", superPowers) %>
         </section>
       </div>
+
       <!-- Profile Section -->
       <div class="w-full flex md:justify-end justify-center">
-        <section class="relative">
+        <section class="relative aspect-[3/4] w-full max-w-[10rem] sm:max-w-xs md:max-w-sm rounded-2xl flex-shrink-0">
           <% if (image) { %>
-          <img class="rounded-2xl" src="<%= image %>" alt="profile" width="300" height="300" />
+            <img src="<%= image %>" alt="profile" class="rounded-2xl object-cover w-full h-full" />
           <% } %>
-          <div class="rounded-2xl -bottom-4 -right-4 md:-bottom-8 md:-right-8 xl:-bottom-10 xl:-right-10 border border-light-purple p-4 flex flex-col justify-center items-center gap-2 bg-primary absolute shadow-md">
-            <span class="font-medium whitespace-nowrap"><%= fullName %></span>
-            <span class="font-dm-sans tracking-wider"><%= pronoun ? `(${pronoun.toUpperCase()})` : "" %></span>
+          <div class="rounded-2xl absolute right-0 lg:-right-2 -bottom-4 xl:-right-4 border border-light-purple p-4 flex flex-col justify-center items-center gap-1 md:gap-2 bg-primary shadow-md font-dmsans">
+            <span class="font-medium text-base md:text-lg whitespace-nowrap"><%= fullName %></span>
+            <span class="tracking-wider text-xs md:text-sm"><%= pronoun ? `(${pronoun.toLowerCase()})` : "" %></span>
           </div>
         </section>
       </div>
     </div>
   </div>
-  <!-- ========== Slider Section ========== -->
-  <div class="relative overflow-hidden h-12 bg-gray-800 py-3 px-4 lg:py-auto flex items-center mt-10">
-    <div class="absolute flex items-center slider-scroller" style="display: flex; white-space: nowrap;">
-      <% if (sliderData && sliderData.length > 0) { %>
-      <% let repeatedData = [...sliderData, ...sliderData, ...sliderData, ...sliderData]; %>
-      <% repeatedData.forEach((slide, index) => { %>
-      <div class="flex items-center">
-        <div class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4">
-          <%= slide %>
-        </div>
-        <div class="bg-white size-2 rounded-full mx-4"></div>
-      </div>
-      <% }) %>
-      <% } %>
+
+  <!-- ========== Text Section ========== -->
+  <div class="px-4 py-8 bg-primary text-xs">
+    <div class="max-w-[90rem] mx-auto space-y-4 text-justify md:text-center leading-4">
+      <p class="font-dm-sans text-sm">
+        You are viewing an ENS domain, which is a distributed and open naming system based on the Ethereum blockchain.
+        This website is hosted with Pinata on the IPFS, or InterPlanetary File System, which is a peer-to-peer file
+        sharing network. The .link domain extension is a privacy-preserving ENS gateway for resolving/accessing ENS
+        records/domains & IPFS/internet 3.0 content. For a complete web3 experience, we recommend viewing this site
+        with a Metamask extension or Brave browser.
+      </p>
+      <p class="uppercase font-medium">
+        This site has been built by SI&lt;3&gt; in support of the decentralized and democratized web.
+      </p>
     </div>
   </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const scroller = document.querySelector(".slider-scroller");
-      if (!scroller) return;
-      let scrollAmount = 0;
-      function animate() {
-        scrollAmount -= 1;
-        if (Math.abs(scrollAmount) >= scroller.scrollWidth / 2) {
-          scrollAmount = 0;
-        }
-        scroller.style.transform = `translateX(${scrollAmount}px)`;
-        requestAnimationFrame(animate);
-      }
-      animate();
-    });
-  </script>
+
   <!-- ========== Value Section ========== -->
-  <div class="p-4">
-    <div class="max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <!-- My Journey -->
-      <section class="flex flex-col items-center sm:items-start w-full p-4 space-y-2">
-        <h2 class="text-2xl font-bold text-gray-900">MY JOURNEY</h2>
-        <p class="font-dm-sans font-medium text-xl tracking-wide text-justify">
-          <%= valueData.experience %>
-        </p>
-      </section>
-      <!-- My Value -->
-      <section class="flex flex-col items-center sm:items-start w-full p-4 space-y-2">
-        <h2 class="text-2xl font-bold text-gray-900">MY VALUE</h2>
-        <div class="font-medium text-2xl tracking-wide font-clash-display text-justify">
-          <%= valueData.values %>
+  <div class="p-4 py-10">
+    <div class="max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
+      <!-- Values -->
+      <section class="flex flex-col items-center sm:items-start w-full space-y-6">
+        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+          MY EXPERIENCE SUMMARY
         </div>
+        <p class="font-dm-sans font-medium text-xl tracking-wide text-justify"><%= valueData.experience %></p>
+      </section>
+      <!-- Experience -->
+      <section class="flex flex-col items-center sm:items-start w-full space-y-6">
+        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+          MY VISION
+        </div>
+        <div class="font-medium text-2xl font-sora text-justify"><%= valueData.values %></div>
       </section>
     </div>
   </div>
+
   <!-- ========== Live Section ========== -->
-  <div class="bg-primary p-4">
-    <div class="max-w-[90rem] mx-auto space-y-3">
-      <!-- Logo and title -->
-      <section class="relative w-full">
-        <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744354970/courage_igv2cm.png" alt="live-logo" width="60" class="absolute top-0 left-0" />
-        <div class="flex flex-col items-center justify-center gap-4">
-          <span class="font-clash-display font-semibold text-xl leading-4">Si Her TV</span>
-          <span class="font-dm-sans text-lg font-medium">Powered By</span>
-          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/huddle_jidzue.png" width="130" height="30" alt="" />
-        </div>
-      </section>
-      <!-- Live video -->
-      <div class="relative bg-white rounded-2xl md:p-4">
-        <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_cawmkx.png" alt="" width="500" height="500" class="absolute top-0 left-0 mx-auto w-full p-4" />
-        <!-- Live image and video -->
-        <div class="md:mt-6 p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-          <% if (liveData.image) { %>
-          <div class="relative w-full md:h-[22rem] aspect-video overflow-hidden">
-            <img src="<%= liveData.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
-          </div>
-          <% } %>
-          <div class="w-full md:h-[22rem] aspect-video">
-            <% if (liveData.video) { %>
-            <video src="<%= liveData.video %>" class="w-full h-full object-cover rounded-2xl" playsinline muted autoplay loop>
-            </video>
+  <section class="bg-primary p-4 py-10 sm:py-16" aria-label="Live Section">
+    <div class="max-w-[90rem] mx-auto space-y-8">
+      <!-- Live content -->
+      <% if (liveData.image || liveData.url) { %>
+        <div class="relative bg-white rounded-2xl md:p-4 shadow-sm">
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_cawmkx.png" alt="" width="500" height="500" class="absolute top-0 left-0 mx-auto w-full p-4" />
+          <div class="md:mt-6 p-4 sm:p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+            <% if (liveData.image && liveData.url) { %>
+              <div class="relative w-full aspect-video overflow-hidden">
+                <img src="<%= liveData.image %>" alt="Live content image" class="object-cover rounded-2xl w-full h-full" />
+              </div>
+              <div class="w-full aspect-video">
+                <% if (liveData.url.match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
+                  <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
+                    <audio src="<%= liveData.url %>" class="hidden" controls></audio>
+                    <button type="button" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl">
+                      <div class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center">
+                        <i class="fas fa-play text-white text-2xl"></i>
+                      </div>
+                    </button>
+                  </div>
+                <% } else { %>
+                  <video src="<%= liveData.url %>" class="w-full h-full object-cover rounded-2xl" playsinline muted autoplay loop></video>
+                <% } %>
+              </div>
+            <% } else if (liveData.image) { %>
+              <div class="relative w-full aspect-video overflow-hidden col-span-full">
+                <img src="<%= liveData.image %>" alt="Live content image" class="object-cover rounded-2xl w-full h-full" />
+              </div>
+            <% } else if (liveData.url) { %>
+              <div class="w-full aspect-video col-span-full">
+                <% if (liveData.url.match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
+                  <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
+                    <audio src="<%= liveData.url %>" class="hidden" controls></audio>
+                    <button type="button" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl">
+                      <div class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center">
+                        <i class="fas fa-play text-white text-2xl"></i>
+                      </div>
+                    </button>
+                  </div>
+                <% } else { %>
+                  <video src="<%= liveData.url %>" class="w-full h-full object-cover rounded-2xl" playsinline muted autoplay loop></video>
+                <% } %>
+              </div>
             <% } %>
           </div>
         </div>
+      <% } %>
+
+      <!-- Crypto button -->
+      <div class="flex justify-center">
+        <% if (liveData.walletUrl) { %>
+          <a href="<%= liveData.walletUrl %>" target="_blank" rel="noopener noreferrer" class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base">
+            TIP <%= fullName.trim().split(" ")[0] %> IN CRYPTO
+          </a>
+        <% } %>
       </div>
-      <!-- Buttons -->
-      <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 mt-8 text-sm py-6">
-        <button class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0">
-          CREATE YOUR ZERION WALLET
-        </button>
-        <button class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase">
-          TIP <%= landingData.name || "KARA" %> IN CRYPTO
-        </button>
-      </div>
+
       <!-- Live Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <% live.details.forEach((item) => { %>
-        <div class="mx-auto">
-          <div class="bg-white space-y-2 p-4 w-[23rem] rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg">
-            <!-- Title -->
-            <div class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600">
-              <%= item.title %>
+      <% const validDetails = liveData.details.filter(item => item.title?.trim() && item.heading?.trim()); %>
+      <% if (validDetails.length > 0) { %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <% validDetails.forEach((item, index) => { %>
+            <div class="w-full">
+              <div class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg">
+                <div class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600">
+                  <%= item.title %>
+                </div>
+                <span class="font-sora text-xl font-medium"><%= item.heading %></span>
+              </div>
             </div>
-            <!-- Heading -->
-            <span class="font-clash-display text-xl font-medium"><%= item.heading %></span>
-            <!-- Body -->
-            <p class="font-dm-sans opacity-0 text-xs group-hover:opacity-100"><%= item.body %></p>
-          </div>
+          <% }) %>
         </div>
-        <% }) %>
-      </div>
+      <% } %>
     </div>
-  </div>
-  <!-- ========== ORGS Section ========== -->
-  <div class="px-4 py-12 bg-gray-100">
+  </section>
+
+  <!-- ========== Organizations Section ========== -->
+  <div class="px-4 py-10 bg-gray-100">
     <div class="max-w-[90rem] mx-auto flex flex-col gap-8 justify-center items-center">
       <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
         ORGANIZATIONS I SUPPORT
       </div>
       <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
-        <% organizations.forEach((org, index) => { %>
-          <% if (org) { %>
-            <img src="<%= typeof org === 'string' ? org : org.src %>" alt="" width="100" height="100" />
-          <% } %>
-        <% }) %>
+        <% (organizations || []).forEach((org, index) => { 
+             const orgSrc = typeof org === 'string' ? org.trim() : org?.src?.trim(); 
+             if (orgSrc) { %>
+          <img src="<%= orgSrc %>" alt="Organization <%= index + 1 %>" width="100" height="100" />
+        <% } 
+        }) %>
       </section>
     </div>
   </div>
+
+  <!-- ========== Timeline Section ========== -->
+  <% 
+    const filteredTimeline = (timeline || []).filter(item =>
+      (item.title && item.title.trim()) ||
+      (item.from && item.from.trim()) ||
+      (item.to && item.to.trim())
+    ).sort((a, b) => {
+      if (a.from.trim() && !b.from.trim()) return -1;
+      if (!a.from.trim() && b.from.trim()) return 1;
+      if (a.from.trim() && b.from.trim()) {
+        const dateA = Number.parseInt(a.from.replace(/\D/g, "")) || 0;
+        const dateB = Number.parseInt(b.from.replace(/\D/g, "")) || 0;
+        return dateB - dateA;
+      }
+      return 0;
+    });
+  %>
+
+  <% if (filteredTimeline.length) { %>
+    <div class="p-4 py-10">
+      <section class="max-w-[90rem] mx-auto">
+        <div class="flex justify-between items-center">
+          <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+            TIMELINE
+          </div>
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/runes_oieejv.png" alt="" width="70" height="70" />
+        </div>
+        <% filteredTimeline.forEach((item, index) => { %>
+          <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide <%= index !== filteredTimeline.length - 1 ? 'border-b border-gray-300' : '' %>">
+            <p class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+              <%= item.from %><%= item.to ? ' - ' + item.to : '' %>
+            </p>
+            <span class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium">
+              <%= item.title %>
+            </span>
+          </div>
+        <% }) %>
+      </section>
+    </div>
+  <% } %>
+
+  <!-- ========== People Section ========== -->
+  <% 
+  const formattedUsers = (users || []).map(user => ({
+    _id: user._id,
+    fullName: user.fullName,
+    image: user.image || 'https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png',
+    domain: user.domain || ''
+  }));
+  %>
+
+  <% if (formattedUsers.length) { %>
+    <div class="overflow-hidden bg-gray-900 py-3 px-4 flex items-center">
+      <div class="flex items-center font-sora gap-4 scroller" style="white-space: nowrap;">
+        <% formattedUsers.concat(formattedUsers).forEach((user, index) => { %>
+          <div class="flex items-center">
+            <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+              <div class="size-12 relative">
+                <img src="<%= user.image %>" alt="" class="rounded-full object-cover w-full h-full" />
+              </div>
+              <div class="mx-4 text-left text-sm">
+                <p><%= user.fullName || '' %></p>
+                <% if (user.domain) { %>
+                  <a href="https://<%= user.domain %>" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
+                    <%= user.domain %>
+                  </a>
+                <% } %>
+              </div>
+            </div>
+            <div class="bg-white size-2 rounded-full mx-4"></div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- ========== Available Section ========== -->
+  <% const cleanedAvailable = (availableFor || []).filter(item => item.trim() !== ""); %>
+  <% if (cleanedAvailable.length || avatar) { %>
+    <div class="p-4 py-10">
+      <div class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <!-- Text Section (Available For) -->
+        <section class="flex flex-col justify-center items-center order-1 lg:order-2 space-y-6 lg:space-y-10 xxl:space-y-12 w-full">
+          <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+            I'M AVAILABLE FOR
+          </div>
+          <div class="flex flex-col gap-4 justify-center items-center">
+            <% cleanedAvailable.forEach((item) => { %>
+              <div class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
+                <%= item %>
+              </div>
+            <% }); %>
+          </div>
+        </section>
+
+        <!-- Image Section -->
+        <section class="flex flex-col gap-6 items-center w-full order-2 lg:order-1">
+          <div class="relative">
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_available_xotm0d.png" alt="" width="260" height="100" />
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345808/donut_opazh4.png" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" />
+            <% if (avatar) { %>
+              <img src="<%= avatar %>" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; padding: 1rem;" />
+            <% } %>
+          </div>
+          <a href="<%= ctaUrl || 'https://www.si3.space' %>" target="_blank" rel="noopener noreferrer" class="font-sora tracking-wider rounded-xl text-sm border border-[#3E21F3] bg-primary font-semibold text-[#3E21F3] px-4 py-2 lg:px-6 lg:py-3">
+            <%= ctaText || 'Join SI<3>' %>
+          </a>
+        </section>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- ========== Footer Section ========== -->
+  <div class="bg-gray-800 p-4 text-xs">
+    <div class="max-w-[90rem] mx-auto space-y-2">
+      <!-- Social & Controls -->
+      <section class="flex flex-col md:flex-row justify-between items-center gap-3">
+        <!-- Social Channels -->
+        <% if (socialChannels && socialChannels.length > 0) { %>
+          <div class="flex justify-between w-full md:justify-start gap-4">
+            <% socialChannels.forEach(channel => { %>
+              <% if (channel.url && channel.icon) { %>
+                <a href="<%= channel.url %>" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit">
+                  <img src="<%= channel.icon %>" alt="" width="20" height="20" />
+                </a>
+              <% } %>
+            <% }); %>
+          </div>
+        <% } %>
+
+        <!-- Controls -->
+        <section class="flex items-center justify-between md:justify-end w-full gap-4">
+          <a href="https://www.si3.space/" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none">
+            Join SI&lt;3&gt;
+          </a>
+          <!-- Language Dropdown -->
+          <div class="relative bg-[#C8BAFD] rounded-xl w-fit flex items-center gap-2">
+            <button type="button" onclick="toggleLanguageDropdown()" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none">
+              Select Language
+            </button>
+            <div id="languageDropdown" class="absolute left-0 border bg-gray-100 border-gray-300 top-full mt-2 w-60 bg-white rounded-lg shadow-lg z-10 p-2 hidden">
+              <div class="flex flex-col space-y-1">
+                <% Object.keys(languagesByRegion).forEach(region => { %>
+                  <div onclick="selectRegion('<%= region %>')" class="cursor-pointer px-3 py-2 hover:bg-gray-200 rounded transition-all font-medium flex justify-between">
+                    <%= region %>
+                    <i class="fas fa-chevron-right text-gray-500"></i>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+          <!-- Newsletter Form -->
+          <div class="flex rounded-xl w-full lg:w-fit h-10 items-center bg-white">
+            <i class="fas fa-envelope size-6 mx-2"></i>
+            <input type="email" placeholder="Subscribe to our newsletter..." class="focus:outline-none font-dm-sans w-full mr-3 lg:w-44" />
+            <div class="flex justify-end h-full">
+              <button type="button" class="bg-[#C8BAFD] rounded-xl w-10">
+                <i class="fas fa-arrow-right size-4 mx-auto"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Footer Text -->
+      <section class="font-sora font-normal leading-4 tracking-wider text-center text-white max-w-md mx-auto">
+        @2025 Solar Intelligence, Inc. All rights reserved.
+      </section>
+    </div>
+  </div>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const orgsSection = document.getElementById("orgs-section");
-      const organizations = JSON.parse(orgsSection.dataset.organizations || "[]");
-      if (organizations.length) {
-        orgsSection.style.display = "block";
+    // Mobile Navigation
+    function toggleMobileNav() {
+      const nav = document.getElementById("mobileNav");
+      nav.classList.toggle("translate-x-full");
+    }
+
+    // Language Dropdown
+    function toggleLanguageDropdown() {
+      const dropdown = document.getElementById("languageDropdown");
+      dropdown.classList.toggle("hidden");
+    }
+
+    function selectRegion(region) {
+      // Handle region selection
+      console.log("Selected region:", region);
+      document.getElementById("languageDropdown").classList.add("hidden");
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener("click", function(event) {
+      const dropdown = document.getElementById("languageDropdown");
+      const button = event.target.closest("button");
+      if (!button && !dropdown.contains(event.target)) {
+        dropdown.classList.add("hidden");
       }
     });
-  </script>
-  <!-- ========== Timeline Section ========== -->
-  <% if (timeline && timeline.length) { %>
-  <div class="p-4">
-    <section class="max-w-[90rem] mx-auto">
-      <div class="flex justify-between items-center">
-        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
-          TIMELINE
-        </div>
-        <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/runes_oieejv.png" alt="Runes" width="70" height="70" />
-      </div>
-      <% timeline.forEach((item, index) => { %>
-      <div class="w-full py-4 flex font-bold justify-between items-start tracking-wide <%= index !== timeline.length - 1 ? 'border-b border-gray-300' : '' %>">
-        <p class="font-dm-sans w-44 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
-          <%= item.from %> <%= item.to ? ` - ${item.to}` : "" %>
-        </p>
-        <span class="w-72 md:w-full text-xl md:text-2xl leading-6 font-clash-display font-medium">
-          <%= item.title %>
-        </span>
-      </div>
-      <% }); %>
-    </section>
-  </div>
-  <% } %>
-  <!-- ========== People Section ========== -->
-  <div class="relative overflow-hidden bg-gray-800 py-6 px-4 flex items-center">
-    <% if (users && users.length) { %>
-    <div class="absolute flex items-center scroller" style="white-space: nowrap;">
-      <% users.concat(users).forEach((user, index) => { %>
-      <div class="flex items-center" key="<%= user._id %>-<%= index %>">
-        <div class="text-center flex items-center px-3 text-white tracking-wider uppercase">
-          <img src="<%= user.image || 'https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png' %>" alt="" width="25" height="25" class="rounded-full" />
-          <span class="ml-2 mr-4"><%= user.name %></span>
-        </div>
-        <div class="bg-white size-3 rounded-full mx-4"></div>
-      </div>
-      <% }); %>
-    </div>
-    <% } %>
-  </div>
-  <script>
+
+    // Landing Animation
+    document.addEventListener("DOMContentLoaded", function() {
+      const container = document.getElementById("landingAnimation");
+      if (!container) return;
+
+      const textWrappers = container.querySelectorAll(".letter");
+      textWrappers.forEach(wrapper => {
+        if (wrapper.textContent?.trim()) {
+          wrapper.innerHTML = wrapper.textContent.replace(/\S/g, "<span class='letters'>$&</span>");
+        }
+      });
+
+      anime.timeline({ loop: false }).add({
+        targets: ".letters",
+        scale: [0.3, 1],
+        opacity: [0, 1],
+        translateZ: 0,
+        easing: "easeOutExpo",
+        duration: 100,
+        delay: (_el, i) => 50 * (i + 1)
+      });
+    });
+
+    // Slider Animation
     document.addEventListener("DOMContentLoaded", function() {
       const scroller = document.querySelector(".scroller");
       if (!scroller) return;
@@ -357,94 +561,5 @@
       animate();
     });
   </script>
-  <!-- ========== Available Section ========== -->
-  <div class="p-4">
-    <div class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-      <!-- Text Section (Available For) -->
-      <section class="flex flex-col justify-center items-center order-1 lg:order-2 space-y-6 lg:space-y-10 xxl:space-y-12 w-full">
-        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
-          AVAILABLE FOR
-        </div>
-        <div class="flex flex-col gap-4 justify-center items-center">
-          <% if (availableFor && availableFor.length > 0) { %>
-          <% availableFor.forEach((item, index) => { %>
-          <div key="<%= item %>-<%= index %>" class="transform transition-all text-xl h-8 duration-300 hover:text-[#3E21F3] hover:text-2xl hover:font-semibold uppercase hover:tracking-widest flex justify-center items-center cursor-default">
-            <%= item %>
-          </div>
-          <% }); %>
-          <% } %>
-        </div>
-      </section>
-      <!-- Image Section -->
-      <section class="flex flex-col gap-6 items-center w-full order-2 lg:order-1">
-        <div class="relative">
-          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_available_xotm0d.png" alt="" width="260" height="100" />
-          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345808/donut_opazh4.png" alt="" style="position: absolute; width: 100%; height: 100%; object-fit: cover;" />
-          <% if (avatar) { %>
-          <img src="<%= avatar %>" alt="" style="position: absolute; width: 100%; height: 100%; object-fit: cover; padding: 1rem;" />
-          <% } %>
-        </div>
-        <a href="https://www.si3.space/" target="_blank" rel="noopener noreferrer" class="font-segoe-ui rounded-xl text-sm border border-[#3E21F3] bg-primary font-semibold text-[#3E21F3] px-4 py-2 lg:px-6 lg:py-3">
-          Join SI&lt;3&gt;
-        </a>
-      </section>
-    </div>
-  </div>
-  <!-- ========== Footer Section ========== -->
-  <div class="bg-gray-800 p-4 text-xs">
-    <div class="max-w-[90rem] mx-auto space-y-2">
-      <section class="flex flex-col md:flex-row justify-between items-center gap-2">
-        <!-- Social Channels -->
-        <div class="flex justify-between w-full md:justify-start gap-4">
-          <% if (socialChannels && socialChannels.length > 0) { %>
-          <% socialChannels.forEach(channel => { %>
-          <div class="bg-[#C8BAFD] rounded-xl py-3 px-4 flex items-center gap-2">
-            <% if (channel.text.toLowerCase() === 'linkedin') { %>
-            <i class="fab fa-linkedin"></i>
-            <% } else if (channel.text.toLowerCase() === 'instagram') { %>
-            <i class="fab fa-instagram"></i>
-            <% } else if (channel.text.toLowerCase() === 'twitter') { %>
-            <i class="fab fa-twitter"></i>
-            <% } else { %>
-            <i class="fab fa-github"></i>
-            <% } %>
-            <span class="font-fira-mono font-medium"><%= channel.text.toUpperCase() %></span>
-          </div>
-          <% }); %>
-          <% } %>
-        </div>
-        <!-- Controls -->
-        <section class="flex items-center justify-between md:justify-end w-full gap-4">
-          <!-- Language Dropdown -->
-          <div class="relative bg-[#C8BAFD] rounded-xl w-fit flex items-center gap-2">
-            <button class="bg-[#C8BAFD] text-[#1E1E1E] px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap focus:outline-none">
-              Select Language
-            </button>
-            <!-- Dropdown Menu -->
-            <div class="absolute left-0 border bg-gray-100 border-gray-300 w-60 bg-white rounded-lg shadow-lg z-10 p-2">
-              <% Object.keys(languagesByRegion).forEach(region => { %>
-              <div class="cursor-pointer px-3 py-2 hover:bg-gray-200 rounded transition-all font-medium flex justify-between">
-                <%= region %>
-                <i class="fas fa-chevron-right text-gray-500"></i>
-              </div>
-              <% }); %>
-            </div>
-          </div>
-          <!-- Newsletter Form -->
-          <div class="flex rounded-xl w-full sm:w-fit items-center bg-white gap-4 h-fit pl-3">
-            <i class="fas fa-envelope size-6"></i>
-            <input type="email" placeholder="Subscribe to our newsletter..." class="flex-grow leading-4 py-1 sm:py-2 focus:outline-none font-dm-sans w-full" />
-            <button type="submit" class="bg-[#C8BAFD] rounded-xl p-2">
-              <i class="fas fa-arrow-right size-5"></i>
-            </button>
-          </div>
-        </section>
-      </section>
-      <!-- Footer Text -->
-      <section class="font-dm-sans font-normal leading-6 text-center text-white max-w-md mx-auto">
-        @2025, SI&lt;3&gt; is a collaborative Web3 Ecosystem powered by global voices.
-      </section>
-    </div>
-  </div>
 </body>
 </html>

@@ -303,6 +303,43 @@ const publishWebContent = async (req, res) => {
   }
 };
 
+const deleteFromCloudinary = async (url) => {
+  if (!url?.includes("cloudinary")) return false;
+  try {
+    const matches = url.match(/\/v\d+\/(.+?)(?:\.[^.]+)?$/);
+    if (!matches[1]) {
+      return false;
+    }
+    const publicId = matches[1];
+    const result = await cloudinary.uploader.destroy(publicId);
+    return result.result === "ok";
+  } catch (err) {
+    console.error(`❌ Cloudinary deletion error for ${url}:`, err);
+    return false;
+  }
+};
+
+const deleteAllCloudinaryFiles = async (webContent) => {
+  const filesToDelete = [];
+  
+  // Add all media files to delete list
+  if (webContent.landing?.image) filesToDelete.push(webContent.landing.image);
+  if (webContent.live?.image) filesToDelete.push(webContent.live.image);
+  if (webContent.live?.video) filesToDelete.push(webContent.live.video);
+  if (webContent.available?.avatar) filesToDelete.push(webContent.available.avatar);
+  
+  // Add organization images
+  if (webContent.organizations) {
+    webContent.organizations.forEach(org => {
+      if (org.src) filesToDelete.push(org.src);
+    });
+  }
+
+  // Delete all files
+  const deletePromises = filesToDelete.map(url => deleteFromCloudinary(url));
+  await Promise.all(deletePromises);
+};
+
 const updateWebContent = async (req, res) => {
   try {
     const { body, user } = req;
@@ -311,65 +348,58 @@ const updateWebContent = async (req, res) => {
     if (!webContent) {
       return res.status(404).json({ message: "WebContent not found" });
     }
-    const deleteFromCloudinary = async (url) => {
-      if (!url?.includes("cloudinary")) return false;
-      try {
-        const matches = url.match(/\/v\d+\/(.+?)(?:\.[^.]+)?$/);
-        if (!matches[1]) {
-          return false;
-        }
-        const publicId = matches[1];
-        const result = await cloudinary.uploader.destroy(publicId);
-        return result.result === "ok";
-      } catch (err) {
-        console.error(`❌ Cloudinary deletion error for ${url}:`, err);
-        return false;
-      }
-    };
+
     const changes = {
       deleted: [],
       updated: [],
     };
+
+    // Handle landing image update
     if (req.files?.landing_image?.[0]) {
       const oldImageUrl = webContent.landing?.image;
-      webContent.landing.image = req.files.landing_image[0].path;
-      changes.updated.push("landing_image");
       if (oldImageUrl) {
         const deleted = await deleteFromCloudinary(oldImageUrl);
         if (deleted) changes.deleted.push("old_landing_image");
       }
+      webContent.landing.image = req.files.landing_image[0].path;
+      changes.updated.push("landing_image");
     }
+
+    // Handle live image update
     if (req.files?.live_image?.[0]) {
       const oldImageUrl = webContent.live?.image;
-      webContent.live.image = req.files.live_image[0].path;
-      changes.updated.push("live_image");
       if (oldImageUrl) {
         const deleted = await deleteFromCloudinary(oldImageUrl);
         if (deleted) changes.deleted.push("old_live_image");
       }
+      webContent.live.image = req.files.live_image[0].path;
+      changes.updated.push("live_image");
     }
+
+    // Handle live video update
     if (req.files?.live_video?.[0]) {
       const oldVideoUrl = webContent.live?.video;
-      webContent.live.video = req.files.live_video[0].path;
-      changes.updated.push("live_video");
       if (oldVideoUrl) {
         const deleted = await deleteFromCloudinary(oldVideoUrl);
         if (deleted) changes.deleted.push("old_live_video");
       }
+      webContent.live.video = req.files.live_video[0].path;
+      changes.updated.push("live_video");
     }
+
+    // Handle organization images update
     const orgImages = [];
     const orgCount = content.organizations?.length || 0;
     for (let i = 0; i < orgCount; i++) {
       const key = `org_image_${i}`;
       if (req.files?.[key]?.[0]) {
-        const oldImageUrl =
-          i < webContent.organizations.length ? webContent.organizations[i] : null;
-        orgImages.push(req.files[key][0].path);
-        changes.updated.push(`org_image_${i}`);
+        const oldImageUrl = i < webContent.organizations.length ? webContent.organizations[i]?.src : null;
         if (oldImageUrl) {
           const deleted = await deleteFromCloudinary(oldImageUrl);
           if (deleted) changes.deleted.push(`old_org_image_${i}`);
         }
+        orgImages.push({ src: req.files[key][0].path });
+        changes.updated.push(`org_image_${i}`);
       } else if (content.organizations[i]) {
         orgImages.push(content.organizations[i]);
       } else if (i < webContent.organizations.length) {
@@ -377,15 +407,19 @@ const updateWebContent = async (req, res) => {
       }
     }
     webContent.organizations = orgImages;
+
+    // Handle avatar update
     if (req.files?.avatar?.[0]) {
       const oldAvatarUrl = webContent.available?.avatar;
-      webContent.available.avatar = req.files.avatar[0].path;
-      changes.updated.push("avatar");
       if (oldAvatarUrl) {
         const deleted = await deleteFromCloudinary(oldAvatarUrl);
         if (deleted) changes.deleted.push("old_avatar");
       }
+      webContent.available.avatar = req.files.avatar[0].path;
+      changes.updated.push("avatar");
     }
+
+    // Update other content fields
     webContent.landing = {
       ...webContent.landing,
       ...content.landing,
@@ -408,6 +442,7 @@ const updateWebContent = async (req, res) => {
     webContent.socialChannels = content.socialChannels;
     webContent.languagesByRegion = content.languagesByRegion || { Global: ["English"] };
     webContent.isNewWebpage = false;
+
     const savedContent = await webContent.save();
     return res.status(200).json({
       message: "Web content updated successfully",
@@ -444,9 +479,17 @@ const deleteWebContent = async (req, res) => {
     if (!webContent) {
       return res.status(404).send("Web content not found");
     }
+
+    // Delete all media files from Cloudinary
+    await deleteAllCloudinaryFiles(webContent);
+
+    // Delete from IPFS
     const { cid } = webContent;
     await deleteFromFileStorage(cid);
+
+    // Delete from database
     await WebContent.findByIdAndDelete(webContent._id);
+
     return res.send({ message: "Web content deleted successfully" });
   } catch (error) {
     console.error("Error deleting web content:", error);

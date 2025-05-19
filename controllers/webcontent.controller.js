@@ -284,7 +284,7 @@ const publishWebContent = async (req, res) => {
       return res.status(201).json({
         message: "Published successfully",
         data: savedContent,
-        tempFilePath: filePath, // Include temp file path in response
+        tempFilePath: filePath,
       });
     } catch (templateError) {
       console.error("Template rendering error:", templateError);
@@ -303,43 +303,6 @@ const publishWebContent = async (req, res) => {
   }
 };
 
-const deleteFromCloudinary = async (url) => {
-  if (!url?.includes("cloudinary")) return false;
-  try {
-    const matches = url.match(/\/v\d+\/(.+?)(?:\.[^.]+)?$/);
-    if (!matches[1]) {
-      return false;
-    }
-    const publicId = matches[1];
-    const result = await cloudinary.uploader.destroy(publicId);
-    return result.result === "ok";
-  } catch (err) {
-    console.error(`❌ Cloudinary deletion error for ${url}:`, err);
-    return false;
-  }
-};
-
-const deleteAllCloudinaryFiles = async (webContent) => {
-  const filesToDelete = [];
-  
-  // Add all media files to delete list
-  if (webContent.landing?.image) filesToDelete.push(webContent.landing.image);
-  if (webContent.live?.image) filesToDelete.push(webContent.live.image);
-  if (webContent.live?.video) filesToDelete.push(webContent.live.video);
-  if (webContent.available?.avatar) filesToDelete.push(webContent.available.avatar);
-  
-  // Add organization images
-  if (webContent.organizations) {
-    webContent.organizations.forEach(org => {
-      if (org.src) filesToDelete.push(org.src);
-    });
-  }
-
-  // Delete all files
-  const deletePromises = filesToDelete.map(url => deleteFromCloudinary(url));
-  await Promise.all(deletePromises);
-};
-
 const updateWebContent = async (req, res) => {
   try {
     const { body, user } = req;
@@ -356,10 +319,9 @@ const updateWebContent = async (req, res) => {
 
     // Handle landing image update
     if (req.files?.landing_image?.[0]) {
-      const oldImageUrl = webContent.landing?.image;
-      if (oldImageUrl) {
-        const deleted = await deleteFromCloudinary(oldImageUrl);
-        if (deleted) changes.deleted.push("old_landing_image");
+      if (webContent.landing?.image) {
+        await deleteFromFileStorage(webContent.landing.image);
+        changes.deleted.push("old_landing_image");
       }
       webContent.landing.image = req.files.landing_image[0].path;
       changes.updated.push("landing_image");
@@ -367,10 +329,9 @@ const updateWebContent = async (req, res) => {
 
     // Handle live image update
     if (req.files?.live_image?.[0]) {
-      const oldImageUrl = webContent.live?.image;
-      if (oldImageUrl) {
-        const deleted = await deleteFromCloudinary(oldImageUrl);
-        if (deleted) changes.deleted.push("old_live_image");
+      if (webContent.live?.image) {
+        await deleteFromFileStorage(webContent.live.image);
+        changes.deleted.push("old_live_image");
       }
       webContent.live.image = req.files.live_image[0].path;
       changes.updated.push("live_image");
@@ -378,10 +339,9 @@ const updateWebContent = async (req, res) => {
 
     // Handle live video update
     if (req.files?.live_video?.[0]) {
-      const oldVideoUrl = webContent.live?.video;
-      if (oldVideoUrl) {
-        const deleted = await deleteFromCloudinary(oldVideoUrl);
-        if (deleted) changes.deleted.push("old_live_video");
+      if (webContent.live?.video) {
+        await deleteFromFileStorage(webContent.live.video);
+        changes.deleted.push("old_live_video");
       }
       webContent.live.video = req.files.live_video[0].path;
       changes.updated.push("live_video");
@@ -395,8 +355,8 @@ const updateWebContent = async (req, res) => {
       if (req.files?.[key]?.[0]) {
         const oldImageUrl = i < webContent.organizations.length ? webContent.organizations[i]?.src : null;
         if (oldImageUrl) {
-          const deleted = await deleteFromCloudinary(oldImageUrl);
-          if (deleted) changes.deleted.push(`old_org_image_${i}`);
+          await deleteFromFileStorage(oldImageUrl);
+          changes.deleted.push(`old_org_image_${i}`);
         }
         orgImages.push({ src: req.files[key][0].path });
         changes.updated.push(`org_image_${i}`);
@@ -410,10 +370,9 @@ const updateWebContent = async (req, res) => {
 
     // Handle avatar update
     if (req.files?.avatar?.[0]) {
-      const oldAvatarUrl = webContent.available?.avatar;
-      if (oldAvatarUrl) {
-        const deleted = await deleteFromCloudinary(oldAvatarUrl);
-        if (deleted) changes.deleted.push("old_avatar");
+      if (webContent.available?.avatar) {
+        await deleteFromFileStorage(webContent.available.avatar);
+        changes.deleted.push("old_avatar");
       }
       webContent.available.avatar = req.files.avatar[0].path;
       changes.updated.push("avatar");
@@ -480,8 +439,17 @@ const deleteWebContent = async (req, res) => {
       return res.status(404).send("Web content not found");
     }
 
-    // Delete all media files from Cloudinary
-    await deleteAllCloudinaryFiles(webContent);
+    // Delete all media files
+    const filesToDelete = [
+      webContent.landing?.image,
+      webContent.live?.image,
+      webContent.live?.video,
+      webContent.available?.avatar,
+      ...(webContent.organizations || []).map(org => org.src).filter(Boolean)
+    ];
+
+    // Delete all files in parallel
+    await Promise.all(filesToDelete.map(file => deleteFromFileStorage(file)));
 
     // Delete from IPFS
     const { cid } = webContent;

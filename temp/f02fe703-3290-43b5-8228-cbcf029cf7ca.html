@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style>
+    @font-face {
+      font-family: "clash-display";
+      src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1743137690/ClashDisplayVariable.ttf") format("truetype");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "segoe-ui";
+      src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1743137690/SegoeUIBold.ttf") format("truetype");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "FiraMono";
+      src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1743137690/FiraMono-Regular.ttf") format("truetype");
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: "DMSans";
+      src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1743137690/DMSans-Regular.ttf") format("truetype");
+      font-weight: 400;
+    }
+    body {
+      font-family: "FiraMono", monospace;
+      color: #171717;
+      background: #fff;
+    }
+    .font-clash-display {
+      font-family: "clash-display", sans-serif;
+    }
+    .font-segoe-ui {
+      font-family: "segoe-ui", sans-serif;
+    }
+    .font-sora {
+      font-family: "clash-display", sans-serif;
+    }
+    .font-dm-sans {
+      font-family: "DMSans", sans-serif;
+    }
+    .font-fira-mono {
+      font-family: "FiraMono", monospace;
+    }
+    .text-blue-primary {
+      color: #3E21F3;
+    }
+    .bg-primary {
+      background-color: #F5F5F5;
+    }
+    .border-light-purple {
+      border-color: #C8BAFD;
+    }
+    .bg-light-purple {
+      background-color: #C8BAFD;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      animation: marquee 20s linear infinite;
+    }
+    .letters {
+      display: inline-block;
+      opacity: 0;
+      transform: scale(0.3);
+    }
+  </style>
+</head>
+<body class="text-gray-900 bg-white">
+  <!-- ========== Navbar Section ========== -->
+  <section class="border-b border-gray-500 p-4 relative text-md">
+    <div class="flex justify-between items-center mx-auto max-w-[90rem]">
+      <!-- Logo -->
+      <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345811/si3_g3ow9r.svg" width="100" height="80" alt="logo" />
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center leading-4 gap-7">
+        
+        <a href="#value" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
+          Value
+        </a>
+        
+        <a href="#media" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
+          Media
+        </a>
+        
+        <a href="#timeline" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
+          Timeline
+        </a>
+        
+        <a href="#connect" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
+          Connect
+        </a>
+        
+      </div>
+      <!-- Connect Wallet Button -->
+      <button class="hidden sm:block h-12 bg-light-purple text-blue-primary rounded-xl px-4 font-medium transition-all duration-300 hover:bg-[#7E5BFF] hover:text-white text-sm">
+        CONNECT WALLET
+      </button>
+      <!-- Mobile Menu Button -->
+      <button onclick="toggleMobileNav()" class="md:hidden focus:outline-none z-50 relative" aria-label="Toggle menu">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+      <!-- Mobile Navigation -->
+      <div id="mobileNav" class="fixed inset-0 bg-black/80 backdrop-blur-md transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col items-center justify-center space-y-6 z-40">
+        <button onclick="toggleMobileNav()" class="absolute top-10 right-10 text-white md:hidden focus:outline-none z-50" aria-label="Toggle menu">
+          <i class="fas fa-times text-2xl"></i>
+        </button>
+        
+        <a href="#value" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
+          Value
+        </a>
+        
+        <a href="#media" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
+          Media
+        </a>
+        
+        <a href="#timeline" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
+          Timeline
+        </a>
+        
+        <a href="#connect" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
+          Connect
+        </a>
+        
+        <button class="h-12 bg-light-purple text-blue-primary rounded-lg px-6 font-medium tracking-widest transition-all duration-300 hover:bg-[#7E5BFF] hover:text-white">
+          CONNECT WALLET
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Landing Section ========== -->
+  <div class="px-4 py-6 text-xs">
+    <div class="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Left Side -->
+      <div class="w-full space-y-4 flex flex-col col-span-1 md:col-span-2 justify-center items-start">
+        <!-- Animation Section -->
+        <div id="landingAnimation" class="font-sora font-bold text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] tracking-wide">
+          <span class="letter">I'm </span>
+          <span class="text-blue-primary letter">Kara</span>
+          <span class="letter">,</span>
+          <span class="letter"> </span>
+          <span class="letter">a Web3 Developer</span>
+        </div>
+
+        <!-- Hashtags -->
+        <section class="flex flex-wrap gap-3 font-medium pb-2">
+          
+            <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md">
+              #BLOCKCHAIN
+            </div>
+          
+            <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md">
+              #ETHEREUM
+            </div>
+          
+            <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md">
+              #DEVELOPER
+            </div>
+          
+            <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md">
+              #WEB3
+            </div>
+          
+        </section>
+
+        <!-- Information Section -->
+        <section class="p-3 space-y-3 md:space-y-4 overflow-hidden bg-gray-100 border border-gray-200 w-full rounded-lg">
+          <div class="flex gap-2 font-medium">
+            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Title:</div>
+            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">Web3 Developer &amp; Community Builder</div>
+          </div>
+
+          <div class="flex gap-2 font-medium">
+            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Presently based in:</div>
+            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">San Francisco, California</div>
+          </div>
+
+          
+
+          
+            <div class="flex gap-2 font-medium">
+              <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Organization Affiliations:</div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                
+                  <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                    <div class="flex animate-marquee">
+                      
+                        <span class="mx-2 flex items-center">
+                          Ethereum Foundation
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Women in Web3
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          DeFi Alliance
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Ethereum Foundation
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Women in Web3
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          DeFi Alliance
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Ethereum Foundation
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Women in Web3
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          DeFi Alliance
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                    </div>
+                  </div>
+                
+              </div>
+            </div>
+          
+          
+            <div class="flex gap-2 font-medium">
+              <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Community Affiliations:</div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                
+                  <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                    <div class="flex animate-marquee">
+                      
+                        <span class="mx-2 flex items-center">
+                          ETHGlobal
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          DevConnect
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Consensys Academy
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          ETHGlobal
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          DevConnect
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Consensys Academy
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          ETHGlobal
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          DevConnect
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Consensys Academy
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                    </div>
+                  </div>
+                
+              </div>
+            </div>
+          
+          
+            <div class="flex gap-2 font-medium">
+              <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">Superpowers:</div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                
+                  <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                    <div class="flex animate-marquee">
+                      
+                        <span class="mx-2 flex items-center">
+                          Solidity
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          React
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Full-Stack Development
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Smart Contracts
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          DeFi Protocol Design
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Solidity
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          React
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Full-Stack Development
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Smart Contracts
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          DeFi Protocol Design
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Solidity
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          React
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Full-Stack Development
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          Smart Contracts
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                        <span class="mx-2 flex items-center">
+                          DeFi Protocol Design
+                          <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                        </span>
+                      
+                    </div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </section>
+      </div>
+
+      <!-- Profile Section -->
+      <div class="w-full flex md:justify-end justify-center">
+        <section class="relative aspect-[3/4] w-full max-w-[10rem] sm:max-w-xs md:max-w-sm rounded-2xl flex-shrink-0">
+          
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1747773838/web_content/1747773835831-WhatsApp%20Image%202025-05-11%20at%2017.jpg" alt="profile" class="rounded-2xl object-cover w-full h-full" />
+          
+          <div class="rounded-2xl absolute right-0 lg:-right-2 -bottom-4 xl:-right-4 border border-light-purple p-4 flex flex-col justify-center items-center gap-1 md:gap-2 bg-primary shadow-md font-dmsans">
+            <span class="font-medium text-base md:text-lg whitespace-nowrap">Kara Zhang</span>
+            <span class="tracking-wider text-xs md:text-sm">(she/her)</span>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Text Section ========== -->
+  <div class="px-4 py-8 bg-primary text-xs">
+    <div class="max-w-[90rem] mx-auto space-y-4 text-justify md:text-center leading-4">
+      <p class="font-dm-sans text-sm">
+        You are viewing an ENS domain, which is a distributed and open naming system based on the Ethereum blockchain.
+        This website is hosted with Pinata on the IPFS, or InterPlanetary File System, which is a peer-to-peer file
+        sharing network. The .link domain extension is a privacy-preserving ENS gateway for resolving/accessing ENS
+        records/domains & IPFS/internet 3.0 content. For a complete web3 experience, we recommend viewing this site
+        with a Metamask extension or Brave browser.
+      </p>
+      <p class="uppercase font-medium">
+        This site has been built by SI&lt;3&gt; in support of the decentralized and democratized web.
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== Value Section ========== -->
+  <div class="p-4 py-10">
+    <div class="max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
+      <!-- Values -->
+      <section class="flex flex-col items-center sm:items-start w-full space-y-6">
+        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+          MY EXPERIENCE SUMMARY
+        </div>
+        <p class="font-dm-sans font-medium text-xl tracking-wide text-justify">I&#39;ve been a developer for over 8 years, with the last 4 focused exclusively on Web3 technologies. My journey began with traditional web development but I quickly became fascinated by blockchain&#39;s potential to reshape how we interact with the internet. I&#39;ve contributed to multiple DeFi protocols, built NFT platforms, and helped startups navigate the complex Web3 ecosystem.</p>
+      </section>
+      <!-- Experience -->
+      <section class="flex flex-col items-center sm:items-start w-full space-y-6">
+        <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+          MY VISION
+        </div>
+        <div class="font-medium text-2xl font-sora text-justify">I believe in building technologies that empower users and create more equitable digital experiences. My work focuses on making Web3 more accessible, secure, and user-friendly while maintaining the core values of decentralization and transparency.</div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ========== Live Section ========== -->
+  <section class="bg-primary p-4 py-10 sm:py-16" aria-label="Live Section">
+    <div class="max-w-[90rem] mx-auto space-y-8">
+      <!-- Live content -->
+      
+        <div class="relative bg-white rounded-2xl md:p-4 shadow-sm">
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_cawmkx.png" alt="" width="500" height="500" class="absolute top-0 left-0 mx-auto w-full p-4" />
+          <div class="md:mt-6 p-4 sm:p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+            
+              <div class="relative w-full aspect-video overflow-hidden col-span-full">
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1747773845/web_content/1747773842213-WhatsApp%20Image%202025-05-11%20at%2017.jpg" alt="Live content image" class="object-cover rounded-2xl w-full h-full" />
+              </div>
+            
+          </div>
+        </div>
+      
+
+      <!-- Crypto button -->
+      <div class="flex justify-center">
+        
+          <a href="https://etherscan.io/address/0x123..." target="_blank" rel="noopener noreferrer" class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base">
+            TIP Kara IN CRYPTO
+          </a>
+        
+      </div>
+
+      <!-- Live Cards -->
+      
+      
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          
+            <div class="w-full">
+              <div class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg">
+                <div class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600">
+                  Current Project
+                </div>
+                <span class="font-sora text-xl font-medium">DeFi Analytics Dashboard</span>
+              </div>
+            </div>
+          
+            <div class="w-full">
+              <div class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg">
+                <div class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600">
+                  Technical Blog
+                </div>
+                <span class="font-sora text-xl font-medium">Zero-Knowledge Proofs</span>
+              </div>
+            </div>
+          
+            <div class="w-full">
+              <div class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg">
+                <div class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600">
+                  Open Source
+                </div>
+                <span class="font-sora text-xl font-medium">Web3 Developer Toolkit</span>
+              </div>
+            </div>
+          
+        </div>
+      
+    </div>
+  </section>
+
+  <!-- ========== Organizations Section ========== -->
+  <div class="px-4 py-10 bg-gray-100">
+    <div class="max-w-[90rem] mx-auto flex flex-col gap-8 justify-center items-center">
+      <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+        ORGANIZATIONS I SUPPORT
+      </div>
+      <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
+        
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1747773849/web_content/1747773846461-WhatsApp%20Image%202025-05-11%20at%2017.jpg" alt="Organization 1" width="100" height="100" />
+        
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1747773849/web_content/1747773846490-WhatsApp%20Image%202025-05-11%20at%2017.jpg" alt="Organization 2" width="100" height="100" />
+        
+      </section>
+    </div>
+  </div>
+
+  <!-- ========== Timeline Section ========== -->
+  
+
+  
+    <div class="p-4 py-10">
+      <section class="max-w-[90rem] mx-auto">
+        <div class="flex justify-between items-center">
+          <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+            TIMELINE
+          </div>
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/runes_oieejv.png" alt="" width="70" height="70" />
+        </div>
+        
+          <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300">
+            <p class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+              2023 - Present
+            </p>
+            <span class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium">
+              Lead Developer at BlockPath
+            </span>
+          </div>
+        
+          <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300">
+            <p class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+              2021 - 2023
+            </p>
+            <span class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium">
+              Smart Contract Engineer at DeFi Protocol
+            </span>
+          </div>
+        
+          <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300">
+            <p class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+              2019 - 2021
+            </p>
+            <span class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium">
+              Full-Stack Developer at Tech Startup
+            </span>
+          </div>
+        
+          <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide ">
+            <p class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+              2015 - 2019
+            </p>
+            <span class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium">
+              CS Degree from Stanford University
+            </span>
+          </div>
+        
+      </section>
+    </div>
+  
+
+  <!-- ========== People Section ========== -->
+  
+
+  
+    <div class="overflow-hidden bg-gray-900 py-3 px-4 flex items-center">
+      <div class="flex items-center font-sora gap-4 scroller" style="white-space: nowrap;">
+        
+          <div class="flex items-center">
+            <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+              <div class="size-12 relative">
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345811/user1_lf1bpj.jpg" alt="" class="rounded-full object-cover w-full h-full" />
+              </div>
+              <div class="mx-4 text-left text-sm">
+                <p>Alex Rivera</p>
+                
+                  <a href="https://alexrivera.eth" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
+                    alexrivera.eth
+                  </a>
+                
+              </div>
+            </div>
+            <div class="bg-white size-2 rounded-full mx-4"></div>
+          </div>
+        
+          <div class="flex items-center">
+            <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+              <div class="size-12 relative">
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/user2_vq5tzp.jpg" alt="" class="rounded-full object-cover w-full h-full" />
+              </div>
+              <div class="mx-4 text-left text-sm">
+                <p>Mei Li</p>
+                
+                  <a href="https://meili.xyz" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
+                    meili.xyz
+                  </a>
+                
+              </div>
+            </div>
+            <div class="bg-white size-2 rounded-full mx-4"></div>
+          </div>
+        
+          <div class="flex items-center">
+            <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+              <div class="size-12 relative">
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/user3_yrsgkd.jpg" alt="" class="rounded-full object-cover w-full h-full" />
+              </div>
+              <div class="mx-4 text-left text-sm">
+                <p>Jamal Washington</p>
+                
+                  <a href="https://jamal.lens" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
+                    jamal.lens
+                  </a>
+                
+              </div>
+            </div>
+            <div class="bg-white size-2 rounded-full mx-4"></div>
+          </div>
+        
+          <div class="flex items-center">
+            <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+              <div class="size-12 relative">
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345811/user1_lf1bpj.jpg" alt="" class="rounded-full object-cover w-full h-full" />
+              </div>
+              <div class="mx-4 text-left text-sm">
+                <p>Alex Rivera</p>
+                
+                  <a href="https://alexrivera.eth" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
+                    alexrivera.eth
+                  </a>
+                
+              </div>
+            </div>
+            <div class="bg-white size-2 rounded-full mx-4"></div>
+          </div>
+        
+          <div class="flex items-center">
+            <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+              <div class="size-12 relative">
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/user2_vq5tzp.jpg" alt="" class="rounded-full object-cover w-full h-full" />
+              </div>
+              <div class="mx-4 text-left text-sm">
+                <p>Mei Li</p>
+                
+                  <a href="https://meili.xyz" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
+                    meili.xyz
+                  </a>
+                
+              </div>
+            </div>
+            <div class="bg-white size-2 rounded-full mx-4"></div>
+          </div>
+        
+          <div class="flex items-center">
+            <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+              <div class="size-12 relative">
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/user3_yrsgkd.jpg" alt="" class="rounded-full object-cover w-full h-full" />
+              </div>
+              <div class="mx-4 text-left text-sm">
+                <p>Jamal Washington</p>
+                
+                  <a href="https://jamal.lens" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
+                    jamal.lens
+                  </a>
+                
+              </div>
+            </div>
+            <div class="bg-white size-2 rounded-full mx-4"></div>
+          </div>
+        
+      </div>
+    </div>
+  
+
+  <!-- ========== Available Section ========== -->
+  
+  
+    <div class="p-4 py-10">
+      <div class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <!-- Text Section (Available For) -->
+        <section class="flex flex-col justify-center items-center order-1 lg:order-2 space-y-6 lg:space-y-10 xxl:space-y-12 w-full">
+          <div class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+            I'M AVAILABLE FOR
+          </div>
+          <div class="flex flex-col gap-4 justify-center items-center">
+            
+              <div class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
+                Smart Contract Audits
+              </div>
+            
+              <div class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
+                DeFi Protocol Design
+              </div>
+            
+              <div class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
+                Web3 Consulting
+              </div>
+            
+              <div class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
+                Developer Workshops
+              </div>
+            
+              <div class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
+                Speaking Engagements
+              </div>
+            
+          </div>
+        </section>
+
+        <!-- Image Section -->
+        <section class="flex flex-col gap-6 items-center w-full order-2 lg:order-1">
+          <div class="relative">
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_available_xotm0d.png" alt="" width="260" height="100" />
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345808/donut_opazh4.png" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" />
+            
+              <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1747773847/web_content/1747773844565-WhatsApp%20Image%202025-05-11%20at%2017.jpg" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; padding: 1rem;" />
+            
+          </div>
+          <a href="https://www.si3.space" target="_blank" rel="noopener noreferrer" class="font-sora tracking-wider rounded-xl text-sm border border-[#3E21F3] bg-primary font-semibold text-[#3E21F3] px-4 py-2 lg:px-6 lg:py-3">
+            Join SI&lt;3&gt;
+          </a>
+        </section>
+      </div>
+    </div>
+  
+
+  <!-- ========== Footer Section ========== -->
+  <div class="bg-gray-800 p-4 text-xs">
+    <div class="max-w-[90rem] mx-auto space-y-2">
+      <!-- Social & Controls -->
+      <section class="flex flex-col md:flex-row justify-between items-center gap-3">
+        <!-- Social Channels -->
+        
+          <div class="flex justify-between w-full md:justify-start gap-4">
+            
+              
+                <a href="https://twitter.com/karazhang" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit">
+                  <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/twitter_icon.png" alt="" width="20" height="20" />
+                </a>
+              
+            
+              
+                <a href="https://linkedin.com/in/karazhang" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit">
+                  <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/linkedin_icon.png" alt="" width="20" height="20" />
+                </a>
+              
+            
+              
+                <a href="https://github.com/karazhang" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit">
+                  <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/github_icon.png" alt="" width="20" height="20" />
+                </a>
+              
+            
+          </div>
+        
+
+        <!-- Controls -->
+        <section class="flex items-center justify-between md:justify-end w-full gap-4">
+          <a href="https://www.si3.space/" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none">
+            Join SI&lt;3&gt;
+          </a>
+          <!-- Language Dropdown -->
+          <div class="relative bg-[#C8BAFD] rounded-xl w-fit flex items-center gap-2">
+            <button type="button" onclick="toggleLanguageDropdown()" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none">
+              Select Language
+            </button>
+            <div id="languageDropdown" class="absolute left-0 border bg-gray-100 border-gray-300 top-full mt-2 w-60 bg-white rounded-lg shadow-lg z-10 p-2 hidden">
+              <div class="flex flex-col space-y-1">
+                
+                  <div onclick="selectRegion('Global')" class="cursor-pointer px-3 py-2 hover:bg-gray-200 rounded transition-all font-medium flex justify-between">
+                    Global
+                    <i class="fas fa-chevron-right text-gray-500"></i>
+                  </div>
+                
+                  <div onclick="selectRegion('Americas')" class="cursor-pointer px-3 py-2 hover:bg-gray-200 rounded transition-all font-medium flex justify-between">
+                    Americas
+                    <i class="fas fa-chevron-right text-gray-500"></i>
+                  </div>
+                
+                  <div onclick="selectRegion('Europe')" class="cursor-pointer px-3 py-2 hover:bg-gray-200 rounded transition-all font-medium flex justify-between">
+                    Europe
+                    <i class="fas fa-chevron-right text-gray-500"></i>
+                  </div>
+                
+                  <div onclick="selectRegion('Asia')" class="cursor-pointer px-3 py-2 hover:bg-gray-200 rounded transition-all font-medium flex justify-between">
+                    Asia
+                    <i class="fas fa-chevron-right text-gray-500"></i>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+          <!-- Newsletter Form -->
+          <div class="flex rounded-xl w-full lg:w-fit h-10 items-center bg-white">
+            <i class="fas fa-envelope size-6 mx-2"></i>
+            <input type="email" placeholder="Subscribe to our newsletter..." class="focus:outline-none font-dm-sans w-full mr-3 lg:w-44" />
+            <div class="flex justify-end h-full">
+              <button type="button" class="bg-[#C8BAFD] rounded-xl w-10">
+                <i class="fas fa-arrow-right size-4 mx-auto"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Footer Text -->
+      <section class="font-sora font-normal leading-4 tracking-wider text-center text-white max-w-md mx-auto">
+        @2025 Solar Intelligence, Inc. All rights reserved.
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Mobile Navigation
+    function toggleMobileNav() {
+      const nav = document.getElementById("mobileNav");
+      nav.classList.toggle("translate-x-full");
+    }
+
+    // Language Dropdown
+    function toggleLanguageDropdown() {
+      const dropdown = document.getElementById("languageDropdown");
+      dropdown.classList.toggle("hidden");
+    }
+
+    function selectRegion(region) {
+      // Handle region selection
+      console.log("Selected region:", region);
+      document.getElementById("languageDropdown").classList.add("hidden");
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener("click", function(event) {
+      const dropdown = document.getElementById("languageDropdown");
+      const button = event.target.closest("button");
+      if (!button && !dropdown.contains(event.target)) {
+        dropdown.classList.add("hidden");
+      }
+    });
+
+    // Landing Animation
+    document.addEventListener("DOMContentLoaded", function() {
+      const container = document.getElementById("landingAnimation");
+      if (!container) return;
+
+      const textWrappers = container.querySelectorAll(".letter");
+      textWrappers.forEach(wrapper => {
+        if (wrapper.textContent?.trim()) {
+          wrapper.innerHTML = wrapper.textContent.replace(/\S/g, "<span class='letters'>$&</span>");
+        }
+      });
+
+      anime.timeline({ loop: false }).add({
+        targets: ".letters",
+        scale: [0.3, 1],
+        opacity: [0, 1],
+        translateZ: 0,
+        easing: "easeOutExpo",
+        duration: 100,
+        delay: (_el, i) => 50 * (i + 1)
+      });
+    });
+
+    // Slider Animation
+    document.addEventListener("DOMContentLoaded", function() {
+      const scroller = document.querySelector(".scroller");
+      if (!scroller) return;
+      let scrollAmount = 0;
+      const scrollSpeed = 0.3;
+      function animate() {
+        scrollAmount -= scrollSpeed;
+        if (Math.abs(scrollAmount) >= scroller.scrollWidth / 2) {
+          scrollAmount = 0;
+        }
+        scroller.style.transform = `translateX(${scrollAmount}px)`;
+        requestAnimationFrame(animate);
+      }
+      animate();
+    });
+  </script>
+</body>
+</html>

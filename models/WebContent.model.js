@@ -59,11 +59,6 @@ const webContentSchema = new mongoose.Schema(
         icon: { type: String },
       },
     ],
-    languagesByRegion: {
-      type: Map,
-      of: [String],
-      default: { Global: ["English"] }
-    },
     isNewWebpage: {
       type: Boolean,
       default: true,

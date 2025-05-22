@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= landing.fullName.split(" ")[0] %>'s Profile</title>
+    <title>Kara's Profile</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       rel="stylesheet"
@@ -165,14 +165,35 @@
         />
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center leading-4 gap-7">
-          <% ["Value", "Media", "Timeline", "Connect"].forEach(item => { %>
+          
           <a
-            href="#<%= item.toLowerCase() %>"
+            href="#value"
             class="font-semibold font-sora transition-all duration-300 hover:text-light-purple"
           >
-            <%= item %>
+            Value
           </a>
-          <% }) %>
+          
+          <a
+            href="#media"
+            class="font-semibold font-sora transition-all duration-300 hover:text-light-purple"
+          >
+            Media
+          </a>
+          
+          <a
+            href="#timeline"
+            class="font-semibold font-sora transition-all duration-300 hover:text-light-purple"
+          >
+            Timeline
+          </a>
+          
+          <a
+            href="#connect"
+            class="font-semibold font-sora transition-all duration-300 hover:text-light-purple"
+          >
+            Connect
+          </a>
+          
         </div>
         <!-- Connect Wallet Button -->
         <button
@@ -200,15 +221,39 @@
           >
             <i class="fas fa-times text-2xl"></i>
           </button>
-          <% ["Value", "Media", "Timeline", "Connect"].forEach(item => { %>
+          
           <a
-            href="#<%= item.toLowerCase() %>"
+            href="#value"
             class="font-semibold text-white transition-all hover:text-light-purple"
             onclick="toggleMobileNav()"
           >
-            <%= item %>
+            Value
           </a>
-          <% }) %>
+          
+          <a
+            href="#media"
+            class="font-semibold text-white transition-all hover:text-light-purple"
+            onclick="toggleMobileNav()"
+          >
+            Media
+          </a>
+          
+          <a
+            href="#timeline"
+            class="font-semibold text-white transition-all hover:text-light-purple"
+            onclick="toggleMobileNav()"
+          >
+            Timeline
+          </a>
+          
+          <a
+            href="#connect"
+            class="font-semibold text-white transition-all hover:text-light-purple"
+            onclick="toggleMobileNav()"
+          >
+            Connect
+          </a>
+          
           <button
             class="h-12 bg-light-purple text-blue-primary rounded-lg px-6 font-medium tracking-widest transition-all duration-300 hover:bg-[#7E5BFF] hover:text-white"
           >
@@ -232,22 +277,46 @@
           >
             <span class="letter">I'm </span>
             <span class="text-blue-primary letter"
-              ><%= landing.fullName.trim().split(" ")[0] %></span
+              >Kara</span
             >
             <span class="letter">,</span>
             <span class="letter"> </span>
-            <span class="letter"><%= landing.headline ?? "" %></span>
+            <span class="letter">&amp; I create equitable platforms for the new economy.</span>
           </div>
 
           <!-- Hashtags -->
           <section class="flex flex-wrap gap-3 font-medium pb-2">
-            <% (landing.hashTags || []).forEach((hashtag, index) => { %>
+            
             <div
               class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md"
             >
-              #<%= hashtag.toUpperCase() %>
+              #COLLABORATION
             </div>
-            <% }) %>
+            
+            <div
+              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md"
+            >
+              #EQUITY
+            </div>
+            
+            <div
+              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md"
+            >
+              #IMPACT
+            </div>
+            
+            <div
+              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md"
+            >
+              #DECENTRALIZATION
+            </div>
+            
+            <div
+              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md"
+            >
+              #EDUCATION
+            </div>
+            
           </section>
 
           <!-- Information Section -->
@@ -261,7 +330,7 @@
                 Title:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                <%= landing.title %>
+                SI&lt;3&gt; Founder
               </div>
             </div>
 
@@ -272,36 +341,146 @@
                 Presently based in:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                <%= landing.region %>
+                North America
               </div>
             </div>
 
-            <% const renderInfoRow = (title, valueArray) => { %>
+             
             <div class="flex gap-2 font-medium">
               <div
                 class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
               >
-                <%= landing.title %>
+                SI&lt;3&gt; Founder
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                <% if (valueArray.length < 3) { %> <%= valueArray.join(", ") %> <% } else { %>
-                <div class="overflow-hidden w-[48rem] whitespace-nowrap">
-                  <div class="flex animate-marquee">
-                    <% valueArray.concat(valueArray, valueArray).forEach((item, idx) => { %>
-                    <span class="mx-2 flex items-center">
-                      <%= item %>
-                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
-                    </span>
-                    <% }) %>
-                  </div>
-                </div>
-                <% } %>
+                 Si&lt;3&gt; 
               </div>
             </div>
-            <% } %> <%- renderInfoRow("Organization Affiliations:",
-            landing.organizationAffiliations) %> <%- renderInfoRow("Community Affiliations:",
-            landing.communityAffiliations) %> <%- renderInfoRow("Superpowers:", landing.superPowers)
-            %>
+             
+            <div class="flex gap-2 font-medium">
+              <div
+                class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
+              >
+                SI&lt;3&gt; Founder
+              </div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                
+                <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                  <div class="flex animate-marquee">
+                    
+                    <span class="mx-2 flex items-center">
+                      OnChair Dreamers
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Cosmos Cartel
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      The Phoenix Guild
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      OnChair Dreamers
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Cosmos Cartel
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      The Phoenix Guild
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      OnChair Dreamers
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Cosmos Cartel
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      The Phoenix Guild
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+             
+            <div class="flex gap-2 font-medium">
+              <div
+                class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
+              >
+                SI&lt;3&gt; Founder
+              </div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                
+                <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                  <div class="flex animate-marquee">
+                    
+                    <span class="mx-2 flex items-center">
+                      Empathy
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Focus
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Leaps of Faith
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Empathy
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Focus
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Leaps of Faith
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Empathy
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Focus
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Leaps of Faith
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
           </section>
         </div>
 
@@ -310,17 +489,17 @@
           <section
             class="relative aspect-[3/4] w-full max-w-[10rem] sm:max-w-xs md:max-w-sm rounded-2xl flex-shrink-0"
           >
-            <% if (landing.image) { %>
-            <img src="<%= landing.image %>" alt="profile" class="rounded-2xl object-cover w-full h-full" />
-            <% } %>
+            
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/girl_hhqylb.png" alt="profile" class="rounded-2xl object-cover w-full h-full" />
+            
             <div
               class="rounded-2xl absolute right-0 lg:-right-2 -bottom-4 xl:-right-4 border border-light-purple p-4 flex flex-col justify-center items-center gap-1 md:gap-2 bg-primary shadow-md font-dmsans"
             >
               <span class="font-medium text-base md:text-lg whitespace-nowrap"
-                ><%= landing.fullName %></span
+                >Kara Howard</span
               >
               <span class="tracking-wider text-xs md:text-sm"
-                ><%= landing.pronoun ? `(${landing.pronoun.toLowerCase()})` : "" %></span
+                >(she/her)</span
               >
             </div>
           </section>
@@ -339,7 +518,7 @@
             MY EXPERIENCE SUMMARY
           </div>
           <p class="font-dm-sans font-medium text-xl tracking-wide text-justify">
-            <%= value.experience %>
+            My career began as an Equity Research analyst on Wall St. I started the MBA program at NYU in the Fall of 2008, right as the market crashed, with Occupy Wall St. protests happening outside our campus doors. As often happens, times of crises create opportunity and I shifted my career focus from finance to marketing &amp; entrepreneurship.
           </p>
         </section>
         <!-- Experience -->
@@ -349,7 +528,7 @@
           >
             MY VISION
           </div>
-          <div class="font-medium text-2xl font-sora text-justify"><%= value.values %></div>
+          <div class="font-medium text-2xl font-sora text-justify"> I experienced shared value when I SI women &amp; non-binary creators grow. My value lies in my ability to understand collaboration models at an ecosystemic level, and focus my energy towards my intentions.</div>
         </section>
       </div>
     </div>
@@ -358,7 +537,7 @@
     <section class="bg-primary p-4 py-10 sm:py-16" aria-label="Live Section">
       <div class="max-w-[90rem] mx-auto space-y-8">
         <!-- Live content -->
-        <% if (live.image || live.url) { %>
+        
         <div class="relative bg-white rounded-2xl md:p-4 shadow-sm">
           <img
             src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_cawmkx.png"
@@ -370,99 +549,50 @@
           <div
             class="md:mt-6 p-4 sm:p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6"
           >
-            <% if (live.image && live.url) { %>
+            
             <div class="relative w-full aspect-video overflow-hidden">
               <img
-                src="<%= live.image %>"
+                src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345811/live_muepdq.png"
                 alt="Live content image"
                 class="object-cover rounded-2xl w-full h-full"
               />
             </div>
             <div class="w-full aspect-video">
-              <% if (live.url.match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
-              <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
-                <audio src="<%= live.url %>" class="hidden" controls></audio>
-                <button
-                  type="button"
-                  class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
-                >
-                  <div
-                    class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center"
-                  >
-                    <i class="fas fa-play text-white text-2xl"></i>
-                  </div>
-                </button>
-              </div>
-              <% } else { %>
+              
               <video
-                src="<%= live.url %>"
+                src="https://res.cloudinary.com/dq033xs8n/video/upload/v1744345277/vid_cy6pec.mp4"
                 class="w-full h-full object-cover rounded-2xl"
                 playsinline
                 muted
                 autoplay
                 loop
               ></video>
-              <% } %>
+              
             </div>
-            <% } else if (live.image) { %>
-            <div class="relative w-full aspect-video overflow-hidden col-span-full">
-              <img
-                src="<%= live.image %>"
-                alt="Live content image"
-                class="object-cover rounded-2xl w-full h-full"
-              />
-            </div>
-            <% } else if (live.url) { %>
-            <div class="w-full aspect-video col-span-full">
-              <% if (live.url.match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
-              <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
-                <audio src="<%= live.url %>" class="hidden" controls></audio>
-                <button
-                  type="button"
-                  class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
-                >
-                  <div
-                    class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center"
-                  >
-                    <i class="fas fa-play text-white text-2xl"></i>
-                  </div>
-                </button>
-              </div>
-              <% } else { %>
-              <video
-                src="<%= live.url %>"
-                class="w-full h-full object-cover rounded-2xl"
-                playsinline
-                muted
-                autoplay
-                loop
-              ></video>
-              <% } %>
-            </div>
-            <% } %>
+            
           </div>
         </div>
-        <% } %>
+        
 
         <!-- Crypto button -->
         <div class="flex justify-center">
-          <% if (live.walletUrl) { %>
+          
           <a
-            href="<%= live.walletUrl %>"
+            href="https://pb.aurpay.net/pb/page/html/paymentbutton.html?token=pb_plugin_link_token_h6hzBGgZzFW1G5eO"
             target="_blank"
             rel="noopener noreferrer"
             class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base"
           >
-            TIP <%= landing.fullName.trim().split(" ")[0] %> IN CRYPTO
+            TIP Kara IN CRYPTO
           </a>
-          <% } %>
+          
         </div>
 
         <!-- Live Cards -->
-        <% const validDetails = live.details.filter(item => item.title?.trim() && item.heading?.trim()); %>
-        <% if (validDetails && validDetails.length > 0) { %>
+        
+        
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          <% validDetails.forEach((item, index) => { %>
+          
           <div class="w-full">
             <div
               class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg"
@@ -470,14 +600,40 @@
               <div
                 class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600"
               >
-                <%= item.title %>
+                website
               </div>
-              <span class="font-sora text-xl font-medium"><%= item.heading %></span>
+              <span class="font-sora text-xl font-medium">SI&lt;3&gt; and the Si Her Co-Active</span>
             </div>
           </div>
-          <% }) %>
+          
+          <div class="w-full">
+            <div
+              class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg"
+            >
+              <div
+                class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600"
+              >
+                youtube
+              </div>
+              <span class="font-sora text-xl font-medium">Unlocking NFT&#39;s For Meta Impact</span>
+            </div>
+          </div>
+          
+          <div class="w-full">
+            <div
+              class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg"
+            >
+              <div
+                class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600"
+              >
+                podcast
+              </div>
+              <span class="font-sora text-xl font-medium">Diversity in the New Economy</span>
+            </div>
+          </div>
+          
         </div>
-        <% } %>
+        
       </div>
     </section>
 
@@ -490,22 +646,25 @@
           ORGANIZATIONS I SUPPORT
         </div>
         <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
-          <% (organizations || []).forEach((org, index) => { %>
-            <% if (org.src) { %>
-            <img src="<%= org.src %>" alt="Organization <%= index + 1 %>" width="100" height="100" />
-            <% } %>
-          <% }) %>
+          
+            
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/base_ad5an0.png" alt="Organization 1" width="100" height="100" />
+            
+          
+            
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/solana_lbprwc.png" alt="Organization 2" width="100" height="100" />
+            
+          
+            
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/lukso_ytxf1e.png" alt="Organization 3" width="100" height="100" />
+            
+          
         </section>
       </div>
     </div>
 
     <!-- ========== Timeline Section ========== -->
-    <% const filteredTimeline = (timeline || []).filter(item => (item.title && item.title.trim()) ||
-    (item.from && item.from.trim()) || (item.to && item.to.trim()) ).sort((a, b) => { if
-    (a.from.trim() && !b.from.trim()) return -1; if (!a.from.trim() && b.from.trim()) return 1; if
-    (a.from.trim() && b.from.trim()) { const dateA = Number.parseInt(a.from.replace(/\D/g, "")) ||
-    0; const dateB = Number.parseInt(b.from.replace(/\D/g, "")) || 0; return dateB - dateA; } return
-    0; }); %> <% if (filteredTimeline.length) { %>
+     
     <div class="p-4 py-10">
       <section class="max-w-[90rem] mx-auto">
         <div class="flex justify-between items-center">
@@ -521,55 +680,121 @@
             height="70"
           />
         </div>
-        <% filteredTimeline.forEach((item, index) => { %>
+        
         <div
-          class="w-full py-4 flex font-bold justify-between items-center tracking-wide <%= index !== filteredTimeline.length - 1 ? 'border-b border-gray-300' : '' %>"
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
         >
           <p
             class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
           >
-            <%= item.from %><%= item.to ? ' - ' + item.to : '' %>
+            2025
           </p>
           <span
             class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
           >
-            <%= item.title %>
+            MBA from NYU Stern &amp; Marketing Entrepreneurship
           </span>
         </div>
-        <% }) %>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            2022
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            Personal Development Retreat
+          </span>
+        </div>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            2017 - 2021
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            Managed the Feminine Intelligence
+          </span>
+        </div>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            2015 - 2019
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            VP of Growth &amp; Partnerships at Clevertap
+          </span>
+        </div>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            2004
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            BSC from UW Madison - Personal Finance
+          </span>
+        </div>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            2002 - 2010
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            Equity Research Associate / Financial Analyst
+          </span>
+        </div>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide "
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            PRESENT
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            Co-Creating SI&lt;3&gt;
+          </span>
+        </div>
+        
       </section>
     </div>
-    <% } %>
+    
 
     <!-- ========== People Section ========== -->
-    <% if (typeof users !== 'undefined' && users && users.length > 0) { %>
-    <div class="overflow-hidden bg-gray-900 py-3 px-4 flex items-center">
-      <div class="flex items-center font-sora gap-4 scroller" style="white-space: nowrap">
-        <% users.concat(users).forEach((user, index) => { %>
-        <div class="flex items-center">
-          <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
-            <div class="size-12 relative">
-              <img src="<%= user.image || 'https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png' %>" alt="" class="rounded-full object-cover w-full h-full" />
-            </div>
-            <div class="mx-4 text-left text-sm">
-              <p><%= user.fullName || '' %></p>
-              <% if (user.domain) { %>
-              <a href="https://<%= user.domain %>" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
-                <%= user.domain %>
-              </a>
-              <% } %>
-            </div>
-          </div>
-          <div class="bg-white size-2 rounded-full mx-4"></div>
-        </div>
-        <% }) %>
-      </div>
-    </div>
-    <% } %>
+    
 
     <!-- ========== Available Section ========== -->
-    <% const cleanedAvailable = (available.availableFor || []).filter(item => item.trim() !== "");
-    %> <% if (cleanedAvailable.length || available.avatar) { %>
+     
     <div class="p-4 py-10">
       <div class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         <!-- Text Section (Available For) -->
@@ -582,13 +807,25 @@
             I'M AVAILABLE FOR
           </div>
           <div class="flex flex-col gap-4 justify-center items-center">
-            <% cleanedAvailable.forEach((item) => { %>
+            
             <div
               class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default"
             >
-              <%= item %>
+              collaboration
             </div>
-            <% }); %>
+            
+            <div
+              class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default"
+            >
+              advising
+            </div>
+            
+            <div
+              class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default"
+            >
+              speaking
+            </div>
+            
           </div>
         </section>
 
@@ -613,9 +850,9 @@
                 object-fit: cover;
               "
             />
-            <% if (available.avatar) { %>
+            
             <img
-              src="<%= available.avatar %>"
+              src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345808/avatar_zmxvul.png"
               alt=""
               style="
                 position: absolute;
@@ -627,20 +864,20 @@
                 padding: 1rem;
               "
             />
-            <% } %>
+            
           </div>
           <a
-            href="<%= available.ctaUrl || 'https://www.si3.space' %>"
+            href="https://www.si3.space"
             target="_blank"
             rel="noopener noreferrer"
             class="font-sora tracking-wider rounded-xl text-sm border border-[#3E21F3] bg-primary font-semibold text-[#3E21F3] px-4 py-2 lg:px-6 lg:py-3"
           >
-            <%= available.ctaText || 'Join SI<3>' %>
+            Join SI&lt;3&gt;
           </a>
         </section>
       </div>
     </div>
-    <% } %>
+    
 
     <!-- ========== Text Section ========== -->
     <div class="px-4 py-8 bg-primary text-xs">
@@ -666,22 +903,44 @@
         <!-- Social & Controls -->
         <section class="flex flex-col md:flex-row justify-between items-center gap-3">
           <!-- Social Channels -->
-          <% if (socialChannels && socialChannels.length > 0) { %>
+          
           <div class="flex justify-between w-full md:justify-start gap-4">
-            <% socialChannels.forEach(channel => { %>
-              <% if (channel.url && channel.icon) { %>
+            
+              
               <a
-                href="<%= channel.url %>"
+                href="https://www.linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit"
               >
-                <img src="<%= channel.icon %>" alt="" width="20" height="20" />
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1746343758/LinkedIn_w2mz9f.svg" alt="" width="20" height="20" />
               </a>
-              <% } %>
-            <% }); %>
+              
+            
+              
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit"
+              >
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1746343757/Instagram_lyhjoi.svg" alt="" width="20" height="20" />
+              </a>
+              
+            
+              
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit"
+              >
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1746344739/Twitter_geucw3.svg" alt="" width="20" height="20" />
+              </a>
+              
+            
           </div>
-          <% } %>
+          
 
           <!-- Controls -->
           <section class="flex items-center justify-between md:justify-end w-full gap-4">

@@ -12,274 +12,144 @@ const { cloudinary } = require("../utils/cloudinary");
 
 const publishWebContent = async (req, res) => {
   try {
-    const { body, user } = req;
-    if (!body.data) {
+    const userId = req.user.id;
+    const contentData = JSON.parse(req.body.data);
+    if (
+      !contentData.landing &&
+      !contentData.slider &&
+      !contentData.value &&
+      !contentData.live &&
+      !contentData.organizations &&
+      !contentData.timeline &&
+      !contentData.available &&
+      !contentData.socialChannels
+    ) {
       return res.status(400).json({ message: "Missing content data" });
     }
-
-    // Default values for all possible template variables
-    const defaultValues = {
-      title: "",
-      fullName: "",
-      pronoun: "",
-      region: "",
-      image: "",
-      sliderData: [],
-      organizationAffiliations: [],
-      communityAffiliations: [],
-      superPowers: [],
-      valueData: {
-        experience: "",
-        values: ""
+    const content = {
+      landing: {
+        fullName: contentData.landing?.fullName || "",
+        title: contentData.landing?.title || "",
+        headline: contentData.landing?.headline || "",
+        hashTags: contentData.landing?.hashTags || [],
+        region: contentData.landing?.region || "",
+        organizationAffiliations: contentData.landing?.organizationAffiliations || [],
+        communityAffiliations: contentData.landing?.communityAffiliations || [],
+        superPowers: contentData.landing?.superPowers || [],
+        image: contentData.landing?.image || "",
+        pronoun: contentData.landing?.pronoun || "",
       },
-      liveData: {
-        image: "",
-        video: "",
-        url: "",
-        walletUrl: "",
-        details: []
+      slider: contentData.slider || [],
+      value: {
+        experience: contentData.value?.experience || "",
+        values: contentData.value?.values || "",
       },
-      timeline: [],
+      live: {
+        image: contentData.live?.image || "",
+        video: contentData.live?.video || "",
+        url: contentData.live?.url || "",
+        walletUrl: contentData.live?.walletUrl || "",
+        details: contentData.live?.details || [],
+      },
       organizations: [],
-      users: [],
-      avatar: "",
-      availableFor: [],
-      socialChannels: [],
-      languagesByRegion: { Global: ["English"] },
-      leading: {
-        headline: "",
-        hashTags: []
+      timeline: contentData.timeline || [],
+      available: {
+        avatar: contentData.available?.avatar || "",
+        availableFor: contentData.available?.availableFor || [],
+        ctaUrl: contentData.available?.ctaUrl || "",
+        ctaText: contentData.available?.ctaText || "",
       },
-      ctaUrl: "",
-      ctaText: ""
+      socialChannels: contentData.socialChannels || [],
     };
 
-    // Parse user content
-    const userContent = JSON.parse(body.data);
-
-    // Create a new content object with default values
-    const content = { ...defaultValues };
-
-    // Merge user content into defaults
-    Object.keys(userContent).forEach((key) => {
-      if (
-        typeof userContent[key] === "object" &&
-        userContent[key] !== null &&
-        !Array.isArray(userContent[key])
-      ) {
-        // For nested objects, merge with defaults
-        if (key === "leading") {
-          content.leading = {
-            ...defaultValues.leading,
-            ...userContent.leading,
-            hashTags: userContent.leading?.hashTags || [],
-          };
-        } else if (key === "valueData") {
-          // Handle valueData object and create valueData for template
-          content.valueData = {
-            experience: userContent.valueData?.experience || "",
-            values: userContent.valueData?.values || ""
-          };
-        } else if (key === "liveData") {
-          // Handle liveData object and create liveData for template
-          content.liveData = {
-            image: userContent.liveData?.image || "",
-            video: userContent.liveData?.video || "",
-            url: userContent.liveData?.url || "",
-            walletUrl: userContent.liveData?.walletUrl || "",
-            details: Array.isArray(userContent.liveData?.details)
-              ? userContent.liveData.details
-              : []
-          };
-        } else if (key === "available") {
-          // Extract availableFor from available object
-          content.availableFor = userContent.available?.availableFor || [];
-          content.ctaUrl = userContent.available?.ctaUrl || "";
-          content.ctaText = userContent.available?.ctaText || "";
-        } else {
-          content[key] = { ...(defaultValues[key] || {}), ...userContent[key] };
-        }
-      } else if (Array.isArray(userContent[key])) {
-        // For arrays, copy directly
-        content[key] = userContent[key];
-      } else {
-        // For simple properties, copy directly
-        content[key] = userContent[key];
-      }
-    });
-
-    // Process file uploads
-    if (req.files?.profile_image?.[0]) {
-      content.image = req.files.profile_image[0].path;
+    if (req.files?.landing_image?.[0]) {
+      content.landing.image = req.files.landing_image[0].path;
     }
     if (req.files?.live_image?.[0]) {
-      content.liveData.image = req.files.live_image[0].path;
+      content.live.image = req.files.live_image[0].path;
     }
     if (req.files?.live_video?.[0]) {
-      content.liveData.video = req.files.live_video[0].path;
+      content.live.video = req.files.live_video[0].path;
     }
     if (req.files?.avatar_image?.[0]) {
-      content.avatar = req.files.avatar_image[0].path;
+      content.available.avatar = req.files.avatar_image[0].path;
     }
-    const orgImages = [];
-    const orgCount = content.organizations?.length || 0;
-    for (let i = 0; i < orgCount; i++) {
-      const key = `org_image_${i}`;
-      if (req.files?.[key]?.[0]) {
-        orgImages.push({ src: req.files[key][0].path });
-      } else if (typeof content.organizations[i] === "string") {
-        orgImages.push({ src: content.organizations[i] }); // Wrap string in object
-      } else if (content.organizations[i]?.src) {
-        orgImages.push({ src: content.organizations[i].src }); // Normalize object
+
+    const organizations = [];
+    if (contentData.organizations && Array.isArray(contentData.organizations)) {
+      for (let i = 0; i < contentData.organizations.length; i++) {
+        const orgImageKey = `org_image_${i}`;
+        if (req.files?.[orgImageKey]?.[0]) {
+          organizations.push({ src: req.files[orgImageKey][0].path });
+        } else if (typeof contentData.organizations[i] === "string") {
+          organizations.push({ src: contentData.organizations[i] });
+        } else if (contentData.organizations[i]?.src) {
+          organizations.push({ src: contentData.organizations[i].src });
+        }
       }
     }
-    content.organizations = orgImages;
+    content.organizations = organizations;
 
-    // Ensure slider data is properly formatted
-    if (userContent.slider && Array.isArray(userContent.slider)) {
-      content.slider = userContent.slider.map((item) => {
-        if (typeof item === "object") {
-          return `${item.title}: ${item.description}`;
-        }
-        return item;
+    if (content.socialChannels && Array.isArray(content.socialChannels)) {
+      content.socialChannels = content.socialChannels.map((channel, index) => {
+        const iconKey = `social_icon_${index}`;
+        return {
+          text: channel.text || "",
+          url: channel.url || "",
+          icon: req.files?.[iconKey]?.[0]?.path || channel.icon || "",
+        };
       });
-    } else if (userContent.sliderData && Array.isArray(userContent.sliderData)) {
-      content.slider = userContent.sliderData.map((item) => {
-        if (typeof item === "object") {
-          return `${item.title}: ${item.description}`;
-        }
-        return item;
-      });
-    } else {
-      content.slider = [];
     }
 
-    // Log slider data for debugging
-    console.log("Slider data after processing:", content.slider);
-
-    // If no avatar but profile image exists, use profile image as avatar
-    if (!content.avatar && content.image) {
-      content.avatar = content.image;
+    if (!content.landing.title && content.landing.fullName) {
+      content.landing.title = content.landing.fullName;
     }
 
-    // Format social channels
-    if (content.socialChannels) {
-      if (!Array.isArray(content.socialChannels)) {
-        const channels = [];
-        if (content.socialChannels.twitter) {
-          channels.push({ text: "Twitter", url: content.socialChannels.twitter, icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/twitter_icon.png" });
-        }
-        if (content.socialChannels.linkedin) {
-          channels.push({ text: "LinkedIn", url: content.socialChannels.linkedin, icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/linkedin_icon.png" });
-        }
-        if (content.socialChannels.github) {
-          channels.push({ text: "GitHub", url: content.socialChannels.github, icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/github_icon.png" });
-        }
-        if (content.socialChannels.instagram) {
-          channels.push({ text: "Instagram", url: content.socialChannels.instagram, icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1744345809/instagram_icon.png" });
-        }
-        content.socialChannels = channels;
-      }
-    }
+    console.log("Content mapped for template:", content);
 
-    // Set title for template
-    if (!content.title && content.fullName) {
-      content.title = content.fullName;
-    }
-
-    // Ensure organization affiliations have default empty array
-    content.organizationAffiliations = content.organizationAffiliations || [];
-    content.communityAffiliations = content.communityAffiliations || [];
-    content.superPowers = content.superPowers || [];
-
-    // Make sure users array exists 
-    content.users = Array.isArray(content.users) ? content.users : [];
-
-    // Ensure hashTags are properly set
-    content.hashTags = content.hashTags || [];
-    content.leading = {
-      ...content.leading,
-      hashTags: content.hashTags,
-      headline: content.headline || ""
-    };
-
-    console.log("content mapped for template:", content);
-
-    // Read and render template
     const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
-    console.log("template read");
+    console.log("Template read");
 
-    // Use try-catch for template rendering to catch specific template errors
     try {
       const template = ejs.compile(templateFile.toString());
       const renderedTemplate = template(content);
-      console.log("template rendered");
+      console.log("Template rendered");
 
-      // Create temp directory if it doesn't exist
       const tempDir = path.join(__dirname, "../temp");
       if (!fs.existsSync(tempDir)) {
         fs.mkdirSync(tempDir, { recursive: true });
       }
 
-      // Generate unique filename
       const filename = `${uuidv4()}.html`;
       const filePath = path.join(tempDir, filename);
 
-      // Save rendered template to temp directory
       fs.writeFileSync(filePath, renderedTemplate);
       console.log(`Template saved to temp directory: ${filePath}`);
 
-      // Create file object for upload using formdata-node
       const file = new File([Buffer.from(renderedTemplate)], filename, {
         type: "text/html",
       });
 
-      // Upload to Pinata
       const cid = await uploadToFileStorage(file);
       console.log(`File uploaded to Pinata with CID: ${cid}`);
 
-      // Create and save web content
       const webContent = new WebContent({
-        user: user.id,
+        user: userId,
         contentHash: cid,
         isNewWebpage: false,
-        // Map fields to schema
-        landing: {
-          hashTags: content.hashTags || [],
-          organizationAffiliations: content.organizationAffiliations || [],
-          communityAffiliations: content.communityAffiliations || [],
-          superPowers: content.superPowers || [],
-          fullName: content.fullName,
-          title: content.title,
-          region: content.region,
-          image: content.image,
-          pronoun: content.pronoun,
-          headline: content.headline
-        },
-        slider: content.slider || [],
-        value: {
-          experience: content.valueData?.experience || "",
-          values: content.valueData?.values || ""
-        },
-        live: {
-          image: content.liveData?.image || "",
-          video: content.liveData?.video || "",
-          url: content.liveData?.url || "",
-          walletUrl: content.liveData?.walletUrl || "",
-          details: content.liveData?.details || []
-        },
-        available: {
-          avatar: content.avatar,
-          availableFor: content.availableFor || [],
-          ctaUrl: content.ctaUrl || "",
-          ctaText: content.ctaText || ""
-        },
+        landing: content.landing,
+        slider: content.slider,
+        value: content.value,
+        live: content.live,
         organizations: content.organizations,
         timeline: content.timeline,
-        socialChannels: content.socialChannels || [],
-        languagesByRegion: content.languagesByRegion || { Global: ["English"] }
+        available: content.available,
+        socialChannels: content.socialChannels,
       });
+
       const savedContent = await webContent.save();
+
+      await User.findByIdAndUpdate(userId, { isNewWebpage: false });
 
       return res.status(201).json({
         message: "Published successfully",
@@ -353,7 +223,8 @@ const updateWebContent = async (req, res) => {
     for (let i = 0; i < orgCount; i++) {
       const key = `org_image_${i}`;
       if (req.files?.[key]?.[0]) {
-        const oldImageUrl = i < webContent.organizations.length ? webContent.organizations[i]?.src : null;
+        const oldImageUrl =
+          i < webContent.organizations.length ? webContent.organizations[i]?.src : null;
         if (oldImageUrl) {
           await deleteFromFileStorage(oldImageUrl);
           changes.deleted.push(`old_org_image_${i}`);
@@ -399,7 +270,6 @@ const updateWebContent = async (req, res) => {
       avatar: webContent.available.avatar,
     };
     webContent.socialChannels = content.socialChannels;
-    webContent.languagesByRegion = content.languagesByRegion || { Global: ["English"] };
     webContent.isNewWebpage = false;
 
     const savedContent = await webContent.save();
@@ -445,11 +315,11 @@ const deleteWebContent = async (req, res) => {
       webContent.live?.image,
       webContent.live?.video,
       webContent.available?.avatar,
-      ...(webContent.organizations || []).map(org => org.src).filter(Boolean)
+      ...(webContent.organizations || []).map((org) => org.src).filter(Boolean),
     ];
 
     // Delete all files in parallel
-    await Promise.all(filesToDelete.map(file => deleteFromFileStorage(file)));
+    await Promise.all(filesToDelete.map((file) => deleteFromFileStorage(file)));
 
     // Delete from IPFS
     const { cid } = webContent;

@@ -39,7 +39,7 @@ exports.loginUser = async (req, res, next) => {
     const token = jwt.sign(
       { id: user._id, email: user.email, name: user.name },
       process.env.JWT_SECRET,
-      { expiresIn: "2d" }
+      { expiresIn: "3d" }
     );
     const webContent = await WebContent.findOne({ user: user._id });
     const userData = {

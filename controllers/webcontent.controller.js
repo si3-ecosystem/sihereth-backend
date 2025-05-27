@@ -9,23 +9,36 @@ const { registerSubdomain } = require("../utils/namestone.util");
 const { PINATA_GATEWAY } = require("../consts");
 const { uploadToFileStorage } = require("../utils/fileStorage.utils");
 const { cloudinary } = require("../utils/cloudinary");
+const User = require("../models/User.model");
 
 const publishWebContent = async (req, res) => {
   try {
+    console.log("🚀 Starting web content publication process...");
     const userId = req.user.id;
+    console.log("👤 User ID:", userId);
+
     const contentData = JSON.parse(req.body.data);
-    if (
-      !contentData.landing &&
-      !contentData.slider &&
-      !contentData.value &&
-      !contentData.live &&
-      !contentData.organizations &&
-      !contentData.timeline &&
-      !contentData.available &&
-      !contentData.socialChannels
-    ) {
+    console.log("📦 Received content data structure:", {
+      hasLanding: !!contentData.landing,
+      hasSlider: !!contentData.slider,
+      hasValue: !!contentData.value,
+      hasLive: !!contentData.live,
+      hasOrganizations: !!contentData.organizations,
+      hasTimeline: !!contentData.timeline,
+      hasAvailable: !!contentData.available,
+      hasSocialChannels: !!contentData.socialChannels
+    });
+
+    // Validate required content
+    if (!contentData.landing && !contentData.slider && !contentData.value && 
+        !contentData.live && !contentData.organizations && !contentData.timeline && 
+        !contentData.available && !contentData.socialChannels) {
+      console.log("❌ Missing content data");
       return res.status(400).json({ message: "Missing content data" });
     }
+
+    // Map content
+    console.log("🔄 Mapping content data...");
     const content = {
       landing: {
         fullName: contentData.landing?.fullName || "",
@@ -62,24 +75,33 @@ const publishWebContent = async (req, res) => {
       socialChannels: contentData.socialChannels || [],
     };
 
+    // Handle file uploads
+    console.log("📤 Processing file uploads...");
     if (req.files?.landing_image?.[0]) {
+      console.log("✅ Landing image uploaded");
       content.landing.image = req.files.landing_image[0].path;
     }
     if (req.files?.live_image?.[0]) {
+      console.log("✅ Live image uploaded");
       content.live.image = req.files.live_image[0].path;
     }
     if (req.files?.live_video?.[0]) {
+      console.log("✅ Live video uploaded");
       content.live.video = req.files.live_video[0].path;
     }
     if (req.files?.avatar_image?.[0]) {
+      console.log("✅ Avatar image uploaded");
       content.available.avatar = req.files.avatar_image[0].path;
     }
 
+    // Process organizations
+    console.log("🏢 Processing organization images...");
     const organizations = [];
     if (contentData.organizations && Array.isArray(contentData.organizations)) {
       for (let i = 0; i < contentData.organizations.length; i++) {
         const orgImageKey = `org_image_${i}`;
         if (req.files?.[orgImageKey]?.[0]) {
+          console.log(`✅ Organization image ${i + 1} uploaded`);
           organizations.push({ src: req.files[orgImageKey][0].path });
         } else if (typeof contentData.organizations[i] === "string") {
           organizations.push({ src: contentData.organizations[i] });
@@ -90,6 +112,8 @@ const publishWebContent = async (req, res) => {
     }
     content.organizations = organizations;
 
+    // Process social channels
+    console.log("🔗 Processing social channels...");
     if (content.socialChannels && Array.isArray(content.socialChannels)) {
       content.socialChannels = content.socialChannels.map((channel, index) => {
         const iconKey = `social_icon_${index}`;
@@ -101,38 +125,45 @@ const publishWebContent = async (req, res) => {
       });
     }
 
-    if (!content.landing.title && content.landing.fullName) {
-      content.landing.title = content.landing.fullName;
-    }
+    console.log("📝 Content mapping completed");
 
-    console.log("Content mapped for template:", content);
-
+    // Template processing
+    console.log("📄 Reading template file...");
     const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
-    console.log("Template read");
+    console.log("✅ Template file read successfully");
 
     try {
+      console.log("🔄 Compiling template...");
       const template = ejs.compile(templateFile.toString());
       const renderedTemplate = template(content);
-      console.log("Template rendered");
+      console.log("✅ Template rendered successfully");
 
+      // Create temp directory if it doesn't exist
       const tempDir = path.join(__dirname, "../temp");
       if (!fs.existsSync(tempDir)) {
+        console.log("📁 Creating temp directory...");
         fs.mkdirSync(tempDir, { recursive: true });
       }
 
       const filename = `${uuidv4()}.html`;
       const filePath = path.join(tempDir, filename);
+      console.log("💾 Saving template to:", filePath);
 
       fs.writeFileSync(filePath, renderedTemplate);
-      console.log(`Template saved to temp directory: ${filePath}`);
+      console.log("✅ Template saved successfully");
 
+      // Create file for IPFS upload
+      console.log("📦 Preparing file for IPFS upload...");
       const file = new File([Buffer.from(renderedTemplate)], filename, {
         type: "text/html",
       });
 
+      console.log("🚀 Uploading to IPFS...");
       const cid = await uploadToFileStorage(file);
-      console.log(`File uploaded to Pinata with CID: ${cid}`);
+      console.log("✅ File uploaded to IPFS with CID:", cid);
 
+      // Create and save web content
+      console.log("💾 Creating web content document...");
       const webContent = new WebContent({
         user: userId,
         contentHash: cid,
@@ -147,17 +178,22 @@ const publishWebContent = async (req, res) => {
         socialChannels: content.socialChannels,
       });
 
+      console.log("💾 Saving web content to database...");
       const savedContent = await webContent.save();
+      console.log("✅ Web content saved successfully");
 
+      console.log("👤 Updating user status...");
       await User.findByIdAndUpdate(userId, { isNewWebpage: false });
+      console.log("✅ User status updated successfully");
 
+      console.log("🎉 Publication process completed successfully!");
       return res.status(201).json({
         message: "Published successfully",
         data: savedContent,
         tempFilePath: filePath,
       });
     } catch (templateError) {
-      console.error("Template rendering error:", templateError);
+      console.error("❌ Template rendering error:", templateError);
       return res.status(400).json({
         message: "Template rendering error",
         error: templateError.message,
@@ -165,7 +201,7 @@ const publishWebContent = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("💥 Error:", error);
+    console.error("💥 Fatal error in publishWebContent:", error);
     if (error.name === "ValidationError") {
       return res.status(400).json({ message: "Validation error", error: error.errors });
     }

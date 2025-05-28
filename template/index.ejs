@@ -328,6 +328,20 @@
       </div>
     </div>
 
+    <!-- ========== Slider Section ========== -->
+    <div class="relative overflow-hidden h-12 bg-gray-900 py-3 px-4 lg:py-auto flex items-center mt-10">
+      <div class="absolute flex items-center" id="sliderScroller" style="display: flex; white-space: nowrap;">
+        <% (slider || []).forEach((slide, index) => { %>
+        <div key="<%= slide %>-<%= index %>" class="flex items-center">
+          <div class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1">
+            <%= slide %>
+          </div>
+          <div class="bg-white size-2 rounded-full mx-4"></div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
     <!-- ========== Value Section ========== -->
     <div class="p-4 py-10">
       <div class="max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
@@ -358,7 +372,7 @@
     <section class="bg-primary p-4 py-10 sm:py-16" aria-label="Live Section">
       <div class="max-w-[90rem] mx-auto space-y-8">
         <!-- Live content -->
-        <% if (live.image || live.url) { %>
+        <% if (live.image && (live.video || live.url)) { %>
         <div class="relative bg-white rounded-2xl md:p-4 shadow-sm">
           <img
             src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_cawmkx.png"
@@ -370,7 +384,6 @@
           <div
             class="md:mt-6 p-4 sm:p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6"
           >
-            <% if (live.image && live.url) { %>
             <div class="relative w-full aspect-video overflow-hidden">
               <img
                 src="<%= live.image %>"
@@ -379,9 +392,9 @@
               />
             </div>
             <div class="w-full aspect-video">
-              <% if (live.url.match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
+              <% if ((live.video || live.url) && (live.video || live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
               <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
-                <audio src="<%= live.url %>" class="hidden" controls></audio>
+                <audio src="<%= live.video || live.url %>" class="hidden" controls></audio>
                 <button
                   type="button"
                   class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
@@ -395,7 +408,7 @@
               </div>
               <% } else { %>
               <video
-                src="<%= live.url %>"
+                src="<%= live.video || live.url %>"
                 class="w-full h-full object-cover rounded-2xl"
                 playsinline
                 muted
@@ -404,43 +417,42 @@
               ></video>
               <% } %>
             </div>
-            <% } else if (live.image) { %>
-            <div class="relative w-full aspect-video overflow-hidden col-span-full">
-              <img
-                src="<%= live.image %>"
-                alt="Live content image"
-                class="object-cover rounded-2xl w-full h-full"
-              />
-            </div>
-            <% } else if (live.url) { %>
-            <div class="w-full aspect-video col-span-full">
-              <% if (live.url.match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
-              <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
-                <audio src="<%= live.url %>" class="hidden" controls></audio>
-                <button
-                  type="button"
-                  class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
-                >
-                  <div
-                    class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center"
-                  >
-                    <i class="fas fa-play text-white text-2xl"></i>
-                  </div>
-                </button>
-              </div>
-              <% } else { %>
-              <video
-                src="<%= live.url %>"
-                class="w-full h-full object-cover rounded-2xl"
-                playsinline
-                muted
-                autoplay
-                loop
-              ></video>
-              <% } %>
-            </div>
-            <% } %>
           </div>
+        </div>
+        <% } else if (live.image) { %>
+        <div class="relative w-full aspect-video overflow-hidden col-span-full">
+          <img
+            src="<%= live.image %>"
+            alt="Live content image"
+            class="object-cover rounded-2xl w-full h-full"
+          />
+        </div>
+        <% } else if (live.video || live.url) { %>
+        <div class="w-full aspect-video col-span-full">
+          <% if ((live.video || live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
+          <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
+            <audio src="<%= live.video || live.url %>" class="hidden" controls></audio>
+            <button
+              type="button"
+              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
+            >
+              <div
+                class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-play text-white text-2xl"></i>
+              </div>
+            </button>
+          </div>
+          <% } else { %>
+          <video
+            src="<%= live.video || live.url %>"
+            class="w-full h-full object-cover rounded-2xl"
+            playsinline
+            muted
+            autoplay
+            loop
+          ></video>
+          <% } %>
         </div>
         <% } %>
 
@@ -542,22 +554,21 @@
     <% } %>
 
     <!-- ========== People Section ========== -->
-    <% if (typeof users !== 'undefined' && users && users.length > 0) { %>
     <div class="overflow-hidden bg-gray-900 py-3 px-4 flex items-center">
-      <div class="flex items-center font-sora gap-4 scroller" style="white-space: nowrap">
-        <% users.concat(users).forEach((user, index) => { %>
-        <div class="flex items-center">
+      <div class="flex items-center font-sora gap-4" id="peopleScroller" style="white-space: nowrap;">
+        <% users.slice(0, 10).forEach((user, index) => { %>
+        <div key="<%= user._id %>-<%= index %>" class="flex items-center">
           <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
             <div class="size-12 relative">
-              <img src="<%= user.image || 'https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png' %>" alt="" class="rounded-full object-cover w-full h-full" />
+              <% if (user.image) { %>
+              <img src="<%= user.image %>" alt="" class="rounded-full object-cover w-full h-full" />
+              <% } %>
             </div>
             <div class="mx-4 text-left text-sm">
-              <p><%= user.fullName || '' %></p>
-              <% if (user.domain) { %>
-              <a href="https://<%= user.domain %>" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
+              <p><%= user.fullName %></p>
+              <!-- <a href="https://<%= user.domain %>" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
                 <%= user.domain %>
-              </a>
-              <% } %>
+              </a> -->
             </div>
           </div>
           <div class="bg-white size-2 rounded-full mx-4"></div>
@@ -565,7 +576,6 @@
         <% }) %>
       </div>
     </div>
-    <% } %>
 
     <!-- ========== Available Section ========== -->
     <% const cleanedAvailable = (available.availableFor || []).filter(item => item.trim() !== "");
@@ -758,19 +768,35 @@
 
       // Slider Animation
       document.addEventListener("DOMContentLoaded", function () {
-        const scroller = document.querySelector(".scroller");
-        if (!scroller) return;
+        const sliderScroller = document.getElementById("sliderScroller");
+        if (!sliderScroller) return;
         let scrollAmount = 0;
-        const scrollSpeed = 0.3;
-        function animate() {
-          scrollAmount -= scrollSpeed;
-          if (Math.abs(scrollAmount) >= scroller.scrollWidth / 2) {
+        const animateSlider = () => {
+          scrollAmount -= 1;
+          if (Math.abs(scrollAmount) >= sliderScroller.scrollWidth / 2) {
             scrollAmount = 0;
           }
-          scroller.style.transform = `translateX(${scrollAmount}px)`;
-          requestAnimationFrame(animate);
-        }
-        animate();
+          sliderScroller.style.transform = `translateX(${scrollAmount}px)`;
+          requestAnimationFrame(animateSlider);
+        };
+        animateSlider();
+      });
+
+      // People Animation
+      document.addEventListener("DOMContentLoaded", function () {
+        const peopleScroller = document.getElementById("peopleScroller");
+        if (!peopleScroller) return;
+        let scrollAmount = 0;
+        const scrollSpeed = 0.3;
+        const animatePeople = () => {
+          scrollAmount -= scrollSpeed;
+          if (Math.abs(scrollAmount) >= peopleScroller.scrollWidth / 2) {
+            scrollAmount = 0;
+          }
+          peopleScroller.style.transform = `translateX(${scrollAmount}px)`;
+          requestAnimationFrame(animatePeople);
+        };
+        animatePeople();
       });
     </script>
   </body>

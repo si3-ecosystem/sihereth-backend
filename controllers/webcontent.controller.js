@@ -73,25 +73,32 @@ const publishWebContent = async (req, res) => {
         ctaText: contentData.available?.ctaText || "",
       },
       socialChannels: contentData.socialChannels || [],
+      users: contentData.users || [],
     };
 
-    // Handle file uploads
+    // Handle file uploads to Cloudinary
     console.log("📤 Processing file uploads...");
     if (req.files?.landing_image?.[0]) {
-      console.log("✅ Landing image uploaded");
-      content.landing.image = req.files.landing_image[0].path;
+      console.log("✅ Uploading landing image to Cloudinary");
+      const result = await cloudinary.uploader.upload(req.files.landing_image[0].path);
+      content.landing.image = result.secure_url;
     }
     if (req.files?.live_image?.[0]) {
-      console.log("✅ Live image uploaded");
-      content.live.image = req.files.live_image[0].path;
+      console.log("✅ Uploading live image to Cloudinary");
+      const result = await cloudinary.uploader.upload(req.files.live_image[0].path);
+      content.live.image = result.secure_url;
     }
     if (req.files?.live_video?.[0]) {
-      console.log("✅ Live video uploaded");
-      content.live.video = req.files.live_video[0].path;
+      console.log("✅ Uploading live video to Cloudinary");
+      const result = await cloudinary.uploader.upload(req.files.live_video[0].path, {
+        resource_type: "video"
+      });
+      content.live.video = result.secure_url;
     }
     if (req.files?.avatar_image?.[0]) {
-      console.log("✅ Avatar image uploaded");
-      content.available.avatar = req.files.avatar_image[0].path;
+      console.log("✅ Uploading avatar image to Cloudinary");
+      const result = await cloudinary.uploader.upload(req.files.avatar_image[0].path);
+      content.available.avatar = result.secure_url;
     }
 
     // Process organizations
@@ -101,8 +108,9 @@ const publishWebContent = async (req, res) => {
       for (let i = 0; i < contentData.organizations.length; i++) {
         const orgImageKey = `org_image_${i}`;
         if (req.files?.[orgImageKey]?.[0]) {
-          console.log(`✅ Organization image ${i + 1} uploaded`);
-          organizations.push({ src: req.files[orgImageKey][0].path });
+          console.log(`✅ Uploading organization image ${i + 1} to Cloudinary`);
+          const result = await cloudinary.uploader.upload(req.files[orgImageKey][0].path);
+          organizations.push({ src: result.secure_url });
         } else if (typeof contentData.organizations[i] === "string") {
           organizations.push({ src: contentData.organizations[i] });
         } else if (contentData.organizations[i]?.src) {
@@ -115,15 +123,33 @@ const publishWebContent = async (req, res) => {
     // Process social channels
     console.log("🔗 Processing social channels...");
     if (content.socialChannels && Array.isArray(content.socialChannels)) {
-      content.socialChannels = content.socialChannels.map((channel, index) => {
+      content.socialChannels = await Promise.all(content.socialChannels.map(async (channel, index) => {
         const iconKey = `social_icon_${index}`;
+        let iconUrl = channel.icon || "";
+        if (req.files?.[iconKey]?.[0]) {
+          console.log(`✅ Uploading social icon ${index + 1} to Cloudinary`);
+          const result = await cloudinary.uploader.upload(req.files[iconKey][0].path);
+          iconUrl = result.secure_url;
+        }
         return {
           text: channel.text || "",
           url: channel.url || "",
-          icon: req.files?.[iconKey]?.[0]?.path || channel.icon || "",
+          icon: iconUrl,
         };
-      });
+      }));
     }
+
+    // Fetch latest 10 users and their profile images for the people slider
+    const latestUsers = await User.find().sort({ createdAt: -1 }).limit(10);
+    const usersWithImages = await Promise.all(latestUsers.map(async user => {
+      const webContent = await WebContent.findOne({ user: user._id });
+      return {
+        fullName: webContent?.landing?.fullName || user.name || user.email || "User",
+        image: webContent?.landing?.image || "https://res.cloudinary.com/dq033xs8n/image/upload/v1710000000/default-avatar.png",
+        // domain: user.domain || "",
+      };
+    }));
+    content.users = usersWithImages;
 
     console.log("📝 Content mapping completed");
 
@@ -135,6 +161,7 @@ const publishWebContent = async (req, res) => {
     try {
       console.log("🔄 Compiling template...");
       const template = ejs.compile(templateFile.toString());
+      console.log("🟣 Content passed to EJS:", JSON.stringify(content, null, 2));
       const renderedTemplate = template(content);
       console.log("✅ Template rendered successfully");
 
@@ -176,6 +203,7 @@ const publishWebContent = async (req, res) => {
         timeline: content.timeline,
         available: content.available,
         socialChannels: content.socialChannels,
+        users: content.users,
       });
 
       console.log("💾 Saving web content to database...");
@@ -226,30 +254,39 @@ const updateWebContent = async (req, res) => {
     // Handle landing image update
     if (req.files?.landing_image?.[0]) {
       if (webContent.landing?.image) {
-        await deleteFromFileStorage(webContent.landing.image);
+        // Delete old image from Cloudinary if it exists
+        const publicId = webContent.landing.image.split('/').pop().split('.')[0];
+        await cloudinary.uploader.destroy(publicId);
         changes.deleted.push("old_landing_image");
       }
-      webContent.landing.image = req.files.landing_image[0].path;
+      const result = await cloudinary.uploader.upload(req.files.landing_image[0].path);
+      webContent.landing.image = result.secure_url;
       changes.updated.push("landing_image");
     }
 
     // Handle live image update
     if (req.files?.live_image?.[0]) {
       if (webContent.live?.image) {
-        await deleteFromFileStorage(webContent.live.image);
+        const publicId = webContent.live.image.split('/').pop().split('.')[0];
+        await cloudinary.uploader.destroy(publicId);
         changes.deleted.push("old_live_image");
       }
-      webContent.live.image = req.files.live_image[0].path;
+      const result = await cloudinary.uploader.upload(req.files.live_image[0].path);
+      webContent.live.image = result.secure_url;
       changes.updated.push("live_image");
     }
 
     // Handle live video update
     if (req.files?.live_video?.[0]) {
       if (webContent.live?.video) {
-        await deleteFromFileStorage(webContent.live.video);
+        const publicId = webContent.live.video.split('/').pop().split('.')[0];
+        await cloudinary.uploader.destroy(publicId);
         changes.deleted.push("old_live_video");
       }
-      webContent.live.video = req.files.live_video[0].path;
+      const result = await cloudinary.uploader.upload(req.files.live_video[0].path, {
+        resource_type: "video"
+      });
+      webContent.live.video = result.secure_url;
       changes.updated.push("live_video");
     }
 
@@ -259,13 +296,14 @@ const updateWebContent = async (req, res) => {
     for (let i = 0; i < orgCount; i++) {
       const key = `org_image_${i}`;
       if (req.files?.[key]?.[0]) {
-        const oldImageUrl =
-          i < webContent.organizations.length ? webContent.organizations[i]?.src : null;
+        const oldImageUrl = i < webContent.organizations.length ? webContent.organizations[i]?.src : null;
         if (oldImageUrl) {
-          await deleteFromFileStorage(oldImageUrl);
+          const publicId = oldImageUrl.split('/').pop().split('.')[0];
+          await cloudinary.uploader.destroy(publicId);
           changes.deleted.push(`old_org_image_${i}`);
         }
-        orgImages.push({ src: req.files[key][0].path });
+        const result = await cloudinary.uploader.upload(req.files[key][0].path);
+        orgImages.push({ src: result.secure_url });
         changes.updated.push(`org_image_${i}`);
       } else if (content.organizations[i]) {
         orgImages.push(content.organizations[i]);
@@ -278,10 +316,12 @@ const updateWebContent = async (req, res) => {
     // Handle avatar update
     if (req.files?.avatar?.[0]) {
       if (webContent.available?.avatar) {
-        await deleteFromFileStorage(webContent.available.avatar);
+        const publicId = webContent.available.avatar.split('/').pop().split('.')[0];
+        await cloudinary.uploader.destroy(publicId);
         changes.deleted.push("old_avatar");
       }
-      webContent.available.avatar = req.files.avatar[0].path;
+      const result = await cloudinary.uploader.upload(req.files.avatar[0].path);
+      webContent.available.avatar = result.secure_url;
       changes.updated.push("avatar");
     }
 

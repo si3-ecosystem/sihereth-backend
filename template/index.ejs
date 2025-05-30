@@ -113,13 +113,17 @@
         color: #3e21f3;
       }
       .bg-primary {
-        background-color: #f5f5f5;
+        background-color: #ece9fd;
       }
       .border-light-purple {
         border-color: #c8bafd;
       }
       .bg-light-purple {
         background-color: #c8bafd;
+      }
+      .connect-wallet:hover {
+        background-color: #7e5bff;
+        color: #ffffff;
       }
       @keyframes marquee {
         0% {
@@ -136,6 +140,12 @@
         display: inline-block;
         opacity: 0;
         transform: scale(0.3);
+      }
+      .hashtag-hover:hover {
+        color: #e5e7eb;
+        background-color: #1f2937;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.5s ease-out;
       }
       @keyframes fadeInUp {
         from {
@@ -176,7 +186,7 @@
         </div>
         <!-- Connect Wallet Button -->
         <button
-          class="hidden sm:block h-12 bg-light-purple text-blue-primary rounded-xl px-4 font-medium transition-all duration-300 hover:bg-[#7E5BFF] hover:text-white text-sm"
+          class="hidden sm:block h-12 bg-light-purple text-blue-primary rounded-xl px-4 font-medium transition-all duration-300 connect-wallet hover:text-white text-sm"
         >
           CONNECT WALLET
         </button>
@@ -210,7 +220,7 @@
           </a>
           <% }) %>
           <button
-            class="h-12 bg-light-purple text-blue-primary rounded-lg px-6 font-medium tracking-widest transition-all duration-300 hover:bg-[#7E5BFF] hover:text-white"
+            class="h-12 bg-light-purple text-blue-primary rounded-lg px-6 font-medium tracking-widest transition-all duration-300 connect-wallet hover:text-white"
           >
             CONNECT WALLET
           </button>
@@ -243,7 +253,7 @@
           <section class="flex flex-wrap gap-3 font-medium pb-2">
             <% (landing.hashTags || []).forEach((hashtag, index) => { %>
             <div
-              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hover:text-gray-200 hover:bg-gray-800 transition-all ease-out duration-500 cursor-default hover:shadow-md"
+              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default"
             >
               #<%= hashtag.toUpperCase() %>
             </div>
@@ -311,7 +321,11 @@
             class="relative aspect-[3/4] w-full max-w-[10rem] sm:max-w-xs md:max-w-sm rounded-2xl flex-shrink-0"
           >
             <% if (landing.image) { %>
-            <img src="<%= landing.image %>" alt="profile" class="rounded-2xl object-cover w-full h-full" />
+            <img
+              src="<%= landing.image %>"
+              alt="profile"
+              class="rounded-2xl object-cover w-full h-full"
+            />
             <% } %>
             <div
               class="rounded-2xl absolute right-0 lg:-right-2 -bottom-4 xl:-right-4 border border-light-purple p-4 flex flex-col justify-center items-center gap-1 md:gap-2 bg-primary shadow-md font-dmsans"
@@ -329,11 +343,19 @@
     </div>
 
     <!-- ========== Slider Section ========== -->
-    <div class="relative overflow-hidden h-12 bg-gray-900 py-3 px-4 lg:py-auto flex items-center mt-10">
-      <div class="absolute flex items-center" id="sliderScroller" style="display: flex; white-space: nowrap;">
+    <div
+      class="relative overflow-hidden h-12 bg-gray-900 py-3 px-4 lg:py-auto flex items-center mt-10"
+    >
+      <div
+        class="absolute flex items-center"
+        id="sliderScroller"
+        style="display: flex; white-space: nowrap"
+      >
         <% (slider || []).forEach((slide, index) => { %>
         <div key="<%= slide %>-<%= index %>" class="flex items-center">
-          <div class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1">
+          <div
+            class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
+          >
             <%= slide %>
           </div>
           <div class="bg-white size-2 rounded-full mx-4"></div>
@@ -385,14 +407,11 @@
             class="md:mt-6 p-4 sm:p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6"
           >
             <div class="relative w-full aspect-video overflow-hidden">
-              <img
-                src="<%= live.image %>"
-                alt="Live content image"
-                class="object-cover rounded-2xl w-full h-full"
-              />
+              <img src="<%= live.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
             </div>
             <div class="w-full aspect-video">
-              <% if ((live.video || live.url) && (live.video || live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
+              <% if ((live.video || live.url) && (live.video ||
+              live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
               <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
                 <audio src="<%= live.video || live.url %>" class="hidden" controls></audio>
                 <button
@@ -421,11 +440,7 @@
         </div>
         <% } else if (live.image) { %>
         <div class="relative w-full aspect-video overflow-hidden col-span-full">
-          <img
-            src="<%= live.image %>"
-            alt="Live content image"
-            class="object-cover rounded-2xl w-full h-full"
-          />
+          <img src="<%= live.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
         </div>
         <% } else if (live.video || live.url) { %>
         <div class="w-full aspect-video col-span-full">
@@ -436,9 +451,7 @@
               type="button"
               class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
             >
-              <div
-                class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center"
-              >
+              <div class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center">
                 <i class="fas fa-play text-white text-2xl"></i>
               </div>
             </button>
@@ -471,8 +484,8 @@
         </div>
 
         <!-- Live Cards -->
-        <% const validDetails = live.details.filter(item => item.title?.trim() && item.heading?.trim()); %>
-        <% if (validDetails && validDetails.length > 0) { %>
+        <% const validDetails = live.details.filter(item => item.title?.trim() &&
+        item.heading?.trim()); %> <% if (validDetails && validDetails.length > 0) { %>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <% validDetails.forEach((item, index) => { %>
           <div class="w-full">
@@ -502,11 +515,9 @@
           ORGANIZATIONS I SUPPORT
         </div>
         <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
-          <% (organizations || []).forEach((org, index) => { %>
-            <% if (org.src) { %>
-            <img src="<%= org.src %>" alt="Organization <%= index + 1 %>" width="100" height="100" />
-            <% } %>
-          <% }) %>
+          <% (organizations || []).forEach((org, index) => { %> <% if (org.src) { %>
+          <img src="<%= org.src %>" alt="Organization <%= index + 1 %>" width="100" height="100" />
+          <% } %> <% }) %>
         </section>
       </div>
     </div>
@@ -555,7 +566,11 @@
 
     <!-- ========== People Section ========== -->
     <div class="overflow-hidden bg-gray-900 py-3 px-4 flex items-center">
-      <div class="flex items-center font-sora gap-4" id="peopleScroller" style="white-space: nowrap;">
+      <div
+        class="flex items-center font-sora gap-4"
+        id="peopleScroller"
+        style="white-space: nowrap"
+      >
         <% users.slice(0, 10).forEach((user, index) => { %>
         <div key="<%= user._id %>-<%= index %>" class="flex items-center">
           <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
@@ -566,9 +581,14 @@
             </div>
             <div class="mx-4 text-left text-sm">
               <p><%= user.fullName %></p>
-              <!-- <a href="https://<%= user.domain %>" target="_blank" rel="noreferrer" class="lowercase hover:underline underline-offset-2">
+              <a
+                href="https://<%= user.domain %>"
+                target="_blank"
+                rel="noreferrer"
+                class="lowercase hover:underline underline-offset-2"
+              >
                 <%= user.domain %>
-              </a> -->
+              </a>
             </div>
           </div>
           <div class="bg-white size-2 rounded-full mx-4"></div>
@@ -671,25 +691,23 @@
     </div>
 
     <!-- ========== Footer Section ========== -->
-    <div class="bg-gray-800 p-4 text-xs">
+    <div class="bg-gray-900 p-4 text-xs">
       <div class="max-w-[90rem] mx-auto space-y-2">
         <!-- Social & Controls -->
         <section class="flex flex-col md:flex-row justify-between items-center gap-3">
           <!-- Social Channels -->
           <% if (socialChannels && socialChannels.length > 0) { %>
           <div class="flex justify-between w-full md:justify-start gap-4">
-            <% socialChannels.forEach(channel => { %>
-              <% if (channel.url && channel.icon) { %>
-              <a
-                href="<%= channel.url %>"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit"
-              >
-                <img src="<%= channel.icon %>" alt="" width="20" height="20" />
-              </a>
-              <% } %>
-            <% }); %>
+            <% socialChannels.forEach(channel => { %> <% if (channel.url && channel.icon) { %>
+            <a
+              href="<%= channel.url %>"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit"
+            >
+              <img src="<%= channel.icon %>" alt="" width="20" height="20" />
+            </a>
+            <% } %> <% }); %>
           </div>
           <% } %>
 
@@ -704,12 +722,21 @@
               Join SI&lt;3&gt;
             </a>
             <!-- Language Button -->
-            <button type="button" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none">
+            <button
+              type="button"
+              class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none"
+            >
               Select Language
             </button>
             <!-- Newsletter Form -->
             <div class="flex rounded-xl w-full lg:w-fit h-10 items-center bg-white">
-              <i class="fas fa-envelope size-6 mx-2"></i>
+              <img
+                src="https://res.cloudinary.com/dq033xs8n/image/upload/v1748561322/mail_ycoudk.png"
+                alt=""
+                width="17"
+                height="17"
+                style="margin: 0 0.5rem"
+              />
               <input
                 type="email"
                 placeholder="Subscribe to our newsletter..."

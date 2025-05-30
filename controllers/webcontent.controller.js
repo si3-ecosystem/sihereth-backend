@@ -26,13 +26,20 @@ const publishWebContent = async (req, res) => {
       hasOrganizations: !!contentData.organizations,
       hasTimeline: !!contentData.timeline,
       hasAvailable: !!contentData.available,
-      hasSocialChannels: !!contentData.socialChannels
+      hasSocialChannels: !!contentData.socialChannels,
     });
 
     // Validate required content
-    if (!contentData.landing && !contentData.slider && !contentData.value && 
-        !contentData.live && !contentData.organizations && !contentData.timeline && 
-        !contentData.available && !contentData.socialChannels) {
+    if (
+      !contentData.landing &&
+      !contentData.slider &&
+      !contentData.value &&
+      !contentData.live &&
+      !contentData.organizations &&
+      !contentData.timeline &&
+      !contentData.available &&
+      !contentData.socialChannels
+    ) {
       console.log("❌ Missing content data");
       return res.status(400).json({ message: "Missing content data" });
     }
@@ -91,7 +98,7 @@ const publishWebContent = async (req, res) => {
     if (req.files?.live_video?.[0]) {
       console.log("✅ Uploading live video to Cloudinary");
       const result = await cloudinary.uploader.upload(req.files.live_video[0].path, {
-        resource_type: "video"
+        resource_type: "video",
       });
       content.live.video = result.secure_url;
     }
@@ -123,32 +130,38 @@ const publishWebContent = async (req, res) => {
     // Process social channels
     console.log("🔗 Processing social channels...");
     if (content.socialChannels && Array.isArray(content.socialChannels)) {
-      content.socialChannels = await Promise.all(content.socialChannels.map(async (channel, index) => {
-        const iconKey = `social_icon_${index}`;
-        let iconUrl = channel.icon || "";
-        if (req.files?.[iconKey]?.[0]) {
-          console.log(`✅ Uploading social icon ${index + 1} to Cloudinary`);
-          const result = await cloudinary.uploader.upload(req.files[iconKey][0].path);
-          iconUrl = result.secure_url;
-        }
-        return {
-          text: channel.text || "",
-          url: channel.url || "",
-          icon: iconUrl,
-        };
-      }));
+      content.socialChannels = await Promise.all(
+        content.socialChannels.map(async (channel, index) => {
+          const iconKey = `social_icon_${index}`;
+          let iconUrl = channel.icon || "";
+          if (req.files?.[iconKey]?.[0]) {
+            console.log(`✅ Uploading social icon ${index + 1} to Cloudinary`);
+            const result = await cloudinary.uploader.upload(req.files[iconKey][0].path);
+            iconUrl = result.secure_url;
+          }
+          return {
+            text: channel.text || "",
+            url: channel.url || "",
+            icon: iconUrl,
+          };
+        })
+      );
     }
 
     // Fetch latest 10 users and their profile images for the people slider
     const latestUsers = await User.find().sort({ createdAt: -1 }).limit(10);
-    const usersWithImages = await Promise.all(latestUsers.map(async user => {
-      const webContent = await WebContent.findOne({ user: user._id });
-      return {
-        fullName: webContent?.landing?.fullName || user.name || user.email || "User",
-        image: webContent?.landing?.image || "https://res.cloudinary.com/dq033xs8n/image/upload/v1710000000/default-avatar.png",
-        // domain: user.domain || "",
-      };
-    }));
+    const usersWithImages = await Promise.all(
+      latestUsers.map(async (user) => {
+        const webContent = await WebContent.findOne({ user: user._id });
+        return {
+          fullName: webContent?.landing?.fullName || user.name || user.email || "User",
+          image:
+            webContent?.landing?.image ||
+            "https://res.cloudinary.com/dq033xs8n/image/upload/v1710000000/default-avatar.png",
+          // domain: user.domain || "",
+        };
+      })
+    );
     content.users = usersWithImages;
 
     console.log("📝 Content mapping completed");
@@ -191,20 +204,41 @@ const publishWebContent = async (req, res) => {
 
       // Create and save web content
       console.log("💾 Creating web content document...");
-      const webContent = new WebContent({
-        user: userId,
-        contentHash: cid,
-        isNewWebpage: false,
-        landing: content.landing,
-        slider: content.slider,
-        value: content.value,
-        live: content.live,
-        organizations: content.organizations,
-        timeline: content.timeline,
-        available: content.available,
-        socialChannels: content.socialChannels,
-        users: content.users,
-      });
+      // Check if web content already exists for this user
+      let webContent = await WebContent.findOne({ user: userId });
+
+      if (webContent) {
+        console.log("📝 Updating existing web content...");
+        // Update existing web content
+        webContent.contentHash = cid;
+        webContent.isNewWebpage = false;
+        webContent.landing = content.landing;
+        webContent.slider = content.slider;
+        webContent.value = content.value;
+        webContent.live = content.live;
+        webContent.organizations = content.organizations;
+        webContent.timeline = content.timeline;
+        webContent.available = content.available;
+        webContent.socialChannels = content.socialChannels;
+        webContent.users = content.users;
+      } else {
+        console.log("📝 Creating new web content...");
+        // Create new web content
+        webContent = new WebContent({
+          user: userId,
+          contentHash: cid,
+          isNewWebpage: false,
+          landing: content.landing,
+          slider: content.slider,
+          value: content.value,
+          live: content.live,
+          organizations: content.organizations,
+          timeline: content.timeline,
+          available: content.available,
+          socialChannels: content.socialChannels,
+          users: content.users,
+        });
+      }
 
       console.log("💾 Saving web content to database...");
       const savedContent = await webContent.save();
@@ -255,7 +289,7 @@ const updateWebContent = async (req, res) => {
     if (req.files?.landing_image?.[0]) {
       if (webContent.landing?.image) {
         // Delete old image from Cloudinary if it exists
-        const publicId = webContent.landing.image.split('/').pop().split('.')[0];
+        const publicId = webContent.landing.image.split("/").pop().split(".")[0];
         await cloudinary.uploader.destroy(publicId);
         changes.deleted.push("old_landing_image");
       }
@@ -267,7 +301,7 @@ const updateWebContent = async (req, res) => {
     // Handle live image update
     if (req.files?.live_image?.[0]) {
       if (webContent.live?.image) {
-        const publicId = webContent.live.image.split('/').pop().split('.')[0];
+        const publicId = webContent.live.image.split("/").pop().split(".")[0];
         await cloudinary.uploader.destroy(publicId);
         changes.deleted.push("old_live_image");
       }
@@ -279,12 +313,12 @@ const updateWebContent = async (req, res) => {
     // Handle live video update
     if (req.files?.live_video?.[0]) {
       if (webContent.live?.video) {
-        const publicId = webContent.live.video.split('/').pop().split('.')[0];
+        const publicId = webContent.live.video.split("/").pop().split(".")[0];
         await cloudinary.uploader.destroy(publicId);
         changes.deleted.push("old_live_video");
       }
       const result = await cloudinary.uploader.upload(req.files.live_video[0].path, {
-        resource_type: "video"
+        resource_type: "video",
       });
       webContent.live.video = result.secure_url;
       changes.updated.push("live_video");
@@ -296,9 +330,10 @@ const updateWebContent = async (req, res) => {
     for (let i = 0; i < orgCount; i++) {
       const key = `org_image_${i}`;
       if (req.files?.[key]?.[0]) {
-        const oldImageUrl = i < webContent.organizations.length ? webContent.organizations[i]?.src : null;
+        const oldImageUrl =
+          i < webContent.organizations.length ? webContent.organizations[i]?.src : null;
         if (oldImageUrl) {
-          const publicId = oldImageUrl.split('/').pop().split('.')[0];
+          const publicId = oldImageUrl.split("/").pop().split(".")[0];
           await cloudinary.uploader.destroy(publicId);
           changes.deleted.push(`old_org_image_${i}`);
         }
@@ -316,7 +351,7 @@ const updateWebContent = async (req, res) => {
     // Handle avatar update
     if (req.files?.avatar?.[0]) {
       if (webContent.available?.avatar) {
-        const publicId = webContent.available.avatar.split('/').pop().split('.')[0];
+        const publicId = webContent.available.avatar.split("/").pop().split(".")[0];
         await cloudinary.uploader.destroy(publicId);
         changes.deleted.push("old_avatar");
       }

@@ -14,10 +14,10 @@ const publishDomain = async (req, res) => {
     if (!domain) {
       return errorResponse(res, 400, "Domain is required.");
     }
-    // const existingDomain = await User.findOne({ domain: { $exists: true, $ne: null } });
-    // if (existingDomain) {
-    //   return errorResponse(res, 400, "Subdomain already registered.");
-    // }
+    const existingDomain = await User.findOne({ domain: { $exists: true, $ne: null } });
+    if (existingDomain) {
+      return errorResponse(res, 400, "Subdomain already registered.");
+    }
     const webpage = await Webpage.findOne({ user: req.user.id });
     const cid = webpage?.contentHash ?? "";
     if (!cid) {
@@ -27,18 +27,15 @@ const publishDomain = async (req, res) => {
     if (!isSubdomainRegistered) {
       return errorResponse(res, 400, "Could not register subdomain.");
     }
-    // const updatedUser = await User.findOneAndUpdate(
-    //   { _id: req.user.id },
-    //   { domain },
-    //   { new: true }
-    // );
-    // if (!updatedUser) {
-    //   return errorResponse(res, 404, "User not found.");
-    // }
-    return res.status(200).json({ 
-      // domain: updatedUser.domain
-      message: "Domain registered successfully"
-     });
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: req.user.id },
+      { domain },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return errorResponse(res, 404, "User not found.");
+    }
+    return res.status(200).json({ domain: updatedUser.domain });
   } catch (error) {
     return errorResponse(res, 500, error.message ?? "Failed to publish domain");
   }

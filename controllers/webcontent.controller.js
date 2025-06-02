@@ -10,7 +10,7 @@ const { registerSubdomain } = require("../controllers/domain.controller");
 
 const publishWebContent = async (req, res) => {
   try {
-    console.debug(`[WebContent] Starting publish operation for user: ${req.user.id}`);
+    console.log(`[WebContent] Starting publish operation for user: ${req.user.id}`);
     const userId = req.user.id;
     const contentData = req.body;
     if (
@@ -23,7 +23,7 @@ const publishWebContent = async (req, res) => {
       !contentData.available &&
       !contentData.socialChannels
     ) {
-      console.debug(`[WebContent] Missing content data for user: ${userId}`);
+      console.log(`[WebContent] Missing content data for user: ${userId}`);
       return res.status(400).json({ message: "Missing content data" });
     }
     const content = {
@@ -37,13 +37,13 @@ const publishWebContent = async (req, res) => {
       socialChannels: contentData.socialChannels || [],
     };
     try {
-      console.debug(`[WebContent] Processing template for user: ${userId}`);
+      console.log(`[WebContent] Processing template for user: ${userId}`);
       const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
       const template = ejs.compile(templateFile.toString());
       const renderedTemplate = template(content);
       const tempDir = path.join(__dirname, "../temp");
       if (!fs.existsSync(tempDir)) {
-        console.debug(`[WebContent] Creating temp directory for user: ${userId}`);
+        console.log(`[WebContent] Creating temp directory for user: ${userId}`);
         fs.mkdirSync(tempDir, { recursive: true });
       }
       const filename = `${uuidv4()}.html`;
@@ -52,11 +52,11 @@ const publishWebContent = async (req, res) => {
       const file = new File([Buffer.from(renderedTemplate)], filename, {
         type: "text/html",
       });
-      console.debug(`[WebContent] Uploading to storage for user: ${userId}`);
+      console.log(`[WebContent] Uploading to storage for user: ${userId}`);
       const cid = await uploadToFileStorage(file);
       let webContent = await WebContent.findOne({ user: userId });
       if (webContent) {
-        console.debug(`[WebContent] Updating existing content for user: ${userId}`);
+        console.log(`[WebContent] Updating existing content for user: ${userId}`);
         webContent.contentHash = cid;
         webContent.isNewWebpage = false;
         webContent.landing = content.landing;
@@ -68,7 +68,7 @@ const publishWebContent = async (req, res) => {
         webContent.available = content.available;
         webContent.socialChannels = content.socialChannels;
       } else {
-        console.debug(`[WebContent] Creating new content for user: ${userId}`);
+        console.log(`[WebContent] Creating new content for user: ${userId}`);
         webContent = new WebContent({
           user: userId,
           contentHash: cid,
@@ -85,14 +85,14 @@ const publishWebContent = async (req, res) => {
       }
       await webContent.save();
       fs.unlinkSync(filePath);
-      console.debug(`[WebContent] Successfully published for user: ${userId}`);
+      console.log(`[WebContent] Successfully published for user: ${userId}`);
       return res.status(201).json({
         message: "Published successfully",
       });
     } catch (templateError) {
       console.error(`[WebContent] Template error for user: ${userId}`, {
         message: templateError.message,
-        line: templateError.line
+        line: templateError.line,
       });
       return res.status(400).json({
         message: "Template rendering error",
@@ -103,7 +103,7 @@ const publishWebContent = async (req, res) => {
   } catch (error) {
     console.error(`[WebContent] Error in publish operation for user: ${req.user.id}`, {
       name: error.name,
-      message: error.message
+      message: error.message,
     });
     if (error.name === "ValidationError") {
       return res.status(400).json({ message: "Validation error", error: error.errors });
@@ -114,7 +114,7 @@ const publishWebContent = async (req, res) => {
 
 const updateWebContent = async (req, res) => {
   try {
-    console.debug(`[WebContent] Starting update operation for user: ${req.user.id}`);
+    console.log(`[WebContent] Starting update operation for user: ${req.user.id}`);
     const userId = req.user.id;
     const contentData = req.body;
     if (
@@ -127,7 +127,7 @@ const updateWebContent = async (req, res) => {
       !contentData.available &&
       !contentData.socialChannels
     ) {
-      console.debug(`[WebContent] Missing content data for update - user: ${userId}`);
+      console.log(`[WebContent] Missing content data for update - user: ${userId}`);
       return res.status(400).json({ message: "Missing content data" });
     }
     const [webContent, user] = await Promise.all([
@@ -135,10 +135,11 @@ const updateWebContent = async (req, res) => {
       User.findById(userId),
     ]);
     if (!webContent) {
-      console.debug(`[WebContent] No content found to update for user: ${userId}`);
+      console.log(`[WebContent] No content found to update for user: ${userId}`);
       return res.status(404).json({ message: "No web content found to update" });
     }
-    console.debug(`[WebContent] Deleting old content from storage for user: ${userId}`);
+    console.log(`[WebContent] Deleting old content from storage for user: ${userId}`);
+    console.log("webContent.contentHash", webContent.contentHash);
     await deleteFromFileStorage(webContent.contentHash);
     const content = {
       landing: contentData.landing || webContent.landing || {},
@@ -151,13 +152,13 @@ const updateWebContent = async (req, res) => {
       socialChannels: contentData.socialChannels || webContent.socialChannels || [],
     };
     try {
-      console.debug(`[WebContent] Processing template for update - user: ${userId}`);
+      console.log(`[WebContent] Processing template for update - user: ${userId}`);
       const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
       const template = ejs.compile(templateFile.toString());
       const renderedTemplate = template(content);
       const tempDir = path.join(__dirname, "../temp");
       if (!fs.existsSync(tempDir)) {
-        console.debug(`[WebContent] Creating temp directory for update - user: ${userId}`);
+        console.log(`[WebContent] Creating temp directory for update - user: ${userId}`);
         fs.mkdirSync(tempDir, { recursive: true });
       }
       const filename = `${uuidv4()}.html`;
@@ -166,7 +167,7 @@ const updateWebContent = async (req, res) => {
       const file = new File([Buffer.from(renderedTemplate)], filename, {
         type: "text/html",
       });
-      console.debug(`[WebContent] Uploading updated content for user: ${userId}`);
+      console.log(`[WebContent] Uploading updated content for user: ${userId}`);
       const newCid = await uploadToFileStorage(file);
       webContent.contentHash = newCid;
       webContent.landing = content.landing;
@@ -180,10 +181,10 @@ const updateWebContent = async (req, res) => {
       await webContent.save();
       fs.unlinkSync(filePath);
       if (user?.domain) {
-        console.debug(`[WebContent] Registering subdomain for user: ${userId}`);
+        console.log(`[WebContent] Registering subdomain for user: ${userId}`);
         await registerSubdomain(user.domain, newCid);
       }
-      console.debug(`[WebContent] Successfully updated content for user: ${userId}`);
+      console.log(`[WebContent] Successfully updated content for user: ${userId}`);
       return res.status(200).json({
         message: "Content updated successfully",
         contentHash: newCid,
@@ -191,7 +192,7 @@ const updateWebContent = async (req, res) => {
     } catch (templateError) {
       console.error(`[WebContent] Template error during update for user: ${userId}`, {
         message: templateError.message,
-        line: templateError.line
+        line: templateError.line,
       });
       return res.status(400).json({
         message: "Template rendering error",
@@ -202,7 +203,7 @@ const updateWebContent = async (req, res) => {
   } catch (error) {
     console.error(`[WebContent] Error in update operation for user: ${req.user.id}`, {
       name: error.name,
-      message: error.message
+      message: error.message,
     });
     if (error.name === "ValidationError") {
       return res.status(400).json({ message: "Validation error", error: error.errors });

@@ -40,27 +40,95 @@ const publishDomain = async (req, res) => {
       message: "Domain registered successfully",
     });
   } catch (error) {
+    console.error("[Domain] Error in publishDomain:", {
+      error: error.message,
+      code: error.code,
+      response: error.response?.data,
+      status: error.response?.status
+    });
     return errorResponse(res, 500, error.message ?? "Failed to publish domain");
   }
 };
 
 const registerSubdomain = async (subdomain, contenthash) => {
-  const response = await axios.post(
-    NAMESTONE_API_URL,
-    {
+  try {
+    console.log("[Domain] Starting subdomain registration:", {
+      subdomain,
+      contenthash,
+      apiUrl: NAMESTONE_API_URL,
+      domain: DOMAIN,
+      hasApiKey: !!NAMESTONE_API_KEY,
+      hasAddress: !!ADDRESS
+    });
+
+    if (!NAMESTONE_API_URL || !NAMESTONE_API_KEY || !ADDRESS || !DOMAIN) {
+      console.error("[Domain] Missing required environment variables:", {
+        hasApiUrl: !!NAMESTONE_API_URL,
+        hasApiKey: !!NAMESTONE_API_KEY,
+        hasAddress: !!ADDRESS,
+        hasDomain: !!DOMAIN
+      });
+      throw new Error("Missing required environment variables for domain registration");
+    }
+
+    const payload = {
       domain: DOMAIN,
       address: ADDRESS,
       contenthash: `ipfs://${contenthash}`,
       name: subdomain,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: NAMESTONE_API_KEY,
-      },
+    };
+
+    console.log("[Domain] Sending request to Namestone API:", {
+      url: NAMESTONE_API_URL,
+      payload: { ...payload, contenthash: `ipfs://${contenthash}` }
+    });
+
+    const response = await axios.post(
+      NAMESTONE_API_URL,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: NAMESTONE_API_KEY,
+        },
+      }
+    );
+
+    console.log("[Domain] Namestone API response:", {
+      status: response.status,
+      statusText: response.statusText,
+      data: response.data
+    });
+
+    return response.status === 200;
+  } catch (error) {
+    console.error("[Domain] Error in registerSubdomain:", {
+      error: error.message,
+      code: error.code,
+      response: error.response?.data,
+      status: error.response?.status,
+      config: {
+        url: error.config?.url,
+        method: error.config?.method,
+        headers: {
+          ...error.config?.headers,
+          Authorization: error.config?.headers?.Authorization ? '[REDACTED]' : undefined
+        }
+      }
+    });
+
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      throw new Error(`Namestone API error: ${error.response.status} - ${JSON.stringify(error.response.data)}`);
+    } else if (error.request) {
+      // The request was made but no response was received
+      throw new Error(`No response from Namestone API: ${error.message}`);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      throw new Error(`Request setup error: ${error.message}`);
     }
-  );
-  return response.status === 200;
+  }
 };
 
 module.exports = { publishDomain, registerSubdomain };

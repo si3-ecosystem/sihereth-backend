@@ -41,17 +41,12 @@ const publishWebContent = async (req, res) => {
       const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
       const template = ejs.compile(templateFile.toString());
       const renderedTemplate = template(content);
-      const tempDir = path.join(__dirname, "../temp");
-      if (!fs.existsSync(tempDir)) {
-        console.log(`[WebContent] Creating temp directory for user: ${userId}`);
-        fs.mkdirSync(tempDir, { recursive: true });
-      }
+      
       const filename = `${uuidv4()}.html`;
-      const filePath = path.join(tempDir, filename);
-      fs.writeFileSync(filePath, renderedTemplate);
       const file = new File([Buffer.from(renderedTemplate)], filename, {
         type: "text/html",
       });
+      
       console.log(`[WebContent] Uploading to storage for user: ${userId}`);
       const cid = await uploadToFileStorage(file);
       let webContent = await WebContent.findOne({ user: userId });
@@ -84,7 +79,6 @@ const publishWebContent = async (req, res) => {
         });
       }
       await webContent.save();
-      fs.unlinkSync(filePath);
       console.log(`[WebContent] Successfully published for user: ${userId}`);
       return res.status(201).json({
         message: "Published successfully",
@@ -156,17 +150,12 @@ const updateWebContent = async (req, res) => {
       const templateFile = fs.readFileSync(`${__dirname}/../template/index.ejs`);
       const template = ejs.compile(templateFile.toString());
       const renderedTemplate = template(content);
-      const tempDir = path.join(__dirname, "../temp");
-      if (!fs.existsSync(tempDir)) {
-        console.log(`[WebContent] Creating temp directory for update - user: ${userId}`);
-        fs.mkdirSync(tempDir, { recursive: true });
-      }
+      
       const filename = `${uuidv4()}.html`;
-      const filePath = path.join(tempDir, filename);
-      fs.writeFileSync(filePath, renderedTemplate);
       const file = new File([Buffer.from(renderedTemplate)], filename, {
         type: "text/html",
       });
+      
       console.log(`[WebContent] Uploading updated content for user: ${userId}`);
       const newCid = await uploadToFileStorage(file);
       webContent.contentHash = newCid;
@@ -179,7 +168,7 @@ const updateWebContent = async (req, res) => {
       webContent.available = content.available;
       webContent.socialChannels = content.socialChannels;
       await webContent.save();
-      fs.unlinkSync(filePath);
+      
       if (user?.domain) {
         console.log(`[WebContent] Registering subdomain for user: ${userId}`);
         await registerSubdomain(user.domain, newCid);

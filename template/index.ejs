@@ -571,29 +571,14 @@
         id="peopleScroller"
         style="white-space: nowrap"
       >
-        <% users.slice(0, 10).forEach((user, index) => { %>
-        <div key="<%= user._id %>-<%= index %>" class="flex items-center">
-          <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
-            <div class="size-12 relative">
-              <% if (user.image) { %>
-              <img src="<%= user.image %>" alt="" class="rounded-full object-cover w-full h-full" />
-              <% } %>
-            </div>
-            <div class="mx-4 text-left text-sm">
-              <p><%= user.fullName %></p>
-              <a
-                href="https://<%= user.domain %>"
-                target="_blank"
-                rel="noreferrer"
-                class="lowercase hover:underline underline-offset-2"
-              >
-                <%= user.domain %>
-              </a>
-            </div>
+        <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+          <div class="size-12 relative">
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1710000000/default-avatar.png" alt="" class="rounded-full object-cover w-full h-full" />
           </div>
-          <div class="bg-white size-2 rounded-full mx-4"></div>
+          <div class="mx-4 text-left text-sm">
+            <p>Loading...</p>
+          </div>
         </div>
-        <% }) %>
       </div>
     </div>
 
@@ -809,22 +794,76 @@
         animateSlider();
       });
 
-      // People Animation
-      document.addEventListener("DOMContentLoaded", function () {
-        const peopleScroller = document.getElementById("peopleScroller");
-        if (!peopleScroller) return;
-        let scrollAmount = 0;
-        const scrollSpeed = 0.3;
-        const animatePeople = () => {
-          scrollAmount -= scrollSpeed;
-          if (Math.abs(scrollAmount) >= peopleScroller.scrollWidth / 2) {
-            scrollAmount = 0;
+      // People Section API Call
+      async function fetchPeople() {
+        try {
+          const response = await fetch('/api/users/latest');
+          const users = await response.json();
+          
+          const peopleScroller = document.getElementById('peopleScroller');
+          if (!peopleScroller) return;
+
+          // Clear loading state
+          peopleScroller.innerHTML = '';
+
+          // Add users to the scroller
+          users.forEach((user, index) => {
+            const userElement = document.createElement('div');
+            userElement.className = 'flex items-center';
+            userElement.innerHTML = `
+              <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+                <div class="size-12 relative">
+                  <img src="${user.image || 'https://res.cloudinary.com/dq033xs8n/image/upload/v1710000000/default-avatar.png'}" 
+                       alt="" 
+                       class="rounded-full object-cover w-full h-full" />
+                </div>
+                <div class="mx-4 text-left text-sm">
+                  <p>${user.fullName}</p>
+                  ${user.domain ? `
+                    <a href="https://${user.domain}" 
+                       target="_blank" 
+                       rel="noreferrer" 
+                       class="lowercase hover:underline underline-offset-2">
+                      ${user.domain}
+                    </a>
+                  ` : ''}
+                </div>
+              </div>
+              <div class="bg-white size-2 rounded-full mx-4"></div>
+            `;
+            peopleScroller.appendChild(userElement);
+          });
+
+          // Start animation after data is loaded
+          let scrollAmount = 0;
+          const scrollSpeed = 0.3;
+          const animatePeople = () => {
+            scrollAmount -= scrollSpeed;
+            if (Math.abs(scrollAmount) >= peopleScroller.scrollWidth / 2) {
+              scrollAmount = 0;
+            }
+            peopleScroller.style.transform = `translateX(${scrollAmount}px)`;
+            requestAnimationFrame(animatePeople);
+          };
+          animatePeople();
+
+        } catch (error) {
+          console.error('Error fetching people:', error);
+          const peopleScroller = document.getElementById('peopleScroller');
+          if (peopleScroller) {
+            peopleScroller.innerHTML = `
+              <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
+                <div class="mx-4 text-left text-sm">
+                  <p>Failed to load users</p>
+                </div>
+              </div>
+            `;
           }
-          peopleScroller.style.transform = `translateX(${scrollAmount}px)`;
-          requestAnimationFrame(animatePeople);
-        };
-        animatePeople();
-      });
+        }
+      }
+
+      // Call fetchPeople when the page loads
+      document.addEventListener('DOMContentLoaded', fetchPeople);
     </script>
   </body>
 </html>

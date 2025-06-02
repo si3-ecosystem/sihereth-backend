@@ -1,5 +1,4 @@
 const User = require("../models/User.model");
-const WebContent = require("../models/WebContent.model");
 
 exports.getUsers = async (req, res) => {
   try {
@@ -13,7 +12,13 @@ exports.getUsers = async (req, res) => {
           as: "webContent",
         },
       },
-      { $unwind: { path: "$webContent", preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: "$webContent", preserveNullAndEmptyArrays: false } },
+      {
+        $match: {
+          domain: { $exists: true, $ne: null },
+          "webContent.landing.image": { $exists: true, $ne: null },
+        },
+      },
       {
         $project: {
           _id: 1,
@@ -23,8 +28,9 @@ exports.getUsers = async (req, res) => {
         },
       },
     ]);
+
     return res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };

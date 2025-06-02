@@ -77,11 +77,7 @@ const publishWebContent = async (req, res) => {
         });
       }
       await webContent.save();
-      try {
-        fs.unlinkSync(filePath);
-      } catch (cleanupError) {
-        console.warn("⚠️ Warning: Could not delete temporary file:", cleanupError.message);
-      }
+      fs.unlinkSync(filePath);
       return res.status(201).json({
         message: "Published successfully",
       });

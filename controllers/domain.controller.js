@@ -35,7 +35,10 @@ const publishDomain = async (req, res) => {
     // if (!updatedUser) {
     //   return errorResponse(res, 404, "User not found.");
     // }
-    return res.status(200).json({ domain: updatedUser.domain });
+    return res.status(200).json({ 
+      // domain: updatedUser.domain
+      message: "Domain registered successfully"
+     });
   } catch (error) {
     return errorResponse(res, 500, error.message ?? "Failed to publish domain");
   }

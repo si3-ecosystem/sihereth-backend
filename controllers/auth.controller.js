@@ -36,7 +36,6 @@ exports.approveUser = async (req, res) => {
 
     try {
       await newUser.save();
-      console.log("[Auth] Successfully created new user:", email);
       return res.status(201).json({ 
         message: "User successfully approved",
         email: newUser.email

@@ -5,19 +5,56 @@ const WebContent = require("../models/WebContent.model");
 
 const errorResponse = (res, status, message) => res.status(status).json({ message: message });
 
-exports.approveUser = async (req, res, next) => {
+exports.approveUser = async (req, res) => {
   try {
+    console.log("[Auth] Starting user approval process");
     const { email } = req.query;
-    if (!email) return errorResponse(res, 400, "Email is required");
+    
+    if (!email) {
+      console.log("[Auth] Missing email in approval request");
+      return errorResponse(res, 400, "Email is required");
+    }
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) return errorResponse(res, 400, "Invalid email format");
+    if (!emailRegex.test(email)) {
+      console.log("[Auth] Invalid email format:", email);
+      return errorResponse(res, 400, "Invalid email format");
+    }
+
+    console.log("[Auth] Checking for existing user with email:", email);
     const existingUser = await User.findOne({ email: email.toLowerCase() });
-    if (existingUser) return errorResponse(res, 409, "User already exists");
-    const newUser = new User({ email: email.toLowerCase() });
-    await newUser.save();
-    return res.status(201).json({ message: "User successfully approved" });
+    if (existingUser) {
+      console.log("[Auth] User already exists:", email);
+      return errorResponse(res, 409, "User already exists");
+    }
+
+    console.log("[Auth] Creating new user for email:", email);
+    const newUser = new User({
+      email: email.toLowerCase(),
+      password: null // Explicitly set password to null to avoid hashing
+    });
+
+    try {
+      await newUser.save();
+      console.log("[Auth] Successfully created new user:", email);
+      return res.status(201).json({ 
+        message: "User successfully approved",
+        email: newUser.email
+      });
+    } catch (saveError) {
+      console.error("[Auth] Error saving new user:", {
+        error: saveError.message,
+        code: saveError.code,
+        email
+      });
+      return errorResponse(res, 500, "Failed to create user");
+    }
   } catch (error) {
-    next(error);
+    console.error("[Auth] Unexpected error in approveUser:", {
+      error: error.message,
+      stack: error.stack
+    });
+    return errorResponse(res, 500, "Internal server error");
   }
 };
 

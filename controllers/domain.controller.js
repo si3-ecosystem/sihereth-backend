@@ -11,17 +11,23 @@ const errorResponse = (res, status, message) => res.status(status).json({ messag
 const publishDomain = async (req, res) => {
   try {
     const { domain } = req.body;
+    console.log(domain);
     if (!domain) {
       return errorResponse(res, 400, "Domain is required.");
     }
-    const existingDomain = await User.findOne({ domain: { $exists: true, $ne: null } });
+    const existingDomain = await User.findOne({ domain: domain });
+    console.log(existingDomain);
     if (existingDomain) {
       return errorResponse(res, 400, "Subdomain already registered.");
     }
     const webpage = await Webpage.findOne({ user: req.user.id });
     const cid = webpage?.contentHash ?? "";
     if (!cid) {
-      return errorResponse(res, 400, "No content hash found. Please publish your webpage first.");
+      return errorResponse(
+        res,
+        400,
+        "Before selecting your domain name, please publish your webpage first."
+      );
     }
     const isSubdomainRegistered = await registerSubdomain(domain, cid);
     if (!isSubdomainRegistered) {

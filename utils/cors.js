@@ -6,7 +6,15 @@ exports.corsOptions = {
       "https://siher.si3.space",
       "https://backend.si3.space",
     ];
-    if (!origin || allowedOrigins.includes(origin)) {
+    const allowedDomainSuffixes = [
+      ".siher.eth.link",
+      ".siher.eth.limo",
+    ];
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      allowedDomainSuffixes.some((suffix) => origin.endsWith(suffix))
+    ) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));

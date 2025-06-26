@@ -11,59 +11,87 @@ const errorResponse = (res, status, message) => res.status(status).json({ messag
 const publishDomain = async (req, res) => {
   try {
     const { domain } = req.body;
-    console.log(domain);
+    console.log("[publishDomain] Requested domain:", domain);
+
     if (!domain) {
+      console.log("[publishDomain] No domain provided in request body.");
       return errorResponse(res, 400, "Domain is required.");
     }
+
     const existingDomain = await User.findOne({ domain: domain });
-    console.log(existingDomain);
+    console.log("[publishDomain] Existing domain lookup result:", existingDomain);
+
     if (existingDomain) {
+      console.log("[publishDomain] Subdomain already registered:", domain);
       return errorResponse(res, 400, "Subdomain already registered.");
     }
+
     const webpage = await Webpage.findOne({ user: req.user.id });
+    console.log("[publishDomain] Webpage lookup for user:", req.user.id, "Result:", webpage);
+
     const cid = webpage?.contentHash ?? "";
     if (!cid) {
+      console.log("[publishDomain] No content hash found for user:", req.user.id);
       return errorResponse(
         res,
         400,
         "Before selecting your domain name, please publish your webpage first."
       );
     }
+
+    console.log("[publishDomain] Registering subdomain:", domain, "with CID:", cid);
     const isSubdomainRegistered = await registerSubdomain(domain, cid);
+    console.log("[publishDomain] Subdomain registration result:", isSubdomainRegistered);
+
     if (!isSubdomainRegistered) {
+      console.log("[publishDomain] Could not register subdomain:", domain);
       return errorResponse(res, 400, "Could not register subdomain.");
     }
+
     const updatedUser = await User.findOneAndUpdate(
       { _id: req.user.id },
       { domain },
       { new: true }
     );
+    console.log("[publishDomain] Updated user after domain registration:", updatedUser);
+
     if (!updatedUser) {
+      console.log("[publishDomain] User not found for update:", req.user.id);
       return errorResponse(res, 404, "User not found.");
     }
+
+    console.log("[publishDomain] Domain published successfully for user:", updatedUser._id, "Domain:", updatedUser.domain);
     return res.status(200).json({ domain: updatedUser.domain });
   } catch (error) {
+    console.error("[publishDomain] Error:", error);
     return errorResponse(res, 500, error.message ?? "Failed to publish domain");
   }
 };
 
 const registerSubdomain = async (subdomain, contenthash) => {
-  const response = await axios.post(
-    NAMESTONE_API_URL,
-    {
-      domain: DOMAIN,
-      address: ADDRESS,
-      contenthash: `ipfs://${contenthash}`,
-      name: subdomain,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: NAMESTONE_API_KEY,
+  try {
+    console.log("[registerSubdomain] Registering subdomain:", subdomain, "with contenthash:", contenthash);
+    const response = await axios.post(
+      NAMESTONE_API_URL,
+      {
+        domain: DOMAIN,
+        address: ADDRESS,
+        contenthash: `ipfs://${contenthash}`,
+        name: subdomain,
       },
-    }
-  );
-  return response.status === 200;
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: NAMESTONE_API_KEY,
+        },
+      }
+    );
+    console.log("[registerSubdomain] API response status:", response.status);
+    return response.status === 200;
+  } catch (err) {
+    console.error("[registerSubdomain] Error registering subdomain:", err.response?.data || err.message);
+    return false;
+  }
 };
 
 module.exports = { publishDomain, registerSubdomain };

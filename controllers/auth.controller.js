@@ -9,7 +9,7 @@ exports.approveUser = async (req, res) => {
   try {
     console.log("[Auth] Starting user approval process");
     const { email } = req.query;
-    
+
     if (!email) {
       console.log("[Auth] Missing email in approval request");
       return errorResponse(res, 400, "Email is required");
@@ -31,27 +31,27 @@ exports.approveUser = async (req, res) => {
     console.log("[Auth] Creating new user for email:", email);
     const newUser = new User({
       email: email.toLowerCase(),
-      password: null // Explicitly set password to null to avoid hashing
+      password: null, // Explicitly set password to null to avoid hashing
     });
 
     try {
       await newUser.save();
-      return res.status(201).json({ 
+      return res.status(201).json({
         message: "User successfully approved",
-        email: newUser.email
+        email: newUser.email,
       });
     } catch (saveError) {
       console.error("[Auth] Error saving new user:", {
         error: saveError.message,
         code: saveError.code,
-        email
+        email,
       });
       return errorResponse(res, 500, "Failed to create user");
     }
   } catch (error) {
     console.error("[Auth] Unexpected error in approveUser:", {
       error: error.message,
-      stack: error.stack
+      stack: error.stack,
     });
     return errorResponse(res, 500, "Internal server error");
   }
@@ -89,6 +89,7 @@ exports.loginUser = async (req, res, next) => {
     };
     return res.status(200).json({
       message: "Login successful",
+      token: token,
       user: userData,
     });
   } catch (error) {

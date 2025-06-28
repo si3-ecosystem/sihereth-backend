@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const WebContent = require("../models/WebContent.model");
+const { trusted } = require("mongoose");
 
 const errorResponse = (res, status, message) => res.status(status).json({ message: message });
 
@@ -89,10 +90,31 @@ exports.loginUser = async (req, res, next) => {
     };
     return res.status(200).json({
       message: "Login successful",
-      token: token,
       user: userData,
     });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.validateToken = (req, res) => {
+  try {
+    let token = null;
+    if (req?.cookies?.token) {
+      token = req.cookies.token;
+    }
+    if (!token) {
+      return errorResponse(res, 401, "No token provided");
+    }
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return errorResponse(res, 403, "Invalid or expired token");
+      }
+      return res.status(200).json({ success: true });
+    });
+  } catch (error) {
+    console.log(error);
+
+    return errorResponse(res, 500, "Internal server error");
   }
 };

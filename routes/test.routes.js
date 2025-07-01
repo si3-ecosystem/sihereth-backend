@@ -11,7 +11,7 @@ router.get("/render", (req, res) => {
   try {
     const content = {
       landing: {
-        fullName: "test",
+        fullName: "ALi",
         title: "Full Stack Developer",
         headline: "& I develop web apps.",
         hashTags: ["Koders", "New tag"],
@@ -23,7 +23,7 @@ router.get("/render", (req, res) => {
           "https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386821/girl_ainxhw.png",
         pronoun: "ze/hir",
       },
-      slider: ["React"],
+      slider: ["Reactjs"],
       value: {
         experience:
           "My career began in 2020 at Graana. I started an internship in web development.",

@@ -160,6 +160,21 @@
       .fade-in-up {
         animation: fadeInUp 0.4s ease;
       }
+
+      @keyframes marquee-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee-infinite {
+  animation: marquee-infinite 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
     </style>
   </head>
   <body class="text-gray-900 bg-white">
@@ -498,36 +513,37 @@
     </div>
 
     <!-- ========== Slider Section ========== -->
-    <div
-      class="relative overflow-hidden h-12 bg-gray-900 py-3 px-4 lg:py-auto flex items-center mt-10"
-    >
-      <div
-        class="absolute flex items-center w-full"
-        id="sliderScroller"
-        style="display: flex; white-space: nowrap"
-      >
-        
-        
-        <div key="React-0" class="flex items-center">
-          <div
-            class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
-          >
-            React
-          </div>
-          <div class="bg-white size-2 rounded-full mx-4"></div>
+    <!-- ========== Slider Section ========== -->
+<div class="relative overflow-hidden h-12 bg-gray-900 py-3 px-4 lg:py-auto flex items-center mt-10">
+  <div class="w-full overflow-hidden">
+    <div class="flex gap-6 animate-marquee-infinite">
+      
+      
+      <div key="React-0" class="flex items-center flex-shrink-0">
+        <div class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1">
+          React
         </div>
-        
-        <div key="React-1" class="flex items-center">
-          <div
-            class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
-          >
-            React
-          </div>
-          <div class="bg-white size-2 rounded-full mx-4"></div>
-        </div>
-        
+        <div class="bg-white size-2 rounded-full mx-4"></div>
       </div>
+      
+      <div key="React-1" class="flex items-center flex-shrink-0">
+        <div class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1">
+          React
+        </div>
+        <div class="bg-white size-2 rounded-full mx-4"></div>
+      </div>
+      
+      <div key="React-2" class="flex items-center flex-shrink-0">
+        <div class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1">
+          React
+        </div>
+        <div class="bg-white size-2 rounded-full mx-4"></div>
+      </div>
+      
     </div>
+  </div>
+</div>
+
 
     <!-- ========== Value Section ========== -->
     <div class="p-4 py-10">
@@ -1003,37 +1019,6 @@
           duration: 100,
           delay: (_el, i) => 50 * (i + 1),
         });
-      });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const sliderScroller = document.getElementById("sliderScroller");
-        if (!sliderScroller) return;
-        
-        // Calculate total width of slider content
-        const sliderItems = sliderScroller.querySelectorAll('[key]');
-        let totalWidth = 0;
-        sliderItems.forEach(item => {
-          totalWidth += item.offsetWidth;
-        });
-        
-        // Set initial position to start from left edge
-        let scrollAmount = 0;
-        const scrollSpeed = 1;
-        
-        const animateSlider = () => {
-          scrollAmount -= scrollSpeed;
-          
-          // Reset position when first set of items has scrolled out of view
-          const firstSetWidth = totalWidth / 2;
-          if (Math.abs(scrollAmount) >= firstSetWidth) {
-            scrollAmount = 0;
-          }
-          
-          sliderScroller.style.transform = `translateX(${scrollAmount}px)`;
-          requestAnimationFrame(animateSlider);
-        };
-        
-        animateSlider();
       });
 
       async function fetchPeople() {

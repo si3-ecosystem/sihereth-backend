@@ -2,39 +2,27 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const WebContent = require("../models/WebContent.model");
-const { trusted } = require("mongoose");
 
 const errorResponse = (res, status, message) => res.status(status).json({ message: message });
 
 exports.approveUser = async (req, res) => {
   try {
-    console.log("[Auth] Starting user approval process");
     const { email } = req.query;
-
     if (!email) {
-      console.log("[Auth] Missing email in approval request");
       return errorResponse(res, 400, "Email is required");
     }
-
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
-      console.log("[Auth] Invalid email format:", email);
       return errorResponse(res, 400, "Invalid email format");
     }
-
-    console.log("[Auth] Checking for existing user with email:", email);
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
-      console.log("[Auth] User already exists:", email);
       return errorResponse(res, 409, "User already exists");
     }
-
-    console.log("[Auth] Creating new user for email:", email);
     const newUser = new User({
       email: email.toLowerCase(),
-      password: null, // Explicitly set password to null to avoid hashing
+      password: null,
     });
-
     try {
       await newUser.save();
       return res.status(201).json({
@@ -44,15 +32,12 @@ exports.approveUser = async (req, res) => {
     } catch (saveError) {
       console.error("[Auth] Error saving new user:", {
         error: saveError.message,
-        code: saveError.code,
-        email,
       });
       return errorResponse(res, 500, "Failed to create user");
     }
   } catch (error) {
     console.error("[Auth] Unexpected error in approveUser:", {
       error: error.message,
-      stack: error.stack,
     });
     return errorResponse(res, 500, "Internal server error");
   }

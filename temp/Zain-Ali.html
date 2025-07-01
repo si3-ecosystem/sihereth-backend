@@ -164,114 +164,108 @@
   </head>
   <body class="text-gray-900 bg-white">
     <!-- ========== Navbar Section ========== -->
-    <section class="border-b border-gray-500 p-4 relative text-md">
-      <div class="flex justify-between items-center mx-auto max-w-[90rem]">
-        <!-- Logo -->
-        <img
-          src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345811/si3_g3ow9r.svg"
-          width="100"
-          height="80"
-          alt="logo"
-        />
-        <!-- Desktop Navigation -->
-        <div class="hidden md:flex items-center leading-4 gap-7">
-          
-          <a
-            href="#value"
-            class="font-semibold font-sora transition-all duration-300 hover:text-light-purple"
-          >
-            Value
-          </a>
-          
-          <a
-            href="#media"
-            class="font-semibold font-sora transition-all duration-300 hover:text-light-purple"
-          >
-            Media
-          </a>
-          
-          <a
-            href="#timeline"
-            class="font-semibold font-sora transition-all duration-300 hover:text-light-purple"
-          >
-            Timeline
-          </a>
-          
-          <a
-            href="#connect"
-            class="font-semibold font-sora transition-all duration-300 hover:text-light-purple"
-          >
-            Connect
-          </a>
-          
-        </div>
-        <!-- Connect Wallet Button -->
-        <button
-          class="hidden sm:block h-12 bg-light-purple text-blue-primary rounded-xl px-4 font-medium transition-all duration-300 connect-wallet hover:text-white text-sm"
-        >
-          CONNECT WALLET
-        </button>
-        <!-- Mobile Menu Button -->
-        <button
-          onclick="toggleMobileNav()"
-          class="md:hidden focus:outline-none z-50 relative"
-          aria-label="Toggle menu"
-        >
-          <i class="fas fa-bars text-2xl"></i>
-        </button>
-        <!-- Mobile Navigation -->
-        <div
-          id="mobileNav"
-          class="fixed inset-0 bg-black/80 backdrop-blur-md transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col items-center justify-center space-y-6 z-40"
-        >
-          <button
-            onclick="toggleMobileNav()"
-            class="absolute top-10 right-10 text-white md:hidden focus:outline-none z-50"
-            aria-label="Toggle menu"
-          >
-            <i class="fas fa-times text-2xl"></i>
-          </button>
-          
-          <a
-            href="#value"
-            class="font-semibold text-white transition-all hover:text-light-purple"
-            onclick="toggleMobileNav()"
-          >
-            Value
-          </a>
-          
-          <a
-            href="#media"
-            class="font-semibold text-white transition-all hover:text-light-purple"
-            onclick="toggleMobileNav()"
-          >
-            Media
-          </a>
-          
-          <a
-            href="#timeline"
-            class="font-semibold text-white transition-all hover:text-light-purple"
-            onclick="toggleMobileNav()"
-          >
-            Timeline
-          </a>
-          
-          <a
-            href="#connect"
-            class="font-semibold text-white transition-all hover:text-light-purple"
-            onclick="toggleMobileNav()"
-          >
-            Connect
-          </a>
-          
-          <button
-            class="h-12 bg-light-purple text-blue-primary rounded-lg px-6 font-medium tracking-widest transition-all duration-300 connect-wallet hover:text-white"
-          >
-            CONNECT WALLET
-          </button>
-        </div>
-      </div>
-    </section>
+  <section class="border-b border-gray-500 bg-[linear-gradient(90deg,_#FFF_0%,_#D5D5F7_59%,_#F1EFFF_100%)] p-4 relative text-md"> 
+    <div class="flex justify-between items-center mx-auto max-w-[90rem]"> 
+      <!-- Logo --> 
+      <img 
+        src="https://res.cloudinary.com/dq033xs8n/image/upload/v1750780830/si3logo_sktbua.svg" 
+        width="100" 
+        height="80" 
+        alt="logo" 
+      /> 
+      <!-- Desktop Navigation --> 
+      <div class="flex-1 md:flex justify-center items-center leading-4 gap-7"> 
+        <div class="flex items-center gap-7"> 
+           
+            <a 
+              href="#value" 
+              class="font-semibold font-sora transition-all duration-300 hover:text-light-purple" 
+            > 
+              Value 
+            </a> 
+           
+            <a 
+              href="#media" 
+              class="font-semibold font-sora transition-all duration-300 hover:text-light-purple" 
+            > 
+              Media 
+            </a> 
+           
+            <a 
+              href="#timeline" 
+              class="font-semibold font-sora transition-all duration-300 hover:text-light-purple" 
+            > 
+              Timeline 
+            </a> 
+           
+            <a 
+              href="#connect" 
+              class="font-semibold font-sora transition-all duration-300 hover:text-light-purple" 
+            > 
+              Connect 
+            </a> 
+           
+        </div> 
+      </div> 
+
+      <!-- Mobile Menu Button --> 
+      <button 
+        type="button" 
+        onclick="toggleMobileNav()" 
+        class="md:hidden focus:outline-none z-50 relative" 
+        aria-label="Toggle menu" 
+      > 
+        <i id="menuIcon" class="fas fa-bars text-2xl"></i> 
+      </button> 
+      <!-- Mobile Navigation --> 
+      <div 
+        id="mobileNav" 
+        class="fixed inset-0 bg-black/80 backdrop-blur-md transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col items-center justify-center space-y-6 z-40" 
+      > 
+        <button 
+          type="button" 
+          onclick="toggleMobileNav()" 
+          class="absolute top-10 right-10 text-white md:hidden focus:outline-none z-50" 
+          aria-label="Toggle menu" 
+        > 
+          <i class="fas fa-times text-2xl"></i> 
+        </button> 
+         
+          <a 
+            href="#value" 
+            class="font-semibold text-white transition-all hover:text-light-purple" 
+            onclick="toggleMobileNav()" 
+          > 
+            Value 
+          </a> 
+         
+          <a 
+            href="#media" 
+            class="font-semibold text-white transition-all hover:text-light-purple" 
+            onclick="toggleMobileNav()" 
+          > 
+            Media 
+          </a> 
+         
+          <a 
+            href="#timeline" 
+            class="font-semibold text-white transition-all hover:text-light-purple" 
+            onclick="toggleMobileNav()" 
+          > 
+            Timeline 
+          </a> 
+         
+          <a 
+            href="#connect" 
+            class="font-semibold text-white transition-all hover:text-light-purple" 
+            onclick="toggleMobileNav()" 
+          > 
+            Connect 
+          </a> 
+         
+      </div> 
+    </div> 
+  </section>
 
     <!-- ========== Landing Section ========== -->
     <div class="px-4 py-6 text-xs">
@@ -286,12 +280,12 @@
             class="font-sora font-bold text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] tracking-wide"
           >
             <span class="letter">I'm </span>
-            <span class="text-blue-primary letter"
+            <span class="text-blue-primary"
               >Zain</span
             >
-            <span class="letter">,</span>
-            <span class="letter"> </span>
-            <span class="letter">&amp; I develop web apps.</span>
+            <span>,</span>
+            <span > </span>
+            <span >&amp; I develop web apps.</span>
           </div>
 
           <!-- Hashtags -->
@@ -301,6 +295,12 @@
               class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default"
             >
               #KODERS
+            </div>
+            
+            <div
+              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default"
+            >
+              #NEW TAG
             </div>
             
           </section>
@@ -336,10 +336,61 @@
               <div
                 class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
               >
-                Full Stack Developer
+                Organization Affiliations:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                 Devs 
+                
+                <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                  <div class="flex animate-marquee">
+                    
+                    <span class="mx-2 flex items-center">
+                      Devs
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Hackers
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Devs
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Hackers
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Devs
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Hackers
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                  </div>
+                </div>
+                
               </div>
             </div>
              
@@ -347,10 +398,10 @@
               <div
                 class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
               >
-                Full Stack Developer
+                Community Affiliations:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                 Coders 
+                 Coders, Hackers, Community Builders 
               </div>
             </div>
              
@@ -358,10 +409,61 @@
               <div
                 class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
               >
-                Full Stack Developer
+                Superpowers:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                 Developing 
+                
+                <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                  <div class="flex animate-marquee">
+                    
+                    <span class="mx-2 flex items-center">
+                      Developing
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Teaching
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Developing
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Teaching
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Developing
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Teaching
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                  </div>
+                </div>
+                
               </div>
             </div>
             
@@ -400,10 +502,11 @@
       class="relative overflow-hidden h-12 bg-gray-900 py-3 px-4 lg:py-auto flex items-center mt-10"
     >
       <div
-        class="absolute flex items-center"
+        class="absolute flex items-center w-full"
         id="sliderScroller"
         style="display: flex; white-space: nowrap"
       >
+        
         
         <div key="React-0" class="flex items-center">
           <div
@@ -450,6 +553,51 @@
           <div class="bg-white size-2 rounded-full mx-4"></div>
         </div>
         
+        <div key="React-5" class="flex items-center">
+          <div
+            class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
+          >
+            React
+          </div>
+          <div class="bg-white size-2 rounded-full mx-4"></div>
+        </div>
+        
+        <div key="Node-6" class="flex items-center">
+          <div
+            class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
+          >
+            Node
+          </div>
+          <div class="bg-white size-2 rounded-full mx-4"></div>
+        </div>
+        
+        <div key="Express-7" class="flex items-center">
+          <div
+            class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
+          >
+            Express
+          </div>
+          <div class="bg-white size-2 rounded-full mx-4"></div>
+        </div>
+        
+        <div key="Mongo-8" class="flex items-center">
+          <div
+            class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
+          >
+            Mongo
+          </div>
+          <div class="bg-white size-2 rounded-full mx-4"></div>
+        </div>
+        
+        <div key="AWS-9" class="flex items-center">
+          <div
+            class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
+          >
+            AWS
+          </div>
+          <div class="bg-white size-2 rounded-full mx-4"></div>
+        </div>
+        
       </div>
     </div>
 
@@ -464,7 +612,7 @@
             MY EXPERIENCE SUMMARY
           </div>
           <p class="font-dm-sans font-medium text-xl tracking-wide text-justify">
-            My career began in 20120 at Graana. I started an internship in web development.
+            My career began in 2020 at Graana. I started an internship in web development.
           </p>
         </section>
         <!-- Experience -->
@@ -585,7 +733,11 @@
           ORGANIZATIONS I SUPPORT
         </div>
         <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
-              
+           
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1748798333/ssjfnrdqnrnypxgiqflq.jpg" alt="Organization 1" width="100" height="100" />
+            
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1748798342/ktgfunqrklosfj2tmbln.png" alt="Organization 2" width="100" height="100" />
+           
         </section>
       </div>
     </div>
@@ -606,6 +758,21 @@
             width="70"
             height="70"
           />
+        </div>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            2025 - PRESENT
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            Developer
+          </span>
         </div>
         
         <div
@@ -858,7 +1025,30 @@
       // Mobile Navigation
       function toggleMobileNav() {
         const nav = document.getElementById("mobileNav");
-        nav.classList.toggle("translate-x-full");
+        const isOpen = !nav.classList.contains("translate-x-full");
+        const menuIcon = document.getElementById("menuIcon");
+        
+        if (isOpen) {
+          // Close the menu
+          nav.classList.add("translate-x-full");
+          menuIcon.className = "fas fa-bars text-2xl";
+        } else {
+          // Open the menu
+          nav.classList.remove("translate-x-full");
+          menuIcon.className = "fas fa-times text-2xl";
+        }
+        
+        // Update mobile menu button icons
+        const menuButtons = document.querySelectorAll('[aria-label="Toggle menu"]');
+        menuButtons.forEach(button => {
+          if (button.id !== "menuIcon") {
+            if (isOpen) {
+              button.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+            } else {
+              button.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+            }
+          }
+        });
       }
 
       // Landing Animation
@@ -890,15 +1080,31 @@
       document.addEventListener("DOMContentLoaded", function () {
         const sliderScroller = document.getElementById("sliderScroller");
         if (!sliderScroller) return;
+        
+        // Calculate total width of slider content
+        const sliderItems = sliderScroller.querySelectorAll('[key]');
+        let totalWidth = 0;
+        sliderItems.forEach(item => {
+          totalWidth += item.offsetWidth;
+        });
+        
+        // Set initial position to start from left edge
         let scrollAmount = 0;
+        const scrollSpeed = 1;
+        
         const animateSlider = () => {
-          scrollAmount -= 1;
-          if (Math.abs(scrollAmount) >= sliderScroller.scrollWidth / 2) {
+          scrollAmount -= scrollSpeed;
+          
+          // Reset position when first set of items has scrolled out of view
+          const firstSetWidth = totalWidth / 2;
+          if (Math.abs(scrollAmount) >= firstSetWidth) {
             scrollAmount = 0;
           }
+          
           sliderScroller.style.transform = `translateX(${scrollAmount}px)`;
           requestAnimationFrame(animateSlider);
         };
+        
         animateSlider();
       });
 
@@ -917,7 +1123,7 @@
                 <div class="size-12 relative">
                   <img src="${
                     user.image ||
-                    "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png"
+                    "https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386821/girl_ainxhw.png"
                   }" 
                        alt="" 
                        class="rounded-full object-cover w-full h-full" />

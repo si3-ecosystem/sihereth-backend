@@ -3,11 +3,16 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 const auth = require("./middlewares/auth");
 const { corsOptions } = require("./utils/cors");
 require("dotenv").config();
 
 const app = express();
+
+// Set up EJS as view engine
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "template"));
 
 app.use(helmet());
 app.use(express.json());
@@ -18,6 +23,7 @@ app.use("/auth", require("./routes/auth.routes"));
 app.use("/users", require("./routes/users.routes"));
 app.use("/webcontent", auth, require("./routes/webcontent.routes"));
 app.use("/domain", auth, require("./routes/domain.routes"));
+app.use("/test", require("./routes/test.routes"));
 app.get("/", (_, res) => {
   return res.send("Server is running");
 });

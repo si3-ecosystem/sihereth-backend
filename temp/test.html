@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= landing.fullName.split(" ")[0] %>'s Profile</title>
+    <title>test's Profile</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       rel="stylesheet"
@@ -176,14 +176,35 @@
       <!-- Desktop Navigation --> 
       <div class="flex-1 md:flex justify-center items-center leading-4 gap-7"> 
         <div class="flex items-center gap-7"> 
-          <% ["Value", "Media", "Timeline", "Connect"].forEach(item => { %> 
+           
             <a 
-              href="#<%= item.toLowerCase() %>" 
+              href="#value" 
               class="font-semibold font-sora transition-all duration-300 hover:text-light-purple" 
             > 
-              <%= item %> 
+              Value 
             </a> 
-          <% }) %> 
+           
+            <a 
+              href="#media" 
+              class="font-semibold font-sora transition-all duration-300 hover:text-light-purple" 
+            > 
+              Media 
+            </a> 
+           
+            <a 
+              href="#timeline" 
+              class="font-semibold font-sora transition-all duration-300 hover:text-light-purple" 
+            > 
+              Timeline 
+            </a> 
+           
+            <a 
+              href="#connect" 
+              class="font-semibold font-sora transition-all duration-300 hover:text-light-purple" 
+            > 
+              Connect 
+            </a> 
+           
         </div> 
       </div> 
 
@@ -209,15 +230,39 @@
         > 
           <i class="fas fa-times text-2xl"></i> 
         </button> 
-        <% ["Value", "Media", "Timeline", "Connect"].forEach(item => { %> 
+         
           <a 
-            href="#<%= item.toLowerCase() %>" 
+            href="#value" 
             class="font-semibold text-white transition-all hover:text-light-purple" 
             onclick="toggleMobileNav()" 
           > 
-            <%= item %> 
+            Value 
           </a> 
-        <% }) %> 
+         
+          <a 
+            href="#media" 
+            class="font-semibold text-white transition-all hover:text-light-purple" 
+            onclick="toggleMobileNav()" 
+          > 
+            Media 
+          </a> 
+         
+          <a 
+            href="#timeline" 
+            class="font-semibold text-white transition-all hover:text-light-purple" 
+            onclick="toggleMobileNav()" 
+          > 
+            Timeline 
+          </a> 
+         
+          <a 
+            href="#connect" 
+            class="font-semibold text-white transition-all hover:text-light-purple" 
+            onclick="toggleMobileNav()" 
+          > 
+            Connect 
+          </a> 
+         
       </div> 
     </div> 
   </section>
@@ -236,22 +281,28 @@
           >
             <span class="letter">I'm </span>
             <span class="text-blue-primary"
-              ><%= landing.fullName.trim().split(" ")[0] %></span
+              >test</span
             >
             <span class="letter">,</span>
             <span class="letter" > </span>
-            <span ><%= landing.headline ?? "" %></span>
+            <span >&amp; I develop web apps.</span>
           </div>
 
           <!-- Hashtags -->
           <section class="flex flex-wrap gap-3 font-medium pb-2">
-            <% (landing.hashTags || []).forEach((hashtag, index) => { %>
+            
             <div
               class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default"
             >
-              #<%= hashtag.toUpperCase() %>
+              #KODERS
             </div>
-            <% }) %>
+            
+            <div
+              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default"
+            >
+              #NEW TAG
+            </div>
+            
           </section>
 
           <!-- Information Section -->
@@ -265,7 +316,7 @@
                 Title:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                <%= landing.title %>
+                Full Stack Developer
               </div>
             </div>
 
@@ -276,36 +327,146 @@
                 Presently based in:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                <%= landing.region %>
+                Southeastern Asia
               </div>
             </div>
 
-            <% const renderInfoRow = (title, valueArray) => { %>
+             
             <div class="flex gap-2 font-medium">
               <div
                 class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
               >
-                <%= title %>
+                Organization Affiliations:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                <% if (valueArray.length < 3) { %> <%= valueArray.join(", ") %> <% } else { %>
+                
                 <div class="overflow-hidden w-[48rem] whitespace-nowrap">
                   <div class="flex animate-marquee">
-                    <% valueArray.concat(valueArray, valueArray).forEach((item, idx) => { %>
+                    
                     <span class="mx-2 flex items-center">
-                      <%= item %>
+                      Devs
                       <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
                     </span>
-                    <% }) %>
+                    
+                    <span class="mx-2 flex items-center">
+                      Hackers
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Devs
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Hackers
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Devs
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Hackers
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
                   </div>
                 </div>
-                <% } %>
+                
               </div>
             </div>
-            <% } %> <%- renderInfoRow("Organization Affiliations:",
-            landing.organizationAffiliations) %> <%- renderInfoRow("Community Affiliations:",
-            landing.communityAffiliations) %> <%- renderInfoRow("Superpowers:", landing.superPowers)
-            %>
+             
+            <div class="flex gap-2 font-medium">
+              <div
+                class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
+              >
+                Community Affiliations:
+              </div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                 Coders, Hackers, Community Builders 
+              </div>
+            </div>
+             
+            <div class="flex gap-2 font-medium">
+              <div
+                class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
+              >
+                Superpowers:
+              </div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                
+                <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                  <div class="flex animate-marquee">
+                    
+                    <span class="mx-2 flex items-center">
+                      Developing
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Teaching
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Developing
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Teaching
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Developing
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Teaching
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Community
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
           </section>
         </div>
 
@@ -314,21 +475,21 @@
           <section
             class="relative aspect-[3/4] w-full max-w-[10rem] sm:max-w-xs md:max-w-sm rounded-2xl flex-shrink-0"
           >
-            <% if (landing.image) { %>
+            
             <img
-              src="<%= landing.image.replace(/`/g, '').trim() %>"
+              src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386821/girl_ainxhw.png"
               alt="profile"
               class="rounded-2xl object-cover w-full h-full"
             />
-            <% } %>
+            
             <div
               class="rounded-2xl absolute right-0 lg:-right-2 -bottom-4 xl:-right-4 border border-light-purple p-4 flex flex-col justify-center items-center gap-1 md:gap-2 bg-primary shadow-md font-dmsans"
             >
               <span class="font-medium text-base md:text-lg whitespace-nowrap"
-                ><%= landing.fullName %></span
+                >test</span
               >
               <span class="tracking-wider text-xs md:text-sm"
-                ><%= landing.pronoun ? `(${landing.pronoun.toLowerCase()})` : "" %></span
+                >(ze/hir)</span
               >
             </div>
           </section>
@@ -345,17 +506,26 @@
         id="sliderScroller"
         style="display: flex; white-space: nowrap"
       >
-        <% const repeatedSlider = [...(slider || []), ...(slider || [])]; %>
-        <% repeatedSlider.forEach((slide, index) => { %>
-        <div key="<%= slide %>-<%= index %>" class="flex items-center">
+        
+        
+        <div key="React-0" class="flex items-center">
           <div
             class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
           >
-            <%= slide %>
+            React
           </div>
           <div class="bg-white size-2 rounded-full mx-4"></div>
         </div>
-        <% }) %>
+        
+        <div key="React-1" class="flex items-center">
+          <div
+            class="text-center flex items-center px-2 lg:px-4 text-white tracking-wider uppercase text-sm leading-4 mx-1"
+          >
+            React
+          </div>
+          <div class="bg-white size-2 rounded-full mx-4"></div>
+        </div>
+        
       </div>
     </div>
 
@@ -370,7 +540,7 @@
             MY EXPERIENCE SUMMARY
           </div>
           <p class="font-dm-sans font-medium text-xl tracking-wide text-justify">
-            <%= value.experience %>
+            My career began in 2020 at Graana. I started an internship in web development.
           </p>
         </section>
         <!-- Experience -->
@@ -380,7 +550,7 @@
           >
             MY VISION
           </div>
-          <div class="font-medium text-2xl font-sora text-justify"><%= value.values %></div>
+          <div class="font-medium text-2xl font-sora text-justify">Grow and become a skilled developer, excel in DevOps, and be a good mentor.</div>
         </section>
       </div>
     </div>
@@ -389,7 +559,7 @@
     <section class="bg-primary p-4 py-10 sm:py-16" aria-label="Live Section">
       <div class="max-w-[90rem] mx-auto space-y-8">
         <!-- Live content -->
-        <% if (live.image && (live.video || live.url)) { %>
+        
         <div class="relative bg-white rounded-2xl md:p-4 shadow-sm">
           <img
             src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_cawmkx.png"
@@ -402,87 +572,42 @@
             class="md:mt-6 p-4 sm:p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6"
           >
             <div class="relative w-full aspect-video overflow-hidden">
-              <img src="<%= live.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
+              <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1748804464/vnaidlylf4ferys1nwc3.jpg" alt="" class="object-cover rounded-2xl w-full h-full" />
             </div>
             <div class="w-full aspect-video">
-              <% if ((live.video || live.url) && (live.video ||
-              live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
-              <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
-                <audio src="<%= live.video || live.url %>" class="hidden" controls></audio>
-                <button
-                  type="button"
-                  class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
-                >
-                  <div
-                    class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center"
-                  >
-                    <i class="fas fa-play text-white text-2xl"></i>
-                  </div>
-                </button>
-              </div>
-              <% } else { %>
+              
               <video
-                src="<%= live.video || live.url %>"
+                src="https://res.cloudinary.com/dq033xs8n/video/upload/v1744345277/vid_cy6pec.mp4"
                 class="w-full h-full object-cover rounded-2xl"
                 playsinline
                 muted
                 autoplay
                 loop
               ></video>
-              <% } %>
+              
             </div>
           </div>
         </div>
-        <% } else if (live.image) { %>
-        <div class="relative w-full aspect-video overflow-hidden col-span-full">
-          <img src="<%= live.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
-        </div>
-        <% } else if (live.video || live.url) { %>
-        <div class="w-full aspect-video col-span-full">
-          <% if ((live.video || live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
-          <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
-            <audio src="<%= live.video || live.url %>" class="hidden" controls></audio>
-            <button
-              type="button"
-              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
-            >
-              <div class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center">
-                <i class="fas fa-play text-white text-2xl"></i>
-              </div>
-            </button>
-          </div>
-          <% } else { %>
-          <video
-            src="<%= live.video || live.url %>"
-            class="w-full h-full object-cover rounded-2xl"
-            playsinline
-            muted
-            autoplay
-            loop
-          ></video>
-          <% } %>
-        </div>
-        <% } %>
+        
 
         <!-- Crypto button -->
         <div class="flex justify-center">
-          <% if (live.walletUrl) { %>
+          
           <a
-            href="<%= live.walletUrl %>"
+            href="https://pb.aurpay.net/pb/page/html/paymentbutton.html?token=pb_plugin_link_token_h6hzBGgZzFW1G5eO"
             target="_blank"
             rel="noopener noreferrer"
             class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base"
           >
-            TIP <%= landing.fullName.trim().split(" ")[0] %> IN CRYPTO
+            TIP test IN CRYPTO
           </a>
-          <% } %>
+          
         </div>
 
         <!-- Live Cards -->
-        <% const validDetails = live.details.filter(item => item.title?.trim() &&
-        item.heading?.trim()); %> <% if (validDetails && validDetails.length > 0) { %>
+         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          <% validDetails.forEach((item, index) => { %>
+          
           <div class="w-full">
             <div
               class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg"
@@ -490,14 +615,40 @@
               <div
                 class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600"
               >
-                <%= item.title %>
+                website
               </div>
-              <span class="font-sora text-xl font-medium"><%= item.heading %></span>
+              <span class="font-sora text-xl font-medium">zain.com</span>
             </div>
           </div>
-          <% }) %>
+          
+          <div class="w-full">
+            <div
+              class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg"
+            >
+              <div
+                class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600"
+              >
+                facebook
+              </div>
+              <span class="font-sora text-xl font-medium">zas512</span>
+            </div>
+          </div>
+          
+          <div class="w-full">
+            <div
+              class="bg-white space-y-3 p-4 w-full rounded-2xl border border-light-purple flex flex-col items-center group text-center shadow-md hover:shadow-lg"
+            >
+              <div
+                class="text-sm tag min-w-24 max-w-fit py-3 px-4 rounded-xl bg-primary group-hover:bg-gray-800 group-hover:text-white capitalize transition-all ease-in-out duration-600"
+              >
+                instagram
+              </div>
+              <span class="font-sora text-xl font-medium">z.a.i.n</span>
+            </div>
+          </div>
+          
         </div>
-        <% } %>
+        
       </div>
     </section>
 
@@ -510,20 +661,17 @@
           ORGANIZATIONS I SUPPORT
         </div>
         <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
-          <% (organizations || []).forEach((org, index) => { %> <% if (org.src) { %>
-          <img src="<%= org.src %>" alt="Organization <%= index + 1 %>" width="100" height="100" />
-          <% } %> <% }) %>
+           
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1748798333/ssjfnrdqnrnypxgiqflq.jpg" alt="Organization 1" width="100" height="100" />
+            
+          <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1748798342/ktgfunqrklosfj2tmbln.png" alt="Organization 2" width="100" height="100" />
+           
         </section>
       </div>
     </div>
 
     <!-- ========== Timeline Section ========== -->
-    <% const filteredTimeline = (timeline || []).filter(item => (item.title && item.title.trim()) ||
-    (item.from && item.from.trim()) || (item.to && item.to.trim()) ).sort((a, b) => { if
-    (a.from.trim() && !b.from.trim()) return -1; if (!a.from.trim() && b.from.trim()) return 1; if
-    (a.from.trim() && b.from.trim()) { const dateA = Number.parseInt(a.from.replace(/\D/g, "")) ||
-    0; const dateB = Number.parseInt(b.from.replace(/\D/g, "")) || 0; return dateB - dateA; } return
-    0; }); %> <% if (filteredTimeline.length) { %>
+     
     <div class="p-4 py-10">
       <section class="max-w-[90rem] mx-auto">
         <div class="flex justify-between items-center">
@@ -539,25 +687,70 @@
             height="70"
           />
         </div>
-        <% filteredTimeline.forEach((item, index) => { %>
+        
         <div
-          class="w-full py-4 flex font-bold justify-between items-center tracking-wide <%= index !== filteredTimeline.length - 1 ? 'border-b border-gray-300' : '' %>"
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
         >
           <p
             class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
           >
-            <%= item.from %><%= item.to ? ' - ' + item.to : '' %>
+            2025 - PRESENT
           </p>
           <span
             class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
           >
-            <%= item.title %>
+            Developer
           </span>
         </div>
-        <% }) %>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            2022 - PRESENT
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            Full stack developer at WJIKS
+          </span>
+        </div>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300"
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            2020 - 2022
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            Developer at graana
+          </span>
+        </div>
+        
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide "
+        >
+          <p
+            class="font-dm-sans w-56 text-lg md:text-xl font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            2020 - PRESENT
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            Freelance developer
+          </span>
+        </div>
+        
       </section>
     </div>
-    <% } %>
+    
 
     <!-- ========== People Section ========== -->
     <div class="overflow-hidden bg-gray-900 py-3 px-4 flex items-center">
@@ -571,8 +764,7 @@
     </div>
 
     <!-- ========== Available Section ========== -->
-    <% const cleanedAvailable = (available.availableFor || []).filter(item => item.trim() !== "");
-    %> <% if (cleanedAvailable.length || available.avatar) { %>
+     
     <div class="p-4 py-10">
       <div class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         <!-- Text Section (Available For) -->
@@ -585,13 +777,19 @@
             I'M AVAILABLE FOR
           </div>
           <div class="flex flex-col gap-4 justify-center items-center">
-            <% cleanedAvailable.forEach((item) => { %>
+            
             <div
               class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default"
             >
-              <%= item %>
+              Developing
             </div>
-            <% }); %>
+            
+            <div
+              class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default"
+            >
+              Coding
+            </div>
+            
           </div>
         </section>
 
@@ -616,9 +814,9 @@
                 object-fit: cover;
               "
             />
-            <% if (available.avatar) { %>
+            
             <img
-              src="<%= available.avatar %>"
+              src="https://res.cloudinary.com/dq033xs8n/image/upload/v1748804165/lfut09lovn42dupgnnmc.jpg"
               alt=""
               style="
                 position: absolute;
@@ -630,20 +828,20 @@
                 padding: 1rem;
               "
             />
-            <% } %>
+            
           </div>
           <a
-            href="<%= available.ctaUrl || 'https://www.si3.space' %>"
+            href="https://www.si3.space"
             target="_blank"
             rel="noopener noreferrer"
             class="font-sora tracking-wider rounded-xl text-sm border border-[#3E21F3] bg-primary font-semibold text-[#3E21F3] px-4 py-2 lg:px-6 lg:py-3"
           >
-            <%= available.ctaText || 'Join SI<3>' %>
+            Join SI&lt;3&gt;
           </a>
         </section>
       </div>
     </div>
-    <% } %>
+    
 
     <!-- ========== Text Section ========== -->
     <div class="px-4 py-8 bg-primary text-xs">
@@ -669,20 +867,38 @@
         <!-- Social & Controls -->
         <section class="flex flex-col md:flex-row justify-between items-center gap-3">
           <!-- Social Channels -->
-          <% if (socialChannels && socialChannels.length > 0) { %>
+          
           <div class="flex justify-between w-full md:justify-start gap-4">
-            <% socialChannels.forEach(channel => { %> <% if (channel.url && channel.icon) { %>
+             
             <a
-              href="<%= channel.url %>"
+              href="https://www.linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
               class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit"
             >
-              <img src="<%= channel.icon %>" alt="" width="20" height="20" />
+              <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1746343757/Facebook_bsmqay.svg" alt="" width="20" height="20" />
             </a>
-            <% } %> <% }); %>
+              
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit"
+            >
+              <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1746343757/Instagram_lyhjoi.svg" alt="" width="20" height="20" />
+            </a>
+              
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit"
+            >
+              <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1746344739/Twitter_geucw3.svg" alt="" width="20" height="20" />
+            </a>
+             
           </div>
-          <% } %>
+          
 
           <!-- Controls -->
           <section class="flex items-center justify-between md:justify-end w-full gap-4">

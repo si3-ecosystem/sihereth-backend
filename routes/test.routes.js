@@ -11,8 +11,8 @@ router.get("/render", (req, res) => {
   try {
     const content = {
       landing: {
-        fullName: "ALi",
-        title: "Full Stack Developer",
+        fullName: "Ali",
+        title: "Backend Developer",
         headline: "& I develop web apps.",
         hashTags: ["Koders", "New tag"],
         region: "Southeastern Asia",
@@ -21,9 +21,9 @@ router.get("/render", (req, res) => {
         superPowers: ["Developing", "Teaching", "Community"],
         image:
           "https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386821/girl_ainxhw.png",
-        pronoun: "ze/hir",
+        pronoun: "he/him",
       },
-      slider: ["Reactjs"],
+      slider: ["Node", "Nest", "DevOps"],
       value: {
         experience:
           "My career began in 2020 at Graana. I started an internship in web development.",

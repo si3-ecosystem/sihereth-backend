@@ -1,433 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= landing.fullName.split(" ")[0] %>'s Profile</title>
+    <script src=" https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "sora";
+        src: url("https://res.cloudinary.com/dv52zu7pu/raw/upload/v1751386802/Sora-Variable_misbzy.ttf")
+          format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>
-    <%= landing.fullName.split(" ")[0] %>'s Profile</title>
-    <script src=" https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
-    </script>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-      <style>
-        @font-face {
-          font-family: "sora";
-          src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1746245777/Sora-Variable_slftao.ttf") format("truetype");
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
+      @font-face {
+        font-family: "FiraMono";
+        src: url("https://res.cloudinary.com/dv52zu7pu/raw/upload/v1751386820/FiraMono-Regular_icngzo.ttf")
+          format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "FiraMono";
+        src: url("https://res.cloudinary.com/dv52zu7pu/raw/upload/v1751386820/FiraMono-Medium_vaygya.ttf")
+          format("truetype");
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "FiraMono";
+        src: url("https://res.cloudinary.com/dv52zu7pu/raw/upload/v1751386820/FiraMono-Bold_eqfvz9.ttf")
+          format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "DMSans";
+        src: url("https://res.cloudinary.com/dv52zu7pu/raw/upload/v1751386813/DMSans-Regular_bf7tpf.ttf")
+          format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "DMSans";
+        src: url("https://res.cloudinary.com/dv52zu7pu/raw/upload/v1751386813/DMSans-Medium_hmfghb.ttf")
+          format("truetype");
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "DMSans";
+        src: url("https://res.cloudinary.com/dv52zu7pu/raw/upload/v1751386813/DMSans-Bold_cz06ou.ttf")
+          format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "DMSans";
+        src: url("https://res.cloudinary.com/dv52zu7pu/raw/upload/v1751386813/DMSans-SemiBold_n6h8d0.ttf")
+          format("truetype");
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      body {
+        color: #171717;
+        background: #fff;
+        font-family: "FiraMono", monospace, "Courier New", Courier;
+        -ms-overflow-style: none;
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: #c8bafd;
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+      }
+
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: #c8bafd transparent;
+      }
+
+      body::-webkit-scrollbar {
+        display: none;
+      }
+
+      .font-sora {
+        font-family: "sora", "DMSans", Arial, Helvetica, sans-serif;
+      }
+
+      .font-dmsans {
+        font-family: "DMSans", Arial, Helvetica, sans-serif;
+      }
+
+      .font-firamono {
+        font-family: "FiraMono", monospace, "Courier New", Courier;
+      }
+
+      .text-blue-primary {
+        color: #3e21f3;
+      }
+
+      .bg-primary {
+        background-color: #ece9fd;
+      }
+
+      .border-light-purple {
+        border-color: #c8bafd;
+      }
+
+      .bg-light-purple {
+        background-color: #c8bafd;
+      }
+
+      .connect-wallet:hover {
+        background-color: #7e5bff;
+        color: #ffffff;
+      }
+
+      @keyframes marquee {
+        0% {
+          transform: translateX(0);
         }
 
-        @font-face {
-          font-family: "FiraMono";
-          src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1746245777/FiraMono-Regular_yjmn0v.ttf") format("truetype");
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
+        100% {
+          transform: translateX(-50%);
         }
+      }
 
-        @font-face {
-          font-family: "FiraMono";
-          src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1746245778/FiraMono-Medium_k1luil.ttf") format("truetype");
-          font-weight: 500;
-          font-style: normal;
-          font-display: swap;
+      .animate-marquee {
+        animation: marquee 20s linear infinite;
+      }
+
+      .letters {
+        display: inline-block;
+        opacity: 0;
+        transform: scale(0.3);
+      }
+
+      .hashtag-hover:hover {
+        color: #e5e7eb;
+        background-color: #1f2937;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.5s ease-out;
+      }
+
+      .card-wrapper {
+        background-color: white;
+        padding: 1rem;
+        width: 100%;
+        border-radius: 1rem;
+        border: 1px solid #c8bafd;
+        /* light-purple */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.75rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.3s ease-in-out;
+      }
+
+      .card-wrapper:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .tag-box {
+        font-size: 0.875rem;
+        /* text-sm */
+        min-width: 6rem;
+        max-width: fit-content;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        background-color: #ece9fd;
+        /* primary */
+        text-transform: capitalize;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+      }
+
+      .group:hover .tag-box {
+        background-color: #1f2937;
+        /* gray-800 */
+        color: white;
+      }
+
+      .heading-text {
+        font-family: "sora", sans-serif;
+        font-size: 1.25rem;
+        /* text-xl */
+        font-weight: 500;
+        /* medium */
+      }
+
+      .marquee-wrapper {
+        overflow: hidden;
+        white-space: nowrap;
+        background: #0f1524;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .marquee-track {
+        display: inline-flex;
+        animation: scroll-marquee 25s linear infinite;
+      }
+
+      @keyframes scroll-marquee {
+        0% {
+          transform: translateX(0%);
         }
-
-        @font-face {
-          font-family: "FiraMono";
-          src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1746245777/FiraMono-Bold_vz3m8l.ttf") format("truetype");
-          font-weight: 700;
-          font-style: normal;
-          font-display: swap;
+        100% {
+          transform: translateX(-50%);
         }
+      }
 
-        @font-face {
-          font-family: "DMSans";
-          src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1746245777/DMSans-Regular_i4x3u9.ttf") format("truetype");
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
-        }
+      .slider-item {
+        display: flex;
+        align-items: center;
+        color: white;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+        padding: 0 1rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
 
-        @font-face {
-          font-family: "DMSans";
-          src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1746245777/DMSans-Medium_fy54m9.ttf") format("truetype");
-          font-weight: 500;
-          font-style: normal;
-          font-display: swap;
-        }
+      .dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        background-color: white;
+        border-radius: 9999px;
+        margin-left: 1rem;
+      }
+    </style>
+  </head>
 
-        @font-face {
-          font-family: "DMSans";
-          src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1746245777/DMSans-Bold_xjoif9.ttf") format("truetype");
-          font-weight: 700;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @font-face {
-          font-family: "DMSans";
-          src: url("https://res.cloudinary.com/dq033xs8n/raw/upload/v1746245777/DMSans-SemiBold_u3brxh.ttf") format("truetype");
-          font-weight: 600;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        body {
-          color: #171717;
-          background: #fff;
-          font-family: "FiraMono", monospace, "Courier New", Courier;
-          -ms-overflow-style: none;
-        }
-
-        ::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background-color: #c8bafd;
-          border-radius: 10px;
-          border: 2px solid transparent;
-          background-clip: content-box;
-        }
-
-        * {
-          scrollbar-width: thin;
-          scrollbar-color: #c8bafd transparent;
-        }
-
-        body::-webkit-scrollbar {
-          display: none;
-        }
-
-        .font-sora {
-          font-family: "sora", "DMSans", Arial, Helvetica, sans-serif;
-        }
-
-        .font-dmsans {
-          font-family: "DMSans", Arial, Helvetica, sans-serif;
-        }
-
-        .font-firamono {
-          font-family: "FiraMono", monospace, "Courier New", Courier;
-        }
-
-        .text-blue-primary {
-          color: #3e21f3;
-        }
-
-        .bg-primary {
-          background-color: #ece9fd;
-        }
-
-        .border-light-purple {
-          border-color: #c8bafd;
-        }
-
-        .bg-light-purple {
-          background-color: #c8bafd;
-        }
-
-        .connect-wallet:hover {
-          background-color: #7e5bff;
-          color: #ffffff;
-        }
-
-        @keyframes marquee {
-          0% {
-            transform: translateX(0);
-          }
-
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-
-        .animate-marquee {
-          animation: marquee 20s linear infinite;
-        }
-
-        .letters {
-          display: inline-block;
-          opacity: 0;
-          transform: scale(0.3);
-        }
-
-        .hashtag-hover:hover {
-          color: #e5e7eb;
-          background-color: #1f2937;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          transition: all 0.5s ease-out;
-        }
-
-        .card-wrapper {
-          background-color: white;
-          padding: 1rem;
-          width: 100%;
-          border-radius: 1rem;
-          border: 1px solid #c8bafd;
-          /* light-purple */
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          gap: 0.75rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-          transition: box-shadow 0.3s ease-in-out;
-        }
-
-        .card-wrapper:hover {
-          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .tag-box {
-          font-size: 0.875rem;
-          /* text-sm */
-          min-width: 6rem;
-          max-width: fit-content;
-          padding: 0.75rem 1rem;
-          border-radius: 0.75rem;
-          background-color: #ece9fd;
-          /* primary */
-          text-transform: capitalize;
-          transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-        }
-
-        .group:hover .tag-box {
-          background-color: #1f2937;
-          /* gray-800 */
-          color: white;
-        }
-
-        .heading-text {
-          font-family: 'sora', sans-serif;
-          font-size: 1.25rem;
-          /* text-xl */
-          font-weight: 500;
-          /* medium */
-        }
-
-        .marquee-wrapper {
-  overflow: hidden;
-  white-space: nowrap;
-  background: #0f1524;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-}
-
-.marquee-track {
-  display: inline-flex;
-  animation: scroll-marquee 25s linear infinite;
-}
-
-@keyframes scroll-marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.slider-item {
-  display: flex;
-  align-items: center;
-  color: white;
-  text-transform: uppercase;
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  padding: 0 1rem;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: white;
-  border-radius: 9999px;
-  margin-left: 1rem;
-}
-
-
-      </style>
-</head>
-
-<body class="text-gray-900 bg-white">
-  <!-- ========== Navbar Section ========== -->
-  <section
-    class="border-b border-gray-500 bg-[linear-gradient(90deg,_#FFF_0%,_#D5D5F7_59%,_#F1EFFF_100%)] p-4 relative text-md">
-    <div class="flex justify-between items-center mx-auto max-w-[90rem]">
-      <!-- Logo -->
-      <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1750780830/si3logo_sktbua.svg" width="100"
-        height="80" alt="logo" />
-      <!-- Desktop Navigation -->
-      <div class="flex-1 md:flex justify-center items-center leading-4 gap-7">
-        <div class="flex items-center gap-7">
-          <% ["Value", "Media" , "Timeline" , "Connect" ].forEach(item=> { %>
-            <a href="#<%= item.toLowerCase() %>"
-              class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
+  <body class="text-gray-900 bg-white">
+    <!-- ========== Navbar Section ========== -->
+    <section
+      class="border-b border-gray-500 bg-[linear-gradient(90deg,_#FFF_0%,_#D5D5F7_59%,_#F1EFFF_100%)] p-4 relative text-md"
+    >
+      <div class="flex justify-between items-center mx-auto max-w-[90rem]">
+        <!-- Logo -->
+        <img
+          src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386801/si3_ykl61i.svg"
+          width="100"
+          height="80"
+          alt="logo"
+        />
+        <!-- Desktop Navigation -->
+        <div class="flex-1 md:flex justify-center items-center leading-4 gap-7">
+          <div class="flex items-center gap-7">
+            <% ["Value", "Media" , "Timeline" , "Connect" ].forEach(item=> { %>
+            <a
+              href="#<%= item.toLowerCase() %>"
+              class="font-semibold font-sora transition-all duration-300 hover:text-light-purple"
+            >
               <%= item %>
             </a>
             <% }) %>
+          </div>
         </div>
-      </div>
 
-      <!-- Mobile Menu Button -->
-      <button type="button" onclick="toggleMobileNav()" class="md:hidden focus:outline-none z-50 relative"
-        aria-label="Toggle menu">
-        <i id="menuIcon" class="fas fa-bars text-2xl"></i>
-      </button>
-      <!-- Mobile Navigation -->
-      <div id="mobileNav"
-        class="fixed inset-0 bg-black/80 backdrop-blur-md transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col items-center justify-center space-y-6 z-40">
-        <button type="button" onclick="toggleMobileNav()"
-          class="absolute top-10 right-10 text-white md:hidden focus:outline-none z-50" aria-label="Toggle menu">
-          <i class="fas fa-times text-2xl"></i>
+        <!-- Mobile Menu Button -->
+        <button
+          type="button"
+          onclick="toggleMobileNav()"
+          class="md:hidden focus:outline-none z-50 relative"
+          aria-label="Toggle menu"
+        >
+          <i id="menuIcon" class="fas fa-bars text-2xl"></i>
         </button>
-        <% ["Value", "Media" , "Timeline" , "Connect" ].forEach(item=> { %>
-          <a href="#<%= item.toLowerCase() %>" class="font-semibold text-white transition-all hover:text-light-purple"
-            onclick="toggleMobileNav()">
+        <!-- Mobile Navigation -->
+        <div
+          id="mobileNav"
+          class="fixed inset-0 bg-black/80 backdrop-blur-md transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col items-center justify-center space-y-6 z-40"
+        >
+          <button
+            type="button"
+            onclick="toggleMobileNav()"
+            class="absolute top-10 right-10 text-white md:hidden focus:outline-none z-50"
+            aria-label="Toggle menu"
+          >
+            <i class="fas fa-times text-2xl"></i>
+          </button>
+          <% ["Value", "Media" , "Timeline" , "Connect" ].forEach(item=> { %>
+          <a
+            href="#<%= item.toLowerCase() %>"
+            class="font-semibold text-white transition-all hover:text-light-purple"
+            onclick="toggleMobileNav()"
+          >
             <%= item %>
           </a>
           <% }) %>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== Landing Section ========== -->
-  <div class="px-4 py-6 text-xs">
-    <div class="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-      <!-- Left Side -->
-      <div class="w-full space-y-4 flex flex-col col-span-1 md:col-span-2 justify-center items-start">
-        <!-- Animation Section -->
-        <div id="landingAnimation"
-          class="font-sora font-bold text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] tracking-wide">
-          <span class="letter">I'm </span>
-          <span class="text-blue-primary">
-            <%= landing.fullName.trim().split(" ")[0] %></span
-            >
-            <span class=" letter">,
-          </span>
-          <span class="letter"> </span>
-          <span>
-            <%= landing.headline ?? "" %>
-          </span>
         </div>
+      </div>
+    </section>
 
-        <!-- Hashtags -->
-        <section class="flex flex-wrap gap-3 font-medium pb-2">
-          <% (landing.hashTags || []).forEach((hashtag, index)=> { %>
+    <!-- ========== Landing Section ========== -->
+    <div class="px-4 py-6 text-xs">
+      <div class="max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Left Side -->
+        <div
+          class="w-full space-y-4 flex flex-col col-span-1 md:col-span-2 justify-center items-start"
+        >
+          <!-- Animation Section -->
+          <div
+            id="landingAnimation"
+            class="font-sora font-bold text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] tracking-wide"
+          >
+            <span class="letter">I'm </span>
+            <span class="text-blue-primary">
+              <%= landing.fullName.trim().split(" ")[0] %></span
+            >
+            <span class="letter">, </span>
+            <span class="letter"> </span>
+            <span> <%= landing.headline ?? "" %> </span>
+          </div>
+
+          <!-- Hashtags -->
+          <section class="flex flex-wrap gap-3 font-medium pb-2">
+            <% (landing.hashTags || []).forEach((hashtag, index)=> { %>
             <div
-              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default">
+              class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default"
+            >
               #<%= hashtag.toUpperCase() %>
             </div>
             <% }) %>
-        </section>
+          </section>
 
-        <!-- Information Section -->
-        <section
-          class="p-3 space-y-3 md:space-y-4 overflow-hidden bg-gray-100 border border-gray-200 w-full rounded-lg">
-          <div class="flex gap-2 font-medium">
-            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">
-              Title:
-            </div>
-            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-              <%= landing.title %>
-            </div>
-          </div>
-
-          <div class="flex gap-2 font-medium">
-            <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">
-              Presently based in:
-            </div>
-            <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-              <%= landing.region %>
-            </div>
-          </div>
-
-          <% const renderInfoRow=(title, valueArray)=> { %>
+          <!-- Information Section -->
+          <section
+            class="p-3 space-y-3 md:space-y-4 overflow-hidden bg-gray-100 border border-gray-200 w-full rounded-lg"
+          >
             <div class="flex gap-2 font-medium">
               <div
-                class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">
+                class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
+              >
+                Title:
+              </div>
+              <div
+                class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"
+              >
+                <%= landing.title %>
+              </div>
+            </div>
+
+            <div class="flex gap-2 font-medium">
+              <div
+                class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
+              >
+                Presently based in:
+              </div>
+              <div
+                class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"
+              >
+                <%= landing.region %>
+              </div>
+            </div>
+
+            <% const renderInfoRow=(title, valueArray)=> { %>
+            <div class="flex gap-2 font-medium">
+              <div
+                class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44"
+              >
                 <%= title %>
               </div>
-              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                <% if (valueArray.length < 3) { %>
-                  <%= valueArray.join(", ") %> <% } else { %>
-                <div class=" overflow-hidden w-[48rem] whitespace-nowrap">
-                    <div class="flex animate-marquee">
-                      <% valueArray.concat(valueArray, valueArray).forEach((item, idx)=> { %>
-                        <span class="mx-2 flex items-center">
-                          <%= item %>
-                            <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
-                        </span>
-                        <% }) %>
-                    </div>
+              <div
+                class="cursor-default w-2/3 whitespace-nowrap overflow-hidden"
+              >
+                <% if (valueArray.length < 3) { %> <%= valueArray.join(", ") %>
+                <% } else { %>
+                <div class="overflow-hidden w-[48rem] whitespace-nowrap">
+                  <div class="flex animate-marquee">
+                    <% valueArray.concat(valueArray, valueArray).forEach((item,
+                    idx)=> { %>
+                    <span class="mx-2 flex items-center">
+                      <%= item %>
+                      <div
+                        class="size-[0.3rem] bg-gray-800 rounded-full ml-4"
+                      ></div>
+                    </span>
+                    <% }) %>
+                  </div>
+                </div>
+                <% } %>
               </div>
-              <% } %>
             </div>
-      </div>
-      <% } %> <%- renderInfoRow("Organization Affiliations:", landing.organizationAffiliations) %> <%-
-            renderInfoRow("Community Affiliations:", landing.communityAffiliations) %> <%- renderInfoRow("Superpowers:",
-              landing.superPowers) %>
-              </section>
-    </div>
+            <% } %> <%- renderInfoRow("Organization Affiliations:",
+            landing.organizationAffiliations) %> <%- renderInfoRow("Community
+            Affiliations:", landing.communityAffiliations) %> <%-
+            renderInfoRow("Superpowers:", landing.superPowers) %>
+          </section>
+        </div>
 
-    <!-- Profile Section -->
-    <div class="w-full flex md:justify-end justify-center">
-      <section class="relative aspect-[3/4] w-full max-w-[10rem] sm:max-w-xs md:max-w-sm rounded-2xl flex-shrink-0">
-        <% if (landing.image) { %>
-          <img src="<%= landing.image.replace(/`/g, '').trim() %>" alt="profile"
-            class="rounded-2xl object-cover w-full h-full" />
-          <% } %>
+        <!-- Profile Section -->
+        <div class="w-full flex md:justify-end justify-center">
+          <section
+            class="relative aspect-[3/4] w-full max-w-[10rem] sm:max-w-xs md:max-w-sm rounded-2xl flex-shrink-0"
+          >
+            <% if (landing.image) { %>
+            <img
+              src="<%= landing.image.replace(/`/g, '').trim() %>"
+              alt="profile"
+              class="rounded-2xl object-cover w-full h-full"
+            />
+            <% } %>
             <div
-              class="rounded-2xl absolute right-0 lg:-right-2 -bottom-4 xl:-right-4 border border-light-purple p-4 flex flex-col justify-center items-center gap-1 md:gap-2 bg-primary shadow-md font-dmsans">
+              class="rounded-2xl absolute right-0 lg:-right-2 -bottom-4 xl:-right-4 border border-light-purple p-4 flex flex-col justify-center items-center gap-1 md:gap-2 bg-primary shadow-md font-dmsans"
+            >
               <span class="font-medium text-base md:text-lg whitespace-nowrap">
                 <%= landing.fullName %>
               </span>
               <span class="tracking-wider text-xs md:text-sm">
-                <%= landing.pronoun ? `(${landing.pronoun.toLowerCase()})` : "" %>
+                <%= landing.pronoun ? `(${landing.pronoun.toLowerCase()})` : ""
+                %>
               </span>
             </div>
-      </section>
-    </div>
-  </div>
-  </div>
-
-  <!-- ========== Slider Section ========== -->
-  <%
-  const sliderLength = slider.length;
-  const estimatedItemWidth = 100; // px
-  const screenWidth = 1920; // You can make this dynamic too
-  const itemsPerLoop = Math.ceil((screenWidth * 2) / (estimatedItemWidth * sliderLength));
-  const repeatedSlider = Array(itemsPerLoop).fill(slider).flat();
-%>
-<div class="marquee-wrapper">
-  <div class="marquee-track">
-    <% repeatedSlider.forEach((text) => { %>
-      <div class="slider-item">
-        <%= text %>
-        <div class="dot"></div>
+          </section>
+        </div>
       </div>
-    <% }) %>
-  </div>
-</div>
+    </div>
+
+    <!-- ========== Slider Section ========== -->
+    <% const sliderLength = slider.length; const estimatedItemWidth = 100; // px
+    const screenWidth = 1920; // You can make this dynamic too const
+    itemsPerLoop = Math.ceil((screenWidth * 2) / (estimatedItemWidth *
+    sliderLength)); const repeatedSlider =
+    Array(itemsPerLoop).fill(slider).flat(); %>
+    <div class="marquee-wrapper">
+      <div class="marquee-track">
+        <% repeatedSlider.forEach((text) => { %>
+        <div class="slider-item">
+          <%= text %>
+          <div class="dot"></div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
 
     <!-- ========== Value Section ========== -->
     <div class="p-4 py-10">
       <div class="max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
         <!-- Values -->
-        <section class="flex flex-col items-center sm:items-start w-full space-y-6">
+        <section
+          class="flex flex-col items-center sm:items-start w-full space-y-6"
+        >
           <div
-            class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+            class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit"
+          >
             MY EXPERIENCE SUMMARY
           </div>
           <p class="font-medium text-lg font-sora text-justify">
@@ -435,9 +487,12 @@
           </p>
         </section>
         <!-- Experience -->
-        <section class="flex flex-col items-center sm:items-start w-full space-y-6">
+        <section
+          class="flex flex-col items-center sm:items-start w-full space-y-6"
+        >
           <div
-            class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+            class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit"
+          >
             MY VISION
           </div>
           <div class="font-medium text-lg font-sora text-justify">
@@ -452,181 +507,273 @@
       <div class="max-w-[90rem] mx-auto space-y-8">
         <!-- Live content -->
         <% if (live.image && (live.video || live.url)) { %>
-          <div class="relative bg-white rounded-2xl md:p-4 shadow-sm">
-            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_cawmkx.png" alt=""
-              width="500" height="500" class="absolute top-0 left-0 mx-auto w-full p-4" />
-            <div class="md:mt-6 p-4 sm:p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-              <div class="relative w-full aspect-video overflow-hidden">
-                <img src="<%= live.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
-              </div>
-              <div class="w-full aspect-video">
-                <% if ((live.video || live.url) && (live.video || live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
-                  <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
-                    <audio src="<%= live.video || live.url %>" class="hidden" controls></audio>
-                    <button type="button"
-                      class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl">
-                      <div class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center">
-                        <i class="fas fa-play text-white text-2xl"></i>
-                      </div>
-                    </button>
+        <div class="relative bg-white rounded-2xl md:p-4 shadow-sm">
+          <img
+            src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386807/border_qpdezn.png"
+            alt=""
+            width="500"
+            height="500"
+            class="absolute top-0 left-0 mx-auto w-full p-4"
+          />
+          <div
+            class="md:mt-6 p-4 sm:p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6"
+          >
+            <div class="relative w-full aspect-video overflow-hidden">
+              <img
+                src="<%= live.image %>"
+                alt=""
+                class="object-cover rounded-2xl w-full h-full"
+              />
+            </div>
+            <div class="w-full aspect-video">
+              <% if ((live.video || live.url) && (live.video ||
+              live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
+              <div
+                class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative"
+              >
+                <audio
+                  src="<%= live.video || live.url %>"
+                  class="hidden"
+                  controls
+                ></audio>
+                <button
+                  type="button"
+                  class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
+                >
+                  <div
+                    class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center"
+                  >
+                    <i class="fas fa-play text-white text-2xl"></i>
                   </div>
-                  <% } else { %>
-                    <video src="<%= live.video || live.url %>" class="w-full h-full object-cover rounded-2xl"
-                      playsinline muted autoplay loop></video>
-                    <% } %>
+                </button>
               </div>
+              <% } else { %>
+              <video
+                src="<%= live.video || live.url %>"
+                class="w-full h-full object-cover rounded-2xl"
+                playsinline
+                muted
+                autoplay
+                loop
+              ></video>
+              <% } %>
             </div>
           </div>
-          <% } else if (live.image) { %>
-            <div class="relative w-full aspect-video overflow-hidden col-span-full">
-              <img src="<%= live.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
-            </div>
-            <% } else if (live.video || live.url) { %>
-              <div class="w-full aspect-video col-span-full">
-                <% if ((live.video || live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
-                  <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
-                    <audio src="<%= live.video || live.url %>" class="hidden" controls></audio>
-                    <button type="button"
-                      class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl">
-                      <div class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center">
-                        <i class="fas fa-play text-white text-2xl"></i>
-                      </div>
-                    </button>
-                  </div>
-                  <% } else { %>
-                    <video src="<%= live.video || live.url %>" class="w-full h-full object-cover rounded-2xl"
-                      playsinline muted autoplay loop></video>
-                    <% } %>
+        </div>
+        <% } else if (live.image) { %>
+        <div class="relative w-full aspect-video overflow-hidden col-span-full">
+          <img
+            src="<%= live.image %>"
+            alt=""
+            class="object-cover rounded-2xl w-full h-full"
+          />
+        </div>
+        <% } else if (live.video || live.url) { %>
+        <div class="w-full aspect-video col-span-full">
+          <% if ((live.video || live.url).match(/\.(mp3|wav|ogg|aac|flac)$/i)) {
+          %>
+          <div
+            class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative"
+          >
+            <audio
+              src="<%= live.video || live.url %>"
+              class="hidden"
+              controls
+            ></audio>
+            <button
+              type="button"
+              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl"
+            >
+              <div
+                class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-play text-white text-2xl"></i>
               </div>
-              <% } %>
+            </button>
+          </div>
+          <% } else { %>
+          <video
+            src="<%= live.video || live.url %>"
+            class="w-full h-full object-cover rounded-2xl"
+            playsinline
+            muted
+            autoplay
+            loop
+          ></video>
+          <% } %>
+        </div>
+        <% } %>
 
-                <!-- Crypto button -->
-                <div class="flex justify-center">
-                  <% if (live.walletUrl) { %>
-                    <a href="<%= live.walletUrl %>" target="_blank" rel="noopener noreferrer"
-                      class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base">
-                      TIP <%= landing.fullName.trim().split(" ")[0] %> IN CRYPTO
+        <!-- Crypto button -->
+        <div class="flex justify-center">
+          <% if (live.walletUrl) { %>
+          <a
+            href="<%= live.walletUrl %>"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base"
+          >
+            TIP <%= landing.fullName.trim().split(" ")[0] %> IN CRYPTO
           </a>
           <% } %>
         </div>
 
         <!-- Live Cards -->
-        <% const validDetails = live.details.filter(item => item.title?.trim() &&
-        item.heading?.trim()); %> <% if (validDetails && validDetails.length > 0) { %>
-        <div class=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                        <% validDetails.forEach((item, index)=> { %>
-                          <div class="w-full">
-                            <div class="card-wrapper group">
-                              <div class="tag-box">
-                                <%= item.title %>
-                              </div>
-                              <span class="heading-text">
-                                <%= item.heading %>
-                              </span>
-                            </div>
-                          </div>
-                          <% }) %>
-                </div>
-                <% } %>
+        <% const validDetails = live.details.filter(item => item.title?.trim()
+        && item.heading?.trim()); %> <% if (validDetails && validDetails.length
+        > 0) { %>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+        >
+          <% validDetails.forEach((item, index)=> { %>
+          <div class="w-full">
+            <div class="card-wrapper group">
+              <div class="tag-box"><%= item.title %></div>
+              <span class="heading-text"> <%= item.heading %> </span>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
       </div>
     </section>
 
     <!-- ========== Organizations Section ========== -->
     <div class="px-4 py-10 bg-gray-100">
-      <div class="max-w-[90rem] mx-auto flex flex-col gap-8 justify-center items-center">
+      <div
+        class="max-w-[90rem] mx-auto flex flex-col gap-8 justify-center items-center"
+      >
         <div
-          class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
+          class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit"
+        >
           ORGANIZATIONS I SUPPORT
         </div>
-        <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
-          <% (organizations || []).forEach((org, index)=> { %> <% if (org.src) { %>
-              <img src="<%= org.src %>" alt="Organization <%= index + 1 %>" width="100" height="100" />
-              <% } %>
-                <% }) %>
+        <section
+          class="w-full flex flex-col md:flex-row gap-10 justify-center items-center"
+        >
+          <% (organizations || []).forEach((org, index)=> { %> <% if (org.src) {
+          %>
+          <img
+            src="<%= org.src %>"
+            alt="Organization <%= index + 1 %>"
+            width="100"
+            height="100"
+          />
+          <% } %> <% }) %>
         </section>
       </div>
     </div>
 
     <!-- ========== Timeline Section ========== -->
-    <% const filteredTimeline=(timeline || []).filter(item=> (item.title && item.title.trim()) ||
-      (item.from && item.from.trim()) || (item.to && item.to.trim()) ).sort((a, b) => { if
-      (a.from.trim() && !b.from.trim()) return -1; if (!a.from.trim() && b.from.trim()) return 1; if
-      (a.from.trim() && b.from.trim()) { const dateA = Number.parseInt(a.from.replace(/\D/g, "")) ||
-      0; const dateB = Number.parseInt(b.from.replace(/\D/g, "")) || 0; return dateB - dateA; } return
-      0; }); %> <% if (filteredTimeline.length) { %>
-        <div class="p-4 py-10">
-          <section class="max-w-[90rem] mx-auto">
-            <div class="flex justify-between items-center">
-              <div
-                class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
-                TIMELINE
-              </div>
-              <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345810/runes_oieejv.png" alt=""
-                width="70" height="70" />
-            </div>
-            <% filteredTimeline.forEach((item, index)=> { %>
-              <div
-                class="w-full py-4 flex font-bold justify-between items-center tracking-wide <%= index !== filteredTimeline.length - 1 ? 'border-b border-gray-300' : '' %>">
-                <p
-                  class="font-dm-sans w-56 text-lg font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
-                  <%= item.from %>
-                    <%= item.to ? ' - ' + item.to : '' %>
-                </p>
-                <span class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium">
-                  <%= item.title %>
-                </span>
-              </div>
-              <% }) %>
-          </section>
-        </div>
-        <% } %>
-
-          <!-- ========== People Section ========== -->
-          <div class="overflow-hidden bg-gray-900 py-3 px-4 flex items-center">
-            <div class="flex items-center font-sora gap-4" id="peopleScroller" style="white-space: nowrap">
-              <!-- Content will be populated by JavaScript -->
-            </div>
+    <% const filteredTimeline=(timeline || []).filter(item=> (item.title &&
+    item.title.trim()) || (item.from && item.from.trim()) || (item.to &&
+    item.to.trim()) ).sort((a, b) => { if (a.from.trim() && !b.from.trim())
+    return -1; if (!a.from.trim() && b.from.trim()) return 1; if (a.from.trim()
+    && b.from.trim()) { const dateA = Number.parseInt(a.from.replace(/\D/g, ""))
+    || 0; const dateB = Number.parseInt(b.from.replace(/\D/g, "")) || 0; return
+    dateB - dateA; } return 0; }); %> <% if (filteredTimeline.length) { %>
+    <div class="p-4 py-10">
+      <section class="max-w-[90rem] mx-auto">
+        <div class="flex justify-between items-center">
+          <div
+            class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit"
+          >
+            TIMELINE
           </div>
+          <img
+            src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386800/runes_ppyc4o.png"
+            alt=""
+            width="70"
+            height="70"
+          />
+        </div>
+        <% filteredTimeline.forEach((item, index)=> { %>
+        <div
+          class="w-full py-4 flex font-bold justify-between items-center tracking-wide <%= index !== filteredTimeline.length - 1 ? 'border-b border-gray-300' : '' %>"
+        >
+          <p
+            class="font-dm-sans w-56 text-lg font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase"
+          >
+            <%= item.from %> <%= item.to ? ' - ' + item.to : '' %>
+          </p>
+          <span
+            class="w-72 md:w-full uppercase text-xl md:text-2xl leading-6 font-sora font-medium"
+          >
+            <%= item.title %>
+          </span>
+        </div>
+        <% }) %>
+      </section>
+    </div>
+    <% } %>
 
-          <!-- ========== Available Section ========== -->
-          <% const cleanedAvailable=(available.availableFor || []).filter(item=> item.trim() !== "");
-            %> <% if (cleanedAvailable.length || available.avatar) { %>
-              <div class="p-4 py-10">
-                <div class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-                  <!-- Text Section (Available For) -->
-                  <section
-                    class="flex flex-col justify-center items-center order-1 lg:order-2 space-y-6 lg:space-y-10 xxl:space-y-12 w-full">
-                    <div
-                      class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit">
-                      I'M AVAILABLE FOR
-                    </div>
-                    <div class="flex flex-col gap-4 justify-center items-center">
-                      <% cleanedAvailable.forEach((item)=> { %>
-                        <div
-                          class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
-                          <%= item %>
-                        </div>
-                        <% }); %>
-                    </div>
-                  </section>
+    <!-- ========== People Section ========== -->
+    <div class="overflow-hidden bg-gray-900 py-3 px-4 flex items-center">
+      <div
+        class="flex items-center font-sora gap-4"
+        id="peopleScroller"
+        style="white-space: nowrap"
+      >
+        <!-- Content will be populated by JavaScript -->
+      </div>
+    </div>
 
-                  <!-- Image Section -->
-                  <section class="flex flex-col gap-6 items-center w-full order-2 lg:order-1">
-                    <div class="relative">
-                      <img
-                        src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345807/border_available_xotm0d.png"
-                        alt="" width="260" height="100" />
-                      <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1744345808/donut_opazh4.png" alt=""
-                        style="
+    <!-- ========== Available Section ========== -->
+    <% const cleanedAvailable=(available.availableFor || []).filter(item=>
+    item.trim() !== ""); %> <% if (cleanedAvailable.length || available.avatar)
+    { %>
+    <div class="p-4 py-10">
+      <div
+        class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4"
+      >
+        <!-- Text Section (Available For) -->
+        <section
+          class="flex flex-col justify-center items-center order-1 lg:order-2 space-y-6 lg:space-y-10 xxl:space-y-12 w-full"
+        >
+          <div
+            class="py-3 leading-4 px-5 bg-primary border border-light-purple rounded-xl font-medium tracking-wide w-fit"
+          >
+            I'M AVAILABLE FOR
+          </div>
+          <div class="flex flex-col gap-4 justify-center items-center">
+            <% cleanedAvailable.forEach((item)=> { %>
+            <div
+              class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default"
+            >
+              <%= item %>
+            </div>
+            <% }); %>
+          </div>
+        </section>
+
+        <!-- Image Section -->
+        <section
+          class="flex flex-col gap-6 items-center w-full order-2 lg:order-1"
+        >
+          <div class="relative">
+            <img
+              src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386807/border_available_ykxocj.png"
+              alt=""
+              width="260"
+              height="100"
+            />
+            <img
+              src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386813/donut_jmhyk6.png"
+              alt=""
+              style="
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-              " />
-                      <% if (available.avatar) { %>
-                        <img src="<%= available.avatar %>" alt="" style="
+              "
+            />
+            <% if (available.avatar) { %>
+            <img
+              src="<%= available.avatar %>"
+              alt=""
+              style="
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -634,168 +781,205 @@
                 height: 100%;
                 object-fit: cover;
                 padding: 1rem;
-              " />
-                        <% } %>
-                    </div>
-                    <a href="<%= available.ctaUrl || 'https://www.si3.space' %>" target="_blank"
-                      rel="noopener noreferrer"
-                      class="font-sora tracking-wider rounded-xl text-sm border border-[#3E21F3] bg-primary font-semibold text-[#3E21F3] px-4 py-2 lg:px-6 lg:py-3">
-                      <%= available.ctaText || 'Join SI<3>' %>
-                    </a>
-                  </section>
-                </div>
+              "
+            />
+            <% } %>
+          </div>
+          <a
+            href="<%= available.ctaUrl || 'https://www.si3.space' %>"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-sora tracking-wider rounded-xl text-sm border border-[#3E21F3] bg-primary font-semibold text-[#3E21F3] px-4 py-2 lg:px-6 lg:py-3"
+          >
+            <%= available.ctaText || 'Join SI<3>' %>
+          </a>
+        </section>
+      </div>
+    </div>
+    <% } %>
+
+    <!-- ========== Text Section ========== -->
+    <div class="px-4 py-8 bg-primary text-xs">
+      <div
+        class="max-w-[90rem] mx-auto space-y-4 text-justify md:text-center leading-4"
+      >
+        <p class="font-dm-sans text-sm">
+          You are viewing an ENS domain, which is a distributed and open naming
+          system based on the Ethereum blockchain. This website is hosted with
+          Pinata on the IPFS, or InterPlanetary File System, which is a
+          peer-to-peer file sharing network. The .link domain extension is a
+          privacy-preserving ENS gateway for resolving/accessing ENS
+          records/domains & IPFS/internet 3.0 content. For a complete web3
+          experience, we recommend viewing this site with a Metamask extension
+          or Brave browser.
+        </p>
+        <p class="uppercase font-medium">
+          This site has been built by SI&lt;3&gt; in support of the
+          decentralized and democratized web.
+        </p>
+      </div>
+    </div>
+
+    <!-- ========== Footer Section ========== -->
+    <div class="bg-gray-900 p-4 text-xs">
+      <div class="max-w-[90rem] mx-auto space-y-2">
+        <!-- Social & Controls -->
+        <section
+          class="flex flex-col md:flex-row justify-between items-center gap-3"
+        >
+          <!-- Social Channels -->
+          <% if (socialChannels && socialChannels.length> 0) { %>
+          <div class="flex justify-between w-full md:justify-start gap-4">
+            <% socialChannels.forEach(channel=> { %> <% if (channel.url &&
+            channel.icon) { %>
+            <a
+              href="<%= channel.url %>"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit"
+            >
+              <img src="<%= channel.icon %>" alt="" width="20" height="20" />
+            </a>
+            <% } %> <% }); %>
+          </div>
+          <% } %>
+
+          <!-- Controls -->
+          <section
+            class="flex items-center justify-between md:justify-end w-full gap-4"
+          >
+            <a
+              href="https://www.si3.space/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none"
+            >
+              Join SI&lt;3&gt;
+            </a>
+            <!-- Language Button -->
+            <button
+              type="button"
+              class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none"
+            >
+              Select Language
+            </button>
+            <!-- Newsletter Form -->
+            <div
+              class="flex rounded-xl w-full lg:w-fit h-10 items-center bg-white"
+            >
+              <img
+                src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386798/mail_ibby6d.png"
+                alt=""
+                width="17"
+                height="17"
+                style="margin: 0 0.5rem"
+              />
+              <input
+                type="email"
+                placeholder="Subscribe to our newsletter..."
+                class="focus:outline-none font-dm-sans w-full mr-3 lg:w-44"
+              />
+              <div class="flex justify-end h-full">
+                <button type="button" class="bg-[#C8BAFD] rounded-xl w-10">
+                  <i class="fas fa-arrow-right size-4 mx-auto"></i>
+                </button>
               </div>
-              <% } %>
+            </div>
+          </section>
+        </section>
 
-                <!-- ========== Text Section ========== -->
-                <div class="px-4 py-8 bg-primary text-xs">
-                  <div class="max-w-[90rem] mx-auto space-y-4 text-justify md:text-center leading-4">
-                    <p class="font-dm-sans text-sm">
-                      You are viewing an ENS domain, which is a distributed and open naming system based on the
-                      Ethereum blockchain. This website is hosted with Pinata on the IPFS, or InterPlanetary
-                      File System, which is a peer-to-peer file sharing network. The .link domain extension is a
-                      privacy-preserving ENS gateway for resolving/accessing ENS records/domains & IPFS/internet
-                      3.0 content. For a complete web3 experience, we recommend viewing this site with a
-                      Metamask extension or Brave browser.
-                    </p>
-                    <p class="uppercase font-medium">
-                      This site has been built by SI&lt;3&gt; in support of the decentralized and democratized
-                      web.
-                    </p>
-                  </div>
-                </div>
+        <!-- Footer Text -->
+        <section
+          class="font-sora font-normal leading-4 tracking-wider text-center text-white max-w-md mx-auto"
+        >
+          @2025 Solar Intelligence, Inc. All rights reserved.
+        </section>
+      </div>
+    </div>
 
-                <!-- ========== Footer Section ========== -->
-                <div class="bg-gray-900 p-4 text-xs">
-                  <div class="max-w-[90rem] mx-auto space-y-2">
-                    <!-- Social & Controls -->
-                    <section class="flex flex-col md:flex-row justify-between items-center gap-3">
-                      <!-- Social Channels -->
-                      <% if (socialChannels && socialChannels.length> 0) { %>
-                        <div class="flex justify-between w-full md:justify-start gap-4">
-                          <% socialChannels.forEach(channel=> { %> <% if (channel.url && channel.icon) { %>
-                              <a href="<%= channel.url %>" target="_blank" rel="noopener noreferrer"
-                                class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit">
-                                <img src="<%= channel.icon %>" alt="" width="20" height="20" />
-                              </a>
-                              <% } %>
-                                <% }); %>
-                        </div>
-                        <% } %>
+    <script>
+      // Mobile Navigation
+      function toggleMobileNav() {
+        const nav = document.getElementById("mobileNav");
+        const isOpen = !nav.classList.contains("translate-x-full");
+        const menuIcon = document.getElementById("menuIcon");
 
-                          <!-- Controls -->
-                          <section class="flex items-center justify-between md:justify-end w-full gap-4">
-                            <a href="https://www.si3.space/" target="_blank" rel="noopener noreferrer"
-                              class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none">
-                              Join SI&lt;3&gt;
-                            </a>
-                            <!-- Language Button -->
-                            <button type="button"
-                              class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none">
-                              Select Language
-                            </button>
-                            <!-- Newsletter Form -->
-                            <div class="flex rounded-xl w-full lg:w-fit h-10 items-center bg-white">
-                              <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1748561322/mail_ycoudk.png"
-                                alt="" width="17" height="17" style="margin: 0 0.5rem" />
-                              <input type="email" placeholder="Subscribe to our newsletter..."
-                                class="focus:outline-none font-dm-sans w-full mr-3 lg:w-44" />
-                              <div class="flex justify-end h-full">
-                                <button type="button" class="bg-[#C8BAFD] rounded-xl w-10">
-                                  <i class="fas fa-arrow-right size-4 mx-auto"></i>
-                                </button>
-                              </div>
-                            </div>
-                          </section>
-                    </section>
+        if (isOpen) {
+          // Close the menu
+          nav.classList.add("translate-x-full");
+          menuIcon.className = "fas fa-bars text-2xl";
+        } else {
+          // Open the menu
+          nav.classList.remove("translate-x-full");
+          menuIcon.className = "fas fa-times text-2xl";
+        }
 
-                    <!-- Footer Text -->
-                    <section
-                      class="font-sora font-normal leading-4 tracking-wider text-center text-white max-w-md mx-auto">
-                      @2025 Solar Intelligence, Inc. All rights reserved.
-                    </section>
-                  </div>
-                </div>
+        // Update mobile menu button icons
+        const menuButtons = document.querySelectorAll(
+          '[aria-label="Toggle menu"]'
+        );
+        menuButtons.forEach((button) => {
+          if (button.id !== "menuIcon") {
+            if (isOpen) {
+              button.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+            } else {
+              button.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+            }
+          }
+        });
+      }
 
-                <script>
-                  // Mobile Navigation
-                  function toggleMobileNav() {
-                    const nav = document.getElementById("mobileNav");
-                    const isOpen = !nav.classList.contains("translate-x-full");
-                    const menuIcon = document.getElementById("menuIcon");
+      // Landing Animation
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById("landingAnimation");
+        if (!container) return;
 
-                    if (isOpen) {
-                      // Close the menu
-                      nav.classList.add("translate-x-full");
-                      menuIcon.className = "fas fa-bars text-2xl";
-                    } else {
-                      // Open the menu
-                      nav.classList.remove("translate-x-full");
-                      menuIcon.className = "fas fa-times text-2xl";
-                    }
+        const textWrappers = container.querySelectorAll(".letter");
+        textWrappers.forEach((wrapper) => {
+          if (wrapper.textContent?.trim()) {
+            wrapper.innerHTML = wrapper.textContent.replace(
+              /\S/g,
+              "<span class='letters'>$&</span>"
+            );
+          }
+        });
 
-                    // Update mobile menu button icons
-                    const menuButtons = document.querySelectorAll('[aria-label="Toggle menu"]');
-                    menuButtons.forEach(button => {
-                      if (button.id !== "menuIcon") {
-                        if (isOpen) {
-                          button.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
-                        } else {
-                          button.innerHTML = '<i class="fas fa-times text-2xl"></i>';
-                        }
-                      }
-                    });
-                  }
+        anime.timeline({ loop: false }).add({
+          targets: ".letters",
+          scale: [0.3, 1],
+          opacity: [0, 1],
+          translateZ: 0,
+          easing: "easeOutExpo",
+          duration: 100,
+          delay: (_el, i) => 50 * (i + 1),
+        });
+      });
 
-                  // Landing Animation
-                  document.addEventListener("DOMContentLoaded", function () {
-                    const container = document.getElementById("landingAnimation");
-                    if (!container) return;
-
-                    const textWrappers = container.querySelectorAll(".letter");
-                    textWrappers.forEach((wrapper) => {
-                      if (wrapper.textContent?.trim()) {
-                        wrapper.innerHTML = wrapper.textContent.replace(
-                          /\S/g,
-                          "<span class='letters'>$&</span>"
-                        );
-                      }
-                    });
-
-                    anime.timeline({ loop: false }).add({
-                      targets: ".letters",
-                      scale: [0.3, 1],
-                      opacity: [0, 1],
-                      translateZ: 0,
-                      easing: "easeOutExpo",
-                      duration: 100,
-                      delay: (_el, i) => 50 * (i + 1),
-                    });
-                  });
-
-                  async function fetchPeople() {
-                    try {
-                      const response = await fetch("https://kara-backend.vercel.app/users");
-                      const users = await response.json();
-                      const peopleScroller = document.getElementById("peopleScroller");
-                      if (!peopleScroller || !users.length) return;
-                      peopleScroller.innerHTML = "";
-                      [...users, ...users, ...users].forEach((user, index) => {
-                        const userElement = document.createElement("div");
-                        userElement.className = "flex items-center";
-                        userElement.innerHTML = `
+      async function fetchPeople() {
+        try {
+          const response = await fetch("https://kara-backend.vercel.app/users");
+          const users = await response.json();
+          const peopleScroller = document.getElementById("peopleScroller");
+          if (!peopleScroller || !users.length) return;
+          peopleScroller.innerHTML = "";
+          [...users, ...users, ...users].forEach((user, index) => {
+            const userElement = document.createElement("div");
+            userElement.className = "flex items-center";
+            userElement.innerHTML = `
               <div class="text-center flex w-max items-center px-3 text-white tracking-wider uppercase">
                 <div class="size-12 relative">
-                  <img src="${user.image ||
-                          "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png"
-                          }" 
+                  <img src="${
+                    user.image ||
+                    "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png"
+                  }" 
                        alt="" 
                        class="rounded-full object-cover w-full h-full" />
                 </div>
                 <div class="mx-4 text-left text-sm">
                   <p>${user.fullName || ""}</p>
-                  ${user.domain
-                            ? `
+                  ${
+                    user.domain
+                      ? `
                     <a href="https://${user.domain}" 
                        target="_blank" 
                        rel="noreferrer" 
@@ -803,35 +987,34 @@
                       ${user.domain}
                     </a>
                   `
-                            : ""
-                          }
+                      : ""
+                  }
                 </div>
               </div>
               <div class="bg-white size-2 rounded-full mx-4"></div>
             `;
-                        peopleScroller.appendChild(userElement);
-                      });
+            peopleScroller.appendChild(userElement);
+          });
 
-                      // Start animation after data is loaded
-                      let scrollAmount = 0;
-                      const scrollSpeed = 0.3;
-                      const animatePeople = () => {
-                        scrollAmount -= scrollSpeed;
-                        if (Math.abs(scrollAmount) >= peopleScroller.scrollWidth / 2) {
-                          scrollAmount = 0;
-                        }
-                        peopleScroller.style.transform = `translateX(${scrollAmount}px)`;
-                        requestAnimationFrame(animatePeople);
-                      };
-                      animatePeople();
-                    } catch (error) {
-                      console.error("Error fetching people:", error);
-                    }
-                  }
+          // Start animation after data is loaded
+          let scrollAmount = 0;
+          const scrollSpeed = 0.3;
+          const animatePeople = () => {
+            scrollAmount -= scrollSpeed;
+            if (Math.abs(scrollAmount) >= peopleScroller.scrollWidth / 2) {
+              scrollAmount = 0;
+            }
+            peopleScroller.style.transform = `translateX(${scrollAmount}px)`;
+            requestAnimationFrame(animatePeople);
+          };
+          animatePeople();
+        } catch (error) {
+          console.error("Error fetching people:", error);
+        }
+      }
 
-                  // Call fetchPeople when the page loads
-                  document.addEventListener("DOMContentLoaded", fetchPeople);
-                </script>
-</body>
-
+      // Call fetchPeople when the page loads
+      document.addEventListener("DOMContentLoaded", fetchPeople);
+    </script>
+  </body>
 </html>

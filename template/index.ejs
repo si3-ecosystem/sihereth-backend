@@ -12,6 +12,9 @@
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
+      html {
+  scroll-behavior: smooth;
+};
       @font-face {
         font-family: "sora";
         src: url("https://res.cloudinary.com/dv52zu7pu/raw/upload/v1751386802/Sora-Variable_misbzy.ttf")
@@ -162,6 +165,11 @@
         animation: marquee 20s linear infinite;
       }
 
+      .cryptoButton:hover {
+        background-color: #7E5BFF;
+        color: white;
+      }
+
       .letters {
         display: inline-block;
         opacity: 0;
@@ -281,8 +289,8 @@
           alt="logo"
         />
         <!-- Desktop Navigation -->
-        <div class="flex-1 md:flex justify-center items-center leading-4 gap-7">
-          <div class="flex items-center gap-7">
+        <div class="hidden flex-1 md:flex justify-center items-center leading-4">
+          <div class="flex items-center gap-10">
             <% ["Value", "Media" , "Timeline" , "Connect" ].forEach(item=> { %>
             <a
               href="#<%= item.toLowerCase() %>"
@@ -338,7 +346,7 @@
         >
           <!-- Animation Section -->
           <div
-            id="landingAnimation"
+           
             class="font-sora font-bold text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] tracking-wide"
           >
             <span class="letter">I'm </span>
@@ -471,7 +479,7 @@
     </div>
 
     <!-- ========== Value Section ========== -->
-    <div class="p-4 py-10">
+    <div class="p-4 py-10" id="value">
       <div class="max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
         <!-- Values -->
         <section
@@ -486,7 +494,6 @@
             <%= value.experience %>
           </p>
         </section>
-        <!-- Experience -->
         <section
           class="flex flex-col items-center sm:items-start w-full space-y-6"
         >
@@ -503,7 +510,7 @@
     </div>
 
     <!-- ========== Live Section ========== -->
-    <section class="bg-primary p-4 py-10 sm:py-16" aria-label="Live Section">
+    <section id="media" class="bg-primary p-4 py-10 sm:py-16" aria-label="Live Section">
       <div class="max-w-[90rem] mx-auto space-y-8">
         <!-- Live content -->
         <% if (live.image && (live.video || live.url)) { %>
@@ -611,7 +618,7 @@
             href="<%= live.walletUrl %>"
             target="_blank"
             rel="noopener noreferrer"
-            class="bg-light-purple text-blue-primary rounded-full transition-all ease-out duration-300 hover:bg-[#7E5BFF] hover:text-white font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base"
+            class="bg-light-purple cryptoButton text-blue-primary rounded-full transition-all ease-out duration-300 font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base"
           >
             TIP <%= landing.fullName.trim().split(" ")[0] %> IN CRYPTO
           </a>
@@ -627,10 +634,10 @@
         >
           <% validDetails.forEach((item, index)=> { %>
           <div class="w-full">
-            <div class="card-wrapper group">
+            <a href="<%= item.url %>" target="_blank" class="card-wrapper group cursor-pointer">
               <div class="tag-box"><%= item.title %></div>
               <span class="heading-text"> <%= item.heading %> </span>
-            </div>
+            </a>
           </div>
           <% }) %>
         </div>
@@ -672,7 +679,7 @@
     && b.from.trim()) { const dateA = Number.parseInt(a.from.replace(/\D/g, ""))
     || 0; const dateB = Number.parseInt(b.from.replace(/\D/g, "")) || 0; return
     dateB - dateA; } return 0; }); %> <% if (filteredTimeline.length) { %>
-    <div class="p-4 py-10">
+    <div id="timeline" class="p-4 py-10">
       <section class="max-w-[90rem] mx-auto">
         <div class="flex justify-between items-center">
           <div
@@ -722,7 +729,7 @@
     <% const cleanedAvailable=(available.availableFor || []).filter(item=>
     item.trim() !== ""); %> <% if (cleanedAvailable.length || available.avatar)
     { %>
-    <div class="p-4 py-10">
+    <div id="connect" class="p-4 py-10">
       <div
         class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4"
       >
@@ -899,60 +906,20 @@
     <script>
       // Mobile Navigation
       function toggleMobileNav() {
-        const nav = document.getElementById("mobileNav");
-        const isOpen = !nav.classList.contains("translate-x-full");
-        const menuIcon = document.getElementById("menuIcon");
+  const nav = document.getElementById("mobileNav");
+  const menuBtn = document.querySelector('[aria-label="Toggle menu"].md\\:hidden');
+  const isOpen = !nav.classList.contains("translate-x-full");
 
-        if (isOpen) {
-          // Close the menu
-          nav.classList.add("translate-x-full");
-          menuIcon.className = "fas fa-bars text-2xl";
-        } else {
-          // Open the menu
-          nav.classList.remove("translate-x-full");
-          menuIcon.className = "fas fa-times text-2xl";
-        }
-
-        // Update mobile menu button icons
-        const menuButtons = document.querySelectorAll(
-          '[aria-label="Toggle menu"]'
-        );
-        menuButtons.forEach((button) => {
-          if (button.id !== "menuIcon") {
-            if (isOpen) {
-              button.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
-            } else {
-              button.innerHTML = '<i class="fas fa-times text-2xl"></i>';
-            }
-          }
-        });
-      }
-
-      // Landing Animation
-      document.addEventListener("DOMContentLoaded", function () {
-        const container = document.getElementById("landingAnimation");
-        if (!container) return;
-
-        const textWrappers = container.querySelectorAll(".letter");
-        textWrappers.forEach((wrapper) => {
-          if (wrapper.textContent?.trim()) {
-            wrapper.innerHTML = wrapper.textContent.replace(
-              /\S/g,
-              "<span class='letters'>$&</span>"
-            );
-          }
-        });
-
-        anime.timeline({ loop: false }).add({
-          targets: ".letters",
-          scale: [0.3, 1],
-          opacity: [0, 1],
-          translateZ: 0,
-          easing: "easeOutExpo",
-          duration: 100,
-          delay: (_el, i) => 50 * (i + 1),
-        });
-      });
+  if (isOpen) {
+    // Close the menu
+    nav.classList.add("translate-x-full");
+    menuBtn.style.display = "block"; // Show menu button
+  } else {
+    // Open the menu
+    nav.classList.remove("translate-x-full");
+    menuBtn.style.display = "none"; // Hide menu button
+  }
+}
 
       async function fetchPeople() {
         try {

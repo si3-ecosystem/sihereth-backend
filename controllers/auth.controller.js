@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const WebContent = require("../models/WebContent.model");
 
-const errorResponse = (res, status, message) => res.status(status).json({ message: message });
+const errorResponse = (res, status, message) =>
+  res.status(status).json({ message: message });
 
 exports.approveUser = async (req, res) => {
   try {
@@ -46,7 +47,8 @@ exports.approveUser = async (req, res) => {
 exports.loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) return errorResponse(res, 400, "Email and password are required");
+    if (!email || !password)
+      return errorResponse(res, 400, "Email and password are required");
     const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) return errorResponse(res, 404, "User does not exist");
     if (!user.password) {
@@ -54,7 +56,8 @@ exports.loginUser = async (req, res, next) => {
       await user.save();
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
-    if (!isPasswordCorrect) return errorResponse(res, 403, "Incorrect password");
+    if (!isPasswordCorrect)
+      return errorResponse(res, 403, "Incorrect password");
     const token = jwt.sign(
       { id: user._id, email: user.email, name: user.name },
       process.env.JWT_SECRET,
@@ -67,10 +70,14 @@ exports.loginUser = async (req, res, next) => {
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
     const webContent = await WebContent.findOne({ user: user._id });
+    let formattedDomain = "";
+    if (user?.domain) {
+      formattedDomain = `${user?.domain}.siher.eth.link`;
+    }
     const userData = {
       id: user._id,
       email: user.email ?? "",
-      domain: user.domain ?? "",
+      domain: formattedDomain ?? "",
       webContent: webContent ?? null,
     };
     return res.status(200).json({

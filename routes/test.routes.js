@@ -2,12 +2,10 @@ const express = require("express");
 const fs = require("node:fs");
 const ejs = require("ejs");
 const path = require("node:path");
-
+const auth = require("../middlewares/auth");
 const router = express.Router();
 
-// This route renders the template and saves it as an HTML file,
-// with checks to ensure both steps were successful.
-router.get("/render", (req, res) => {
+router.get("/render", auth, (req, res) => {
   try {
     const content = {
       landing: {
@@ -33,8 +31,7 @@ router.get("/render", (req, res) => {
       live: {
         image:
           "https://res.cloudinary.com/dq033xs8n/image/upload/v1748804464/vnaidlylf4ferys1nwc3.jpg",
-        url:
-          "https://res.cloudinary.com/dq033xs8n/video/upload/v1744345277/vid_cy6pec.mp4",
+        url: "https://res.cloudinary.com/dq033xs8n/video/upload/v1744345277/vid_cy6pec.mp4",
         walletUrl:
           "https://pb.aurpay.net/pb/page/html/paymentbutton.html?token=pb_plugin_link_token_h6hzBGgZzFW1G5eO",
         details: [
@@ -45,12 +42,10 @@ router.get("/render", (req, res) => {
       },
       organizations: [
         {
-          src:
-            "https://res.cloudinary.com/dq033xs8n/image/upload/v1748798333/ssjfnrdqnrnypxgiqflq.jpg",
+          src: "https://res.cloudinary.com/dq033xs8n/image/upload/v1748798333/ssjfnrdqnrnypxgiqflq.jpg",
         },
         {
-          src:
-            "https://res.cloudinary.com/dq033xs8n/image/upload/v1748798342/ktgfunqrklosfj2tmbln.png",
+          src: "https://res.cloudinary.com/dq033xs8n/image/upload/v1748798342/ktgfunqrklosfj2tmbln.png",
         },
       ],
       timeline: [
@@ -69,18 +64,15 @@ router.get("/render", (req, res) => {
       socialChannels: [
         {
           url: "https://www.linkedin.com",
-          icon:
-            "https://res.cloudinary.com/dq033xs8n/image/upload/v1746343757/Facebook_bsmqay.svg",
+          icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1746343757/Facebook_bsmqay.svg",
         },
         {
           url: "https://www.instagram.com",
-          icon:
-            "https://res.cloudinary.com/dq033xs8n/image/upload/v1746343757/Instagram_lyhjoi.svg",
+          icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1746343757/Instagram_lyhjoi.svg",
         },
         {
           url: "https://twitter.com",
-          icon:
-            "https://res.cloudinary.com/dq033xs8n/image/upload/v1746344739/Twitter_geucw3.svg",
+          icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1746344739/Twitter_geucw3.svg",
         },
       ],
     };
@@ -112,7 +104,9 @@ router.get("/render", (req, res) => {
     }
 
     fs.writeFileSync(filePath, renderedTemplate);
-    console.log(`[Render Route] File write operation completed for ${filePath}`);
+    console.log(
+      `[Render Route] File write operation completed for ${filePath}`
+    );
 
     // **✅ POST-SAVE VERIFICATION CHECK**
     const savedFileContent = fs.readFileSync(filePath, "utf-8");

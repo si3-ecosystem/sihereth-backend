@@ -6,12 +6,12 @@ const NAMESTONE_API_URL = process.env.NAMESTONE_API_URL;
 const ADDRESS = process.env.ADDRESS;
 const DOMAIN = process.env.DOMAIN;
 
-const errorResponse = (res, status, message) => res.status(status).json({ message });
+const errorResponse = (res, status, message) =>
+  res.status(status).json({ message });
 
 const publishDomain = async (req, res) => {
   try {
     const { domain } = req.body;
-    const formattedDomain = `${domain}.siher.eth.link`;
 
     if (!domain) {
       return errorResponse(res, 400, "Domain is required.");
@@ -19,15 +19,17 @@ const publishDomain = async (req, res) => {
 
     const existingDomain = await User.findOne({ domain: domain });
 
-    console.log(existingDomain, formattedDomain);
-    if (existingDomain == formattedDomain) {
+    if (existingDomain == domain) {
       return errorResponse(res, 400, "Subdomain already registered.");
     }
 
     const webpage = await Webpage.findOne({ user: req.user.id });
     const cid = webpage?.contentHash ?? "";
     if (!cid) {
-      console.log("[publishDomain] No content hash found for user:", req.user.id);
+      console.log(
+        "[publishDomain] No content hash found for user:",
+        req.user.id
+      );
       return errorResponse(
         res,
         400,
@@ -42,14 +44,16 @@ const publishDomain = async (req, res) => {
 
     const updatedUser = await User.findOneAndUpdate(
       { _id: req.user.id },
-      { domain: formattedDomain },
+      { domain: domain },
       { new: true }
     );
 
     if (!updatedUser) {
       return errorResponse(res, 404, "User not found.");
     }
-    return res.status(200).json({ domain: updatedUser.domain });
+    return res
+      .status(200)
+      .json({ domain: `${updatedUser?.domain}.siher.eth.limo` });
   } catch (error) {
     console.error("[publishDomain] Error:", error);
     return errorResponse(res, 500, error.message ?? "Failed to publish domain");

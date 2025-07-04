@@ -47,22 +47,31 @@ exports.approveUser = async (req, res) => {
 exports.loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password)
+    if (!email || !password) {
+      console.warn("[LOGIN] Missing email or password");
       return errorResponse(res, 400, "Email and password are required");
+    }
     const user = await User.findOne({ email: email.toLowerCase() });
-    if (!user) return errorResponse(res, 404, "User does not exist");
+    if (!user) {
+      return errorResponse(res, 404, "User does not exist");
+    }
     if (!user.password) {
       user.password = password;
       await user.save();
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
-    if (!isPasswordCorrect)
+    if (!isPasswordCorrect) {
+      console.warn("[LOGIN] Incorrect password");
       return errorResponse(res, 403, "Incorrect password");
-    const token = jwt.sign(
-      { id: user._id, email: user.email, name: user.name },
-      process.env.JWT_SECRET,
-      { expiresIn: "3d" }
-    );
+    }
+    const tokenPayload = {
+      id: user._id,
+      email: user.email,
+      name: user.name,
+    };
+    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
+      expiresIn: "3d",
+    });
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -85,6 +94,7 @@ exports.loginUser = async (req, res, next) => {
       user: userData,
     });
   } catch (error) {
+    console.error("[LOGIN] Error:", error);
     next(error);
   }
 };
@@ -106,7 +116,6 @@ exports.validateToken = (req, res) => {
     });
   } catch (error) {
     console.log(error);
-
     return errorResponse(res, 500, "Internal server error");
   }
 };

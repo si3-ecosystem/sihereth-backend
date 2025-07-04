@@ -22,7 +22,7 @@ exports.getUsers = async (req, res) => {
       {
         $project: {
           _id: 1,
-          domain: 1,
+          domain: { $concat: ["$domain", ".siher.eth.limo"] },
           fullName: "$webContent.landing.fullName",
           image: "$webContent.landing.image",
         },

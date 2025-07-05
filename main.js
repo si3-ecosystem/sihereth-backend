@@ -3,16 +3,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
-const path = require("path");
 const auth = require("./middlewares/auth");
 const { corsOptions } = require("./utils/cors");
 require("dotenv").config();
 
 const app = express();
-
-// Set up EJS as view engine
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "template"));
 
 app.use(helmet());
 app.use(express.json());
@@ -28,5 +23,7 @@ app.get("/", (_, res) => {
   return res.send("Server is running");
 });
 
-mongoose.connect(process.env.DB_URL).then(() => console.log("MongoDB connected"));
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() => console.log("MongoDB connected"));
 app.listen(5000, () => console.log("Listening on port 5000"));

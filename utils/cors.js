@@ -3,13 +3,12 @@ exports.corsOptions = {
     const allowedOrigins = [
       "http://localhost:3000",
       "http://localhost:3001",
+      "http://127.0.0.1:5500",
+      "http://127.0.0.1:5500/temp/Kara-Howard.html",
       "https://siher.si3.space",
       "https://backend.si3.space",
     ];
-    const allowedDomainSuffixes = [
-      ".siher.eth.link",
-      ".siher.eth.limo",
-    ];
+    const allowedDomainSuffixes = [".siher.eth.link", ".siher.eth.limo"];
     if (
       !origin ||
       allowedOrigins.includes(origin) ||

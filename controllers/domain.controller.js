@@ -53,7 +53,7 @@ const publishDomain = async (req, res) => {
     }
     return res
       .status(200)
-      .json({ domain: `${updatedUser?.domain}.siher.eth.limo` });
+      .json({ domain: `${updatedUser?.domain}.siher.eth.link` });
   } catch (error) {
     console.error("[publishDomain] Error:", error);
     return errorResponse(res, 500, error.message ?? "Failed to publish domain");

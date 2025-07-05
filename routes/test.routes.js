@@ -9,70 +9,114 @@ router.get("/render", auth, (req, res) => {
   try {
     const content = {
       landing: {
-        fullName: "Ali",
-        title: "Backend Developer",
-        headline: "& I develop web apps.",
-        hashTags: ["Koders", "New tag"],
-        region: "Southeastern Asia",
-        organizationAffiliations: ["Devs", "Hackers", "Community"],
-        communityAffiliations: ["Coders, Hackers, Community Builders"],
-        superPowers: ["Developing", "Teaching", "Community"],
+        fullName: "Kara Howard",
+        title: "SI<3> Co-Founder",
+        headline: "& I create accessible platforms for the new economy.",
+        hashTags: [
+          "collaboration",
+          "inclusion",
+          "impact",
+          "transparency",
+          "accessibility ",
+        ],
+        region: "North America",
+        organizationAffiliations: ["SI<3>"],
+        communityAffiliations: ["Si Her", "BitQueens"],
+        superPowers: ["Empathy", "Focus", "Leaps of Faith"],
         image:
           "https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386821/girl_ainxhw.png",
-        pronoun: "he/him",
+        pronoun: "SHE/HER",
       },
-      slider: ["Node", "Nest", "DevOps"],
+      slider: [
+        "Accessible Platforms",
+        "Collaborative Growth ",
+        "Inclusive Ecosystems ",
+        "Infinite Potential ",
+      ],
       value: {
         experience:
-          "My career began in 2020 at Graana. I started an internship in web development.",
-        values:
-          "Grow and become a skilled developer, excel in DevOps, and be a good mentor.",
+          "As the Ecosystem Growth Lead of SI<3>, I bring twelve years in womxn-in-tech community leadership, and fifteen years in growth and partnerships development in emerging technology. I am a strong ecosystem builder and connecter, and enjoy creating collaborative value with community networks and product integrations. I am very values-driven in business and in my life, and maintain a solid connection to my inner guidance system as I navigate the complexities of creating value in the new economy.",
+        values: "My vision is for an equitable new economy.",
       },
       live: {
         image:
-          "https://res.cloudinary.com/dq033xs8n/image/upload/v1748804464/vnaidlylf4ferys1nwc3.jpg",
-        url: "https://res.cloudinary.com/dq033xs8n/video/upload/v1744345277/vid_cy6pec.mp4",
+          "https://res.cloudinary.com/dq033xs8n/image/upload/v1751646472/elxegcjsioitde3fam3u.png",
+        url: "https://res.cloudinary.com/dv52zu7pu/video/upload/v1751386825/vid_vxw5em.mp4",
         walletUrl:
           "https://pb.aurpay.net/pb/page/html/paymentbutton.html?token=pb_plugin_link_token_h6hzBGgZzFW1G5eO",
         details: [
-          { title: "website", heading: "zain.com" },
-          { title: "facebook", heading: "zas512" },
-          { title: "instagram", heading: "z.a.i.n" },
+          {
+            title: "SI<3>",
+            heading: "SI<3>'s Mission",
+          },
+          {
+            title: "Wirex",
+            heading: "How True is Web3's Commitment to Diversity and Inclusion",
+          },
+          {
+            title: "W3B Talks",
+            heading: "Diversity in the New Economy",
+          },
         ],
       },
       organizations: [
-        {
-          src: "https://res.cloudinary.com/dq033xs8n/image/upload/v1748798333/ssjfnrdqnrnypxgiqflq.jpg",
-        },
-        {
-          src: "https://res.cloudinary.com/dq033xs8n/image/upload/v1748798342/ktgfunqrklosfj2tmbln.png",
-        },
+        "https://res.cloudinary.com/dq033xs8n/image/upload/v1751647251/wfhk7vb6zvvvrgsbpwl8.png",
+        "https://res.cloudinary.com/dq033xs8n/image/upload/v1751647255/ekvgnk1bhp7p9vnbena8.png",
+        "https://res.cloudinary.com/dq033xs8n/image/upload/v1751647258/g0l3pu2sz4tttcnxg6kr.png",
+        "https://res.cloudinary.com/dq033xs8n/image/upload/v1751647262/tsypmpiqmx51nopyag6d.png",
       ],
       timeline: [
-        { title: "Full stack developer at WJIKS", to: "PRESENT", from: "2022" },
-        { title: "Developer at graana", to: "2022", from: "2020" },
-        { title: "Freelance developer", to: "PRESENT", from: "2020" },
-        { title: "Developer", to: "PRESENT", from: "2025" },
+        {
+          title: "Co-Creating SI<3>",
+          to: "PRESENT",
+          from: "2023",
+        },
+        {
+          title: "Personal Development Retreat",
+          to: "",
+          from: "2022",
+        },
+        {
+          title: "Managed the Feminine Intelligence",
+          to: "2021",
+          from: "2017",
+        },
+        {
+          title: "VP of Growth & Partnerships at Clevertap",
+          to: "2019",
+          from: "2015",
+        },
+        {
+          title: "MBA from NYU Stern & Marketing Entrepreneurship",
+          to: "",
+          from: "2012",
+        },
+        {
+          title: "BSC from UW Madison - Personal Finance",
+          to: "",
+          from: "2004",
+        },
+        {
+          title: "Equity Research Associate / Financial Analyst",
+          to: "2010",
+          from: "2002",
+        },
       ],
       available: {
         avatar:
-          "https://res.cloudinary.com/dq033xs8n/image/upload/v1748804165/lfut09lovn42dupgnnmc.jpg",
-        availableFor: ["Developing", "Coding"],
+          "https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386807/avatar_vpdoef.png",
+        availableFor: ["collaboration", "advising", "speaking"],
         ctaUrl: "https://www.si3.space",
         ctaText: "Join SI<3>",
       },
       socialChannels: [
         {
-          url: "https://www.linkedin.com",
-          icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1746343757/Facebook_bsmqay.svg",
+          url: "https://www.linkedin.com/in/decentralizing/",
+          icon: "https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386798/LinkedIn_mrnvct.svg",
         },
         {
-          url: "https://www.instagram.com",
-          icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1746343757/Instagram_lyhjoi.svg",
-        },
-        {
-          url: "https://twitter.com",
-          icon: "https://res.cloudinary.com/dq033xs8n/image/upload/v1746344739/Twitter_geucw3.svg",
+          url: "https://x.com/si3_ecosystem",
+          icon: "https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386803/Twitter_btmxyb.svg",
         },
       ],
     };

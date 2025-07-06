@@ -5,7 +5,7 @@ const path = require("node:path");
 const auth = require("../middlewares/auth");
 const router = express.Router();
 
-router.get("/render", auth, (req, res) => {
+router.get("/render", (req, res) => {
   try {
     const content = {
       landing: {

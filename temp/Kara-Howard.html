@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= landing.fullName.split(" ")[0] %>'s Profile</title>
+    <title>Kara's Profile</title>
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="<%= landing.fullName %>" />
-    <meta property="og:description" content="<%= landing.headline || 'Profile' %>" />
-    <meta property="og:image" content="<%= landing.image %>" />
+    <meta property="og:title" content="Kara Howard" />
+    <meta property="og:description" content="&amp; I create accessible platforms for the new economy." />
+    <meta property="og:image" content="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386821/girl_ainxhw.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<%= landing.fullName %>" />
-    <meta name="twitter:description" content="<%= landing.headline || 'Profile' %>" />
-    <meta name="twitter:image" content="<%= landing.image %>" />
+    <meta name="twitter:title" content="Kara Howard" />
+    <meta name="twitter:description" content="&amp; I create accessible platforms for the new economy." />
+    <meta name="twitter:image" content="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386821/girl_ainxhw.png" />
     <link rel="icon" href="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751743817/favicon_ttmsyz.ico" type="image/x-icon" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -191,12 +191,24 @@
         <!-- Desktop Navigation -->
         <div class="hidden flex-1 md:flex justify-center items-center leading-4">
           <div class="flex items-center gap-10">
-            <% const navItems = ["Value", "Media", "Timeline", "Connect"]; %>
-            <% navItems.forEach(item => { %>
-            <a href="#<%= item.toLowerCase() %>" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
-              <%= item %>
+            
+            
+            <a href="#value" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
+              Value
             </a>
-            <% }) %>
+            
+            <a href="#media" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
+              Media
+            </a>
+            
+            <a href="#timeline" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
+              Timeline
+            </a>
+            
+            <a href="#connect" class="font-semibold font-sora transition-all duration-300 hover:text-light-purple">
+              Connect
+            </a>
+            
           </div>
         </div>
 
@@ -209,11 +221,23 @@
           <button type="button" onclick="toggleMobileNav()" class="absolute top-10 right-10 text-white md:hidden focus:outline-none z-50" aria-label="Toggle menu">
             <i class="fas fa-times text-2xl"></i>
           </button>
-          <% navItems.forEach(item => { %>
-          <a href="#<%= item.toLowerCase() %>" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
-            <%= item %>
+          
+          <a href="#value" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
+            Value
           </a>
-          <% }) %>
+          
+          <a href="#media" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
+            Media
+          </a>
+          
+          <a href="#timeline" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
+            Timeline
+          </a>
+          
+          <a href="#connect" class="font-semibold text-white transition-all hover:text-light-purple" onclick="toggleMobileNav()">
+            Connect
+          </a>
+          
         </div>
       </div>
     </section>
@@ -226,80 +250,162 @@
           <!-- Hero Text -->
           <div class="font-sora font-bold text-[2.8rem] sm:text-[3.3rem] lg:text-[3.8rem] leading-[3.2rem] sm:leading-[3.8rem] lg:leading-[4.5rem] tracking-wide">
             <span>I'm </span>
-            <span class="text-blue-primary"><%= landing.fullName.trim().split(" ")[0] %></span>
+            <span class="text-blue-primary">Kara</span>
             <span>, </span>
-            <span><%= landing.headline ?? "" %></span>
+            <span>&amp; I create accessible platforms for the new economy.</span>
           </div>
 
           <!-- Hashtags -->
           <section class="flex flex-wrap gap-3 font-medium pb-2">
-            <% (landing.hashTags || []).forEach(hashtag => { %>
+            
             <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default">
-              #<%= hashtag.toUpperCase() %>
+              #COLLABORATION
             </div>
-            <% }) %>
+            
+            <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default">
+              #INCLUSION
+            </div>
+            
+            <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default">
+              #IMPACT
+            </div>
+            
+            <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default">
+              #TRANSPARENCY
+            </div>
+            
+            <div class="bg-primary tracking-wider whitespace-nowrap py-2 px-3 md:py-3 md:px-4 rounded-2xl hashtag-hover transition-all ease-out duration-500 cursor-default">
+              #ACCESSIBILITY 
+            </div>
+            
           </section>
 
           <!-- Information Section -->
           <section class="p-3 space-y-3 md:space-y-4 overflow-hidden bg-gray-100 border border-gray-200 w-full rounded-lg">
-            <% const infoFields = [
-              { label: "Title:", value: landing.title },
-              { label: "Presently based in:", value: landing.region }
-            ]; %>
             
-            <% infoFields.forEach(field => { %>
+            
+            
             <div class="flex gap-2 font-medium">
               <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">
-                <%= field.label %>
+                Title:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                <%= field.value %>
+                SI&lt;3&gt; Co-Founder
               </div>
             </div>
-            <% }) %>
-
-            <% const renderInfoRow = (title, valueArray) => { %>
+            
             <div class="flex gap-2 font-medium">
               <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">
-                <%= title %>
+                Presently based in:
               </div>
               <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
-                <% if (valueArray.length < 3) { %>
-                  <%= valueArray.join(", ") %>
-                <% } else { %>
+                North America
+              </div>
+            </div>
+            
+
+            
+            
+            
+            <div class="flex gap-2 font-medium">
+              <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">
+                Organization Affiliations:
+              </div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                
+                  SI&lt;3&gt;
+                
+              </div>
+            </div>
+            
+            
+            <div class="flex gap-2 font-medium">
+              <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">
+                Community Affiliations:
+              </div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                
+                  Si Her, BitQueens
+                
+              </div>
+            </div>
+            
+            
+            <div class="flex gap-2 font-medium">
+              <div class="text-blue-primary tracking-tight sm:tracking-wide font-medium w-1/3 whitespace-nowrap min-w-44">
+                Superpowers:
+              </div>
+              <div class="cursor-default w-2/3 whitespace-nowrap overflow-hidden">
+                
                 <div class="overflow-hidden w-[48rem] whitespace-nowrap">
                   <div class="flex animate-marquee">
-                    <% valueArray.concat(valueArray, valueArray).forEach(item => { %>
+                    
                     <span class="mx-2 flex items-center">
-                      <%= item %>
+                      Empathy
                       <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
                     </span>
-                    <% }) %>
+                    
+                    <span class="mx-2 flex items-center">
+                      Focus
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Leaps of Faith
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Empathy
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Focus
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Leaps of Faith
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Empathy
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Focus
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
+                    <span class="mx-2 flex items-center">
+                      Leaps of Faith
+                      <div class="size-[0.3rem] bg-gray-800 rounded-full ml-4"></div>
+                    </span>
+                    
                   </div>
                 </div>
-                <% } %>
+                
               </div>
             </div>
-            <% } %>
             
-            <%- renderInfoRow("Organization Affiliations:", landing.organizationAffiliations) %>
-            <%- renderInfoRow("Community Affiliations:", landing.communityAffiliations) %>
-            <%- renderInfoRow("Superpowers:", landing.superPowers) %>
           </section>
         </div>
 
         <!-- Profile Section -->
         <div class="w-full flex md:justify-end justify-center">
           <section class="relative aspect-[3/4] w-full max-w-[10rem] sm:max-w-xs md:max-w-sm rounded-2xl flex-shrink-0">
-            <% if (landing.image) { %>
-            <img src="<%= landing.image.replace(/`/g, '').trim() %>" alt="profile" class="rounded-2xl object-cover w-full h-full" />
-            <% } %>
+            
+            <img src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386821/girl_ainxhw.png" alt="profile" class="rounded-2xl object-cover w-full h-full" />
+            
             <div class="rounded-2xl absolute right-0 lg:-right-2 -bottom-4 xl:-right-4 border border-light-purple p-4 flex flex-col justify-center items-center gap-1 md:gap-2 bg-primary shadow-md font-dmsans">
               <span class="font-medium text-base md:text-lg whitespace-nowrap">
-                <%= landing.fullName %>
+                Kara Howard
               </span>
               <span class="tracking-wider text-xs md:text-sm">
-                <%= landing.pronoun ? `(${landing.pronoun.toLowerCase()})` : "" %>
+                (she/her)
               </span>
             </div>
           </section>
@@ -308,20 +414,90 @@
     </div>
 
     <!-- Slider Section -->
-    <% const sliderLength = slider.length; 
-       const estimatedItemWidth = 100;
-       const screenWidth = 1920;
-       const itemsPerLoop = Math.ceil((screenWidth * 2) / (estimatedItemWidth * sliderLength));
-       // Repeat slider items 4 times for seamless loop
-       const repeatedSlider = Array(4).fill(slider).flat(); %>
+    
     <div class="marquee-wrapper">
       <div class="marquee-track">
-        <% repeatedSlider.forEach(text => { %>
+        
         <div class="slider-item">
-          <%= text %>
+          Accessible Platforms
           <div class="dot"></div>
         </div>
-        <% }) %>
+        
+        <div class="slider-item">
+          Collaborative Growth 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Inclusive Ecosystems 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Infinite Potential 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Accessible Platforms
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Collaborative Growth 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Inclusive Ecosystems 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Infinite Potential 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Accessible Platforms
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Collaborative Growth 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Inclusive Ecosystems 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Infinite Potential 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Accessible Platforms
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Collaborative Growth 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Inclusive Ecosystems 
+          <div class="dot"></div>
+        </div>
+        
+        <div class="slider-item">
+          Infinite Potential 
+          <div class="dot"></div>
+        </div>
+        
       </div>
     </div>
 
@@ -330,11 +506,11 @@
       <div class="max-w-[90rem] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
         <section class="flex flex-col items-center sm:items-start w-full space-y-6">
           <div class="section-header">MY EXPERIENCE SUMMARY</div>
-          <p class="font-medium text-lg font-sora text-justify"><%= value.experience %></p>
+          <p class="font-medium text-lg font-sora text-justify">As the Ecosystem Growth Lead of SI&lt;3&gt;, I bring twelve years in womxn-in-tech community leadership, and fifteen years in growth and partnerships development in emerging technology. I am a strong ecosystem builder and connecter, and enjoy creating collaborative value with community networks and product integrations. I am very values-driven in business and in my life, and maintain a solid connection to my inner guidance system as I navigate the complexities of creating value in the new economy.</p>
         </section>
         <section class="flex flex-col items-center sm:items-start w-full space-y-6">
           <div class="section-header">MY VISION</div>
-          <div class="font-medium text-lg font-sora text-justify"><%= value.values %></div>
+          <div class="font-medium text-lg font-sora text-justify">My vision is for an equitable new economy.</div>
         </section>
       </div>
     </div>
@@ -343,68 +519,65 @@
     <section id="media" class="bg-primary p-4 py-10 sm:py-16" aria-label="Media Section">
       <div class="max-w-[90rem] mx-auto space-y-8">
         <!-- Media content -->
-        <% const mediaContent = () => { %>
-          <% if (live.image && (live.video || live.url)) { %>
+        
+
+        
+
+        
+          
           <div class="relative bg-white rounded-2xl md:p-4 shadow-sm">
             <img src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386807/border_qpdezn.png" alt="" width="500" height="500" class="absolute top-0 left-0 mx-auto w-full p-4" />
             <div class="md:mt-6 p-4 sm:p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
               <div class="relative w-full aspect-video overflow-hidden">
-                <img src="<%= live.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
+                <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1751646472/elxegcjsioitde3fam3u.png" alt="" class="object-cover rounded-2xl w-full h-full" />
               </div>
-              <%- renderMediaPlayer(live.video || live.url) %>
+              
+          
+          <video src="https://res.cloudinary.com/dv52zu7pu/video/upload/v1751386825/vid_vxw5em.mp4" class="w-full h-full object-cover rounded-2xl" playsinline muted autoplay loop></video>
+          
+        
             </div>
           </div>
-          <% } else if (live.image) { %>
-          <div class="relative w-full aspect-video overflow-hidden col-span-full">
-            <img src="<%= live.image %>" alt="" class="object-cover rounded-2xl w-full h-full" />
-          </div>
-          <% } else if (live.video || live.url) { %>
-          <div class="w-full aspect-video col-span-full">
-            <%- renderMediaPlayer(live.video || live.url) %>
-          </div>
-          <% } %>
-        <% } %>
-
-        <% const renderMediaPlayer = (mediaUrl) => { %>
-          <% if (mediaUrl && mediaUrl.match(/\.(mp3|wav|ogg|aac|flac)$/i)) { %>
-          <div class="w-full h-full flex flex-col rounded-2xl bg-gray-100 p-4 relative">
-            <audio src="<%= mediaUrl %>" class="hidden" controls></audio>
-            <button type="button" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-all rounded-2xl">
-              <div class="w-16 h-16 bg-blue-primary rounded-full flex items-center justify-center">
-                <i class="fas fa-play text-white text-2xl"></i>
-              </div>
-            </button>
-          </div>
-          <% } else { %>
-          <video src="<%= mediaUrl %>" class="w-full h-full object-cover rounded-2xl" playsinline muted autoplay loop></video>
-          <% } %>
-        <% } %>
-
-        <%- mediaContent() %>
+          
+        
 
         <!-- Crypto button -->
-        <% if (live.walletUrl) { %>
+        
         <div class="flex justify-center">
-          <a href="<%= live.walletUrl %>" target="_blank" rel="noopener noreferrer" class="bg-light-purple border border-[#3E21F3] cryptoButton text-blue-primary rounded-full transition-all ease-out duration-300 font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base">
-            TIP <%= landing.fullName.trim().split(" ")[0] %> IN CRYPTO
+          <a href="https://pb.aurpay.net/pb/page/html/paymentbutton.html?token=pb_plugin_link_token_h6hzBGgZzFW1G5eO" target="_blank" rel="noopener noreferrer" class="bg-light-purple border border-[#3E21F3] cryptoButton text-blue-primary rounded-full transition-all ease-out duration-300 font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base">
+            TIP Kara IN CRYPTO
           </a>
         </div>
-        <% } %>
+        
 
         <!-- Live Cards -->
-        <% const validDetails = live.details.filter(item => item.title?.trim() && item.heading?.trim()); %>
-        <% if (validDetails && validDetails.length > 0) { %>
+        
+        
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
-          <% validDetails.forEach(item => { %>
+          
             <div class="w-full h-full">
-              <a href="<%= item.url %>" target="_blank" class="card-wrapper group cursor-pointer h-full">
-                <div class="tag-box"><%= item.title %></div>
-                <span class="heading-text"><%= item.heading %></span>
+              <a href="" target="_blank" class="card-wrapper group cursor-pointer h-full">
+                <div class="tag-box">SI&lt;3&gt;</div>
+                <span class="heading-text">SI&lt;3&gt;&#39;s Mission</span>
               </a>
             </div>
-          <% }) %>
+          
+            <div class="w-full h-full">
+              <a href="" target="_blank" class="card-wrapper group cursor-pointer h-full">
+                <div class="tag-box">Wirex</div>
+                <span class="heading-text">How True is Web3&#39;s Commitment to Diversity and Inclusion</span>
+              </a>
+            </div>
+          
+            <div class="w-full h-full">
+              <a href="" target="_blank" class="card-wrapper group cursor-pointer h-full">
+                <div class="tag-box">W3B Talks</div>
+                <span class="heading-text">Diversity in the New Economy</span>
+              </a>
+            </div>
+          
         </div>
-        <% } %>
+        
       </div>
     </section>
 
@@ -413,51 +586,104 @@
       <div class="max-w-[90rem] mx-auto flex flex-col gap-8 justify-center items-center">
         <div class="section-header">ORGANIZATIONS I SUPPORT</div>
         <section class="w-full flex flex-col md:flex-row gap-10 justify-center items-center">
-          <% (organizations || []).forEach((org, index) => { %>
-            <% if (org) { %>
-            <img src="<%= org %>" alt="Organization <%= index + 1 %>" width="100" height="100" />
-            <% } %>
-          <% }) %>
+          
+            
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1751647251/wfhk7vb6zvvvrgsbpwl8.png" alt="Organization 1" width="100" height="100" />
+            
+          
+            
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1751647255/ekvgnk1bhp7p9vnbena8.png" alt="Organization 2" width="100" height="100" />
+            
+          
+            
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1751647258/g0l3pu2sz4tttcnxg6kr.png" alt="Organization 3" width="100" height="100" />
+            
+          
+            
+            <img src="https://res.cloudinary.com/dq033xs8n/image/upload/v1751647262/tsypmpiqmx51nopyag6d.png" alt="Organization 4" width="100" height="100" />
+            
+          
         </section>
       </div>
     </div>
 
     <!-- Timeline Section -->
-    <% const filteredTimeline = (timeline || []).filter(item => 
-         (item.title && item.title.trim()) || 
-         (item.from && item.from.trim()) || 
-         (item.to && item.to.trim())
-       ).sort((a, b) => {
-         if (a.from.trim() && !b.from.trim()) return -1;
-         if (!a.from.trim() && b.from.trim()) return 1;
-         if (a.from.trim() && b.from.trim()) {
-           const dateA = Number.parseInt(a.from.replace(/\D/g, "")) || 0;
-           const dateB = Number.parseInt(b.from.replace(/\D/g, "")) || 0;
-           return dateB - dateA;
-         }
-         return 0;
-       }); %>
     
-    <% if (filteredTimeline.length) { %>
+    
+    
     <div id="timeline" class="p-4 py-10">
       <section class="max-w-[90rem] mx-auto">
         <div class="flex justify-between items-center">
           <div class="section-header">TIMELINE</div>
           <img src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386800/runes_ppyc4o.png" alt="" width="70" height="70" />
         </div>
-        <% filteredTimeline.forEach((item, index) => { %>
-        <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide <%= index !== filteredTimeline.length - 1 ? 'border-b border-gray-300' : '' %>">
+        
+        <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300">
           <p class="font-dm-sans w-56 text-sm sm:text-lg font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
-            <%= item.from %> <%= item.to ? ' - ' + item.to : '' %>
+            2023  - PRESENT
           </p>
           <span class="w-72 md:w-full uppercase text-sm sm:text-lg leading-6 font-sora font-medium">
-            <%= item.title %>
+            Co-Creating SI&lt;3&gt;
           </span>
         </div>
-        <% }) %>
+        
+        <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300">
+          <p class="font-dm-sans w-56 text-sm sm:text-lg font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+            2022 
+          </p>
+          <span class="w-72 md:w-full uppercase text-sm sm:text-lg leading-6 font-sora font-medium">
+            Personal Development Retreat
+          </span>
+        </div>
+        
+        <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300">
+          <p class="font-dm-sans w-56 text-sm sm:text-lg font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+            2017  - 2021
+          </p>
+          <span class="w-72 md:w-full uppercase text-sm sm:text-lg leading-6 font-sora font-medium">
+            Managed the Feminine Intelligence
+          </span>
+        </div>
+        
+        <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300">
+          <p class="font-dm-sans w-56 text-sm sm:text-lg font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+            2015  - 2019
+          </p>
+          <span class="w-72 md:w-full uppercase text-sm sm:text-lg leading-6 font-sora font-medium">
+            VP of Growth &amp; Partnerships at Clevertap
+          </span>
+        </div>
+        
+        <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300">
+          <p class="font-dm-sans w-56 text-sm sm:text-lg font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+            2012 
+          </p>
+          <span class="w-72 md:w-full uppercase text-sm sm:text-lg leading-6 font-sora font-medium">
+            MBA from NYU Stern &amp; Marketing Entrepreneurship
+          </span>
+        </div>
+        
+        <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide border-b border-gray-300">
+          <p class="font-dm-sans w-56 text-sm sm:text-lg font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+            2004 
+          </p>
+          <span class="w-72 md:w-full uppercase text-sm sm:text-lg leading-6 font-sora font-medium">
+            BSC from UW Madison - Personal Finance
+          </span>
+        </div>
+        
+        <div class="w-full py-4 flex font-bold justify-between items-center tracking-wide ">
+          <p class="font-dm-sans w-56 text-sm sm:text-lg font-semibold whitespace-nowrap text-[#3E21F3] flex items-center uppercase">
+            2002  - 2010
+          </p>
+          <span class="w-72 md:w-full uppercase text-sm sm:text-lg leading-6 font-sora font-medium">
+            Equity Research Associate / Financial Analyst
+          </span>
+        </div>
+        
       </section>
     </div>
-    <% } %>
+    
 
     <!-- People Section -->
     <div class="overflow-hidden bg-gray-900 py-3 px-4 flex items-center">
@@ -467,30 +693,36 @@
     </div>
 
     <!-- Available Section -->
-    <% const cleanedAvailable = (available.availableFor || []).filter(item => item.trim() !== ""); %>
-    <% if (cleanedAvailable.length || available.avatar) { %>
+    
+    
     <div id="connect" class="p-4 py-10">
       <div class="p-2 max-w-[90rem] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         <!-- Text Section -->
         <section class="flex flex-col justify-center items-center order-1 lg:order-2 space-y-6 lg:space-y-10 xxl:space-y-12 w-full">
           <div class="section-header">I'M AVAILABLE FOR</div>
           <div class="flex flex-col gap-4 justify-center items-center">
-            <% cleanedAvailable.forEach(item => { %>
+            
             <div class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
-              <%= item %>
+              collaboration
             </div>
-            <% }) %>
+            
+            <div class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
+              advising
+            </div>
+            
+            <div class="fade-in-up transform transition-all text-[1.4rem] h-8 duration-300 hover:text-[#3E21F3] hover:text-[1.7rem] hover:font-semibold uppercase hover:tracking-wider flex justify-center items-center cursor-default">
+              speaking
+            </div>
+            
           </div>
         </section>
 
         <!-- Image Section -->
         <section class="flex flex-col gap-6 items-center w-full order-2 lg:order-1">
           <div>
-            <% if (available.avatar && available.avatar !== "" && available.avatar !== "https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386807/avatar_vpdoef.png") { %>
-              <img src="<%= available.avatar %>" alt="" width="260" height="260" class="rounded-lg border border-[#3E21F3] object-cover" />
-            <% } else { %>
+            
               <img src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751741835/available_uqqfbn.svg" alt="" width="260" height="260" class="object-cover" />
-            <% } %>
+            
           </div>
           <a href="https://www.si3.space" target="_blank" rel="noopener noreferrer" class="bg-light-purple border border-[#3E21F3] cryptoButton text-blue-primary rounded-full transition-all ease-out duration-300 font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base">
             Join SI&lt;3&gt;
@@ -498,7 +730,7 @@
         </section>
       </div>
     </div>
-    <% } %>
+    
 
     <!-- Info Section -->
     <div class="px-4 py-8 bg-primary text-xs">
@@ -518,24 +750,30 @@
         <!-- Social & Controls -->
         <section class="flex flex-col md:flex-row justify-between items-center gap-3">
           <!-- Social Channels -->
-          <% if (socialChannels && socialChannels.length > 0) { %>
+          
           <div class="flex justify-between w-full md:justify-start gap-4">
-            <% socialChannels.forEach(channel => { %>
-              <% if (channel.url && channel.icon) { %>
-            <a href="<%= channel.url %>" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit">
-              <img src="<%= channel.icon %>" alt="" width="20" height="20" />
+            
+              
+            <a href="https://www.linkedin.com/in/decentralizing/" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit">
+              <img src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386798/LinkedIn_mrnvct.svg" alt="" width="20" height="20" />
             </a>
-              <% } %>
-            <% }) %>
+              
+            
+              
+            <a href="https://x.com/si3_ecosystem" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] rounded-xl py-2 px-4 flex items-center justify-center font-semibold hover:bg-[#b0a0f5] transition gap-2 w-full md:w-fit">
+              <img src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386803/Twitter_btmxyb.svg" alt="" width="20" height="20" />
+            </a>
+              
+            
           </div>
-          <% } %>
+          
 
           <!-- Controls -->
           <section class="flex items-center justify-between md:justify-end w-full gap-4">
             <a href="https://www.si3.space/" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none">
               Join SI&lt;3&gt;
             </a>
-            <button type="button" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none hidden lg:block">
+            <button type="button" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none hidden md:block">
               Select Language
             </button>
             <div class="flex rounded-xl w-full lg:w-fit h-10 items-center bg-white">

@@ -274,17 +274,27 @@ const updateWebContent = async (req, res) => {
     console.log(`[WebContent] Deleting old content from storage for user: ${userId}`);
     console.log("webContent.contentHash", webContent.contentHash);
     
-    try {
-      await deleteFromFileStorage(webContent.contentHash);
-      console.log(`[WebContent] Successfully deleted old content from storage`);
-    } catch (deleteError) {
-      console.error(`[WebContent] Error deleting old content:`, {
-        error: deleteError.message,
-        code: deleteError.code,
-        contentHash: webContent.contentHash
-      });
-      throw new Error(`Failed to delete old content: ${deleteError.message}`);
+    console.log(`[WebContent] Checking for existing content to delete for user: ${userId}`);
+
+    // Only attempt deletion if there is a contentHash
+    if (webContent.contentHash) {
+      try {
+        console.log(`[WebContent] Deleting old content from storage for hash: ${webContent.contentHash}`);
+        await deleteFromFileStorage(webContent.contentHash);
+        console.log(`[WebContent] Successfully deleted old content from storage`);
+      } catch (deleteError) {
+        // Log the error but don't throw, to avoid crashing the update process
+        console.error(`[WebContent] Failed to delete old content from storage:`, {
+          error: deleteError.message,
+          code: deleteError.code,
+          contentHash: webContent.contentHash,
+          userId
+        });
+      }
+    } else {
+      console.log(`[WebContent] No existing content hash found, skipping deletion`);
     }
+    
 
     const content = {
       landing: contentData.landing || webContent.landing || {},

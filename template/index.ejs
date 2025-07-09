@@ -516,7 +516,7 @@
     <div class="bg-gray-900 p-4 text-xs">
       <div class="max-w-[90rem] mx-auto space-y-2">
         <!-- Social & Controls -->
-        <section class="flex flex-col md:flex-row justify-between items-center gap-3">
+        <section class="flex flex-col md:flex-row justify-between items-start gap-3">
           <!-- Social Channels -->
           <% if (socialChannels && socialChannels.length > 0) { %>
           <div class="flex justify-between w-full md:justify-start gap-4">
@@ -531,21 +531,23 @@
           <% } %>
 
           <!-- Controls -->
-          <section class="flex items-center justify-between md:justify-end w-full gap-4">
-            <a href="https://www.si3.space/" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none">
+          <section class="flex items-center justify-between md:justify-end w-full gap-4 items-start h-fit">
+            <a href="https://www.si3.space/" target="_blank" rel="noopener noreferrer" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none w-full md:w-fit text-center">
               Join SI&lt;3&gt;
             </a>
             <button type="button" class="bg-[#C8BAFD] tracking-wider px-3 py-3 rounded-xl hover:bg-[#b0a0f5] whitespace-nowrap font-sora font-semibold focus:outline-none hidden lg:block">
               Select Language
             </button>
-            <div class="flex rounded-xl w-full lg:w-fit h-10 items-center bg-white">
-              <img src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386798/mail_ibby6d.png" alt="" width="17" height="17" style="margin: 0 0.5rem" />
-              <input type="email" id="newsletterEmail" placeholder="Subscribe to our newsletter..." class="focus:outline-none text-xs font-dm-sans w-full mr-3 lg:w-44" />
-              <div class="flex justify-end h-full">
-                <button type="button" id="subscribeBtn" class="bg-[#C8BAFD] rounded-xl w-10 hover:bg-[#b0a0f5] transition-colors">
-                  <i class="fas fa-arrow-right size-4 mx-auto"></i>
-                </button>
-              </div>
+            <div style="min-width: 320px; max-width: 90vw;">
+              <ethermail-subscribe
+                widget="677f0f8f690e56d4d9800180"
+                theme="light"
+                on-mounted="setStyle"
+                input="auto"
+                wallet-connect-project-id="82b9193221afcff90a3e7b1d94e67505"
+                rpc='{"http": "https://eth-mainnet.g.alchemy.com/v2/xrSkES28Vk2dzciw2ufA7ZE-UNjmnwpK"}'
+                onclick="trackEvent('Email Subscribe Clicked', { method: 'Ethermail' })"
+              ></ethermail-subscribe>
             </div>
           </section>
         </section>
@@ -613,50 +615,119 @@
         }
       }
       document.addEventListener("DOMContentLoaded", fetchPeople);
-
-      // Newsletter subscription functionality
-      document.addEventListener("DOMContentLoaded", function() {
-        const emailInput = document.getElementById("newsletterEmail");
-        const subscribeBtn = document.getElementById("subscribeBtn");
-        
-        if (emailInput && subscribeBtn) {
-          // Handle Enter key press
-          emailInput.addEventListener("keypress", function(e) {
-            if (e.key === "Enter") {
-              handleSubscription();
-            }
-          });
-          
-          // Handle button click
-          subscribeBtn.addEventListener("click", handleSubscription);
-          
-          function handleSubscription() {
-            const email = emailInput.value.trim();
-            
-            // Basic email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!email || !emailRegex.test(email)) {
-              return;
-            }
-            
-            // Disable button and show loading state
-            subscribeBtn.disabled = true;
-            const originalIcon = subscribeBtn.innerHTML;
-            subscribeBtn.innerHTML = '<i class="fas fa-spinner fa-spin size-4 mx-auto"></i>';
-            
-            // Call the subscription API with email as query parameter (GET)
-            fetch(`https://kara-backend.vercel.app/users/subscribe?email=${encodeURIComponent(email)}`)
-              .then(() => {
-                emailInput.value = ""; // Clear input on success
-              })
-              .catch(() => {})
-              .finally(() => {
-                // Restore button state
-                subscribeBtn.disabled = false;
-                subscribeBtn.innerHTML = originalIcon;
-              });
-          }
+      document.addEventListener("DOMContentLoaded", function () {
+        function trackEvent(eventName, eventProps) {
+          console.log("Tracking Event:", eventName, eventProps);
         }
+        window.setStyle = function () {
+          const element = document.querySelector("ethermail-subscribe");
+          if (element && element.shadowRoot) {
+            const style = document.createElement("style");
+            style.textContent = `
+              .input-web2 {
+                background: white !important;
+                border-radius: 12px 0 0 12px !important; /* Only left side rounded */
+                height: 2.5rem !important;
+                font-size: 0.75rem !important;
+                font-family: 'DMSans', Arial, sans-serif !important;
+                width: 100% !important;
+                margin-right: 0 !important; /* Remove margin */
+                outline: none !important;
+                box-shadow: none !important;
+                border: none !important;
+                display: inline-block !important;
+              }
+              .input-web2:focus {
+                outline: none !important;
+                box-shadow: none !important;
+              }
+              button.subscribe {
+                background-color: #C8BAFD !important;
+                border-radius: 0 12px 12px 0 !important; /* Only right side rounded */
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                transition: background-color 0.2s !important;
+                padding: 0 !important;
+                border: none !important;
+                margin-left: -1px !important; /* Remove gap between input and button */
+                color: transparent !important; /* Hide text */
+                position: relative !important;
+              }
+              button.subscribe:hover {
+                background-color: #b0a0f5 !important;
+              }
+              button.subscribe img {
+                width: 1.2rem !important;
+                height: 1.2rem !important;
+                display: block !important;
+                margin: 0 auto !important;
+              }
+            `;
+            element.shadowRoot.appendChild(style);
+
+            // Replace button text with Cloudinary icon
+            const tryReplaceButtonIcon = () => {
+              const btn = element.shadowRoot.querySelector('button.subscribe');
+              if (btn) {
+                btn.innerHTML = '<img src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1752081204/right_vqq8bk.png" alt="Subscribe" />';
+              } else {
+                setTimeout(tryReplaceButtonIcon, 100);
+              }
+            };
+            tryReplaceButtonIcon();
+
+            // Change the input placeholder
+            const trySetPlaceholder = () => {
+              const input = element.shadowRoot.querySelector('.input-web2');
+              if (input) {
+                input.placeholder = 'Subscribe to newsletter';
+              } else {
+                setTimeout(trySetPlaceholder, 100);
+              }
+            };
+            trySetPlaceholder();
+          }
+        };
+        (function ({ ...args }) {
+          if (!document.getElementById("ethermail-sdk-script")) {
+            const p = document.createElement("script");
+            p.id = "ethermail-sdk-script";
+            p.src = "https://cdn-email.ethermail.io/sdk/v2/ethermail.js";
+            document.body.appendChild(p);
+            p.setAttribute("a", args.afid);
+            p.setAttribute("b", args.communityAlias);
+            p.setAttribute("c", args.features);
+          }
+        })({
+          afid: "67353ab1f14dc512c8f225ef",
+          communityAlias: "si3",
+          features: ["subscribe"],
+        });
+        const addCustomContent = () => {
+          const targetDiv = document.getElementById(
+            "ethermail-md-success-modal-content"
+          );
+          if (targetDiv) {
+            if (!document.getElementById("custom-modal-content")) {
+              const newDiv = document.createElement("div");
+              newDiv.id = "custom-modal-content";
+              newDiv.innerHTML = `
+                <div id="subscription-footer">
+                  <svg class="subscribe-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4ZM20 6L12 11L4 6V18H20V6ZM4 6V6.01V6Z" fill="white"/>
+                  </svg>
+                  <p class="subscribe-text">Thanks for Subscribing.</p>
+                  <span class="subscribe-emoji">🙌</span>
+                </div>`;
+              targetDiv.appendChild(newDiv);
+            }
+          }
+        };
+        const observer = new MutationObserver(() => addCustomContent());
+        observer.observe(document.body, { childList: true, subtree: true });
       });
     </script>
   </body>

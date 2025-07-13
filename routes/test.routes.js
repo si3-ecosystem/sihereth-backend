@@ -107,7 +107,7 @@ router.get("/render", (req, res) => {
           "https://res.cloudinary.com/dv52zu7pu/image/upload/v1751386807/avatar_vpdoef.png",
         availableFor: ["collaboration", "advising", "speaking"],
         ctaUrl: "https://www.si3.space",
-        ctaText: "Join SI<3>",
+        ctaText: "hello world",
       },
       socialChannels: [
         {

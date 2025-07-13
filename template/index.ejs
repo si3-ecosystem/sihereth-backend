@@ -6,11 +6,11 @@
     <title><%= landing.fullName.toLowerCase().split(" ")[0] %>.siher.eth</title>
     <meta property="og:type" content="website" />
     <meta property="og:title" content="<%= landing.fullName %>" />
-    <meta property="og:description" content="<%= landing.headline || 'Profile' %>" />
+    <meta property="og:description" content="<%= (landing.headline || 'Profile').substring(1).trim() %>" />
     <meta property="og:image" content="https://res.cloudinary.com/dv52zu7pu/image/upload/v1752182029/linkpreviewjpg_d1qhvu.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="<%= landing.fullName %>" />
-    <meta name="twitter:description" content="<%= landing.headline || 'Profile' %>" />
+    <meta name="twitter:description" content="<%= (landing.headline || 'Profile').substring(1).trim() %>" />
     <meta name="twitter:image" content="https://res.cloudinary.com/dv52zu7pu/image/upload/v1752182029/linkpreviewjpg_d1qhvu.jpg" />
     <link rel="icon" href="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751743817/favicon_ttmsyz.ico" type="image/x-icon" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -492,8 +492,8 @@
               <img src="https://res.cloudinary.com/dv52zu7pu/image/upload/v1751741835/available_uqqfbn.svg" alt="" width="260" height="260" class="object-cover" />
             <% } %>
           </div>
-          <a href="https://www.si3.space" target="_blank" rel="noopener noreferrer" class="bg-light-purple border border-[#3E21F3] cryptoButton text-blue-primary rounded-full transition-all ease-out duration-300 font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base">
-            Join SI&lt;3&gt;
+          <a href="<%= available.ctaUrl ? available.ctaUrl : 'https://www.si3.space' %>" target="_blank" rel="noopener noreferrer" class="bg-light-purple border border-[#3E21F3] cryptoButton text-blue-primary rounded-full transition-all ease-out duration-300 font-fira-mono font-medium tracking-wide px-4 py-2 sm:px-5 sm:py-3 hover:shadow-md cursor-pointer mx-auto sm:mx-0 uppercase text-sm sm:text-base">
+            <%= (typeof available.ctaText !== 'undefined' && String(available.ctaText).trim() !== '') ? available.ctaText : 'Join SI<3>' %>
           </a>
         </section>
       </div>
@@ -504,7 +504,7 @@
     <div class="px-4 py-8 bg-primary text-xs">
       <div class="max-w-[90rem] mx-auto space-y-4 text-justify md:text-center leading-4">
         <p class="font-dm-sans text-sm">
-          You are viewing an ENS domain, which is a distributed and open naming system based on the Ethereum blockchain. This website is hosted with Pinata on the IPFS, or InterPlanetary File System, which is a peer-to-peer file sharing network. The .link domain extension is a privacy-preserving ENS gateway for resolving/accessing ENS records/domains & IPFS/internet 3.0 content. For a complete web3 experience, we recommend viewing this site with a Metamask extension or Brave browser.
+          You are viewing an ENS domain, which is a distributed and open naming system based on the Ethereum blockchain. This website is hosted with Pinata on the IPFS, or InterPlanetary File System, which is a peer-to-peer file sharing network. The .link domain extension is a privacy-preserving ENS gateway for resolving/accessing ENS records/domains & IPFS/internet 3.0 content. For a complete Web3 experience, we recommend viewing this site with a Metamask extension or Brave browser.
         </p>
         <p class="uppercase font-medium">
           This site has been built by SI&lt;3&gt; in support of the decentralized and democratized web.
